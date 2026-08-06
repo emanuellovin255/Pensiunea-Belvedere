@@ -1,5 +1,8 @@
 # dependențe
 node_modules/
+# … dar puntea către ele se comite: fără symlinkul ăsta, buildul pe
+# Vercel (Root Directory = _motor/) nu rezolvă `next` din sabloane/.
+!sabloane/node_modules
 
 # build
 _motor/.next/

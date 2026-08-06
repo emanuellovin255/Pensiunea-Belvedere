@@ -13,7 +13,7 @@
  * Model: `Web Tamplate/scripts/check.sh` (DECIZII.md), portat în TS și
  * legat de loader-ul de conținut (T05), ca să nu dublăm regulile.
  */
-import { existsSync, readFileSync, statSync } from 'node:fs'
+import { existsSync, lstatSync, readFileSync, readlinkSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -59,6 +59,23 @@ function radacinaClient(nume: string): string {
   return monorepo
 }
 
+/**
+ * `.md`-urile clientului care chiar ajung pe site: `date/`, `en/`, `setari.md`.
+ *
+ * Restul sunt documente de lucru — notele de task din `tasks/`, materialele
+ * brute din `_sursa/`, raportul `CITESTE-MA.md`, oferta `PROPUNERE.md`. Ele
+ * vorbesc *despre* site (au voie să scrie „PLACEHOLDER" sau un emoji într-o
+ * listă de verificat), nu apar în el. Scanate ca și conținut, produceau erori
+ * care blocau publicarea unui site perfect valid.
+ */
+const DOAR_LUCRU = new Set(['tasks', '_sursa', 'CITESTE-MA.md', 'PROPUNERE.md'])
+function fisiereClient(clientDir: string): string[] {
+  return fisiere(clientDir, ['.md']).filter((f) => {
+    const rel = path.relative(clientDir, f)
+    return !DOAR_LUCRU.has(rel) && !DOAR_LUCRU.has(rel.split(path.sep)[0])
+  })
+}
+
 /* ------------------------------------------------------------------ */
 /* Reguli din REGULI.md — verificări pe sursă                          */
 /* ------------------------------------------------------------------ */
@@ -99,11 +116,12 @@ const EMOJI = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B50}\u{2B55}]/u
 /** 8 · Niciun emoji în cod sau conținut. */
 function reguliEmoji(v: Verificare, clientDir: string) {
   const tinte = [
-    ...fisiere(clientDir, ['.md']),
+    ...fisiereClient(clientDir),
     ...fisiere(SABLOANE, ['.tsx', '.css', '.ts']),
   ]
   for (const f of tinte) {
-    linii(f).forEach((l, i) => {
+    // Ca la `continut`: comentariile explică regula, nu o încalcă.
+    faraComentarii(readFileSync(f, 'utf8')).split(/\r?\n/).forEach((l, i) => {
       const m = l.match(EMOJI)
       if (!m) return
       v.eroare({
@@ -224,6 +242,33 @@ function reguliMotor(v: Verificare) {
   // (Când manifestul există, aici s-ar compara hash-urile fișierelor.)
 }
 
+/**
+ * `sabloane/` stă în afara motorului (regula 1), dar Vercel buildează cu
+ * Root Directory = `_motor/`, deci `npm install` scrie în `_motor/node_modules`.
+ * De acolo, un fișier din `sabloane/` nu mai găsește `next` sau `react`:
+ * rezolvarea urcă din folderul lui și nu trece niciodată prin `_motor/`.
+ * Puntea e un symlink `sabloane/node_modules → ../_motor/node_modules`,
+ * comis în repo. Local e dangling (node_modules e în rădăcină) și e ignorat
+ * fără efect; pe Vercel e singura cale prin care șabloanele văd dependențele.
+ */
+function reguliDeploy(v: Verificare, clientDir: string) {
+  if (path.resolve(clientDir) !== path.resolve(REPO)) return // repo-ul sistemului, nu al unui client
+  const punte = path.join(REPO, 'sabloane', 'node_modules')
+  let tinta: string | null = null
+  try {
+    tinta = lstatSync(punte).isSymbolicLink() ? readlinkSync(punte) : null
+  } catch {
+    tinta = null
+  }
+  if (tinta !== '../_motor/node_modules') {
+    v.eroare({
+      fisier: 'sabloane/node_modules',
+      mesaj: 'Lipsește puntea de dependențe a șabloanelor — buildul pe Vercel va pica cu „Cannot find module \'next/image\'".',
+      repara: "Rulează în rădăcina clientului: ln -sfn ../_motor/node_modules sabloane/node_modules && git add sabloane/node_modules",
+    })
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /* Conținut                                                            */
 /* ------------------------------------------------------------------ */
@@ -231,10 +276,18 @@ function reguliMotor(v: Verificare) {
 const PLACEHOLDER = /\b(lorem|ipsum|todo|xxx|de completat|tbd|placeholder)\b/i
 const SEDILA = /[şţŞŢ]/
 
-/** Texte de umplutură și diacritice greșite în conținutul clientului. */
+/**
+ * Texte de umplutură și diacritice greșite în conținutul clientului.
+ *
+ * Fără comentariile `<!-- -->`: fiecare `date/*.md` poartă în ele instrucțiunile
+ * de completare, iar acelea vorbesc despre reguli („nu lăsa un placeholder") cu
+ * exact cuvintele pe care le căutăm aici. Loader-ul le ignoră, deci nu ajung
+ * niciodată în pagină. `faraComentarii` păstrează liniile, deci numerele rămân
+ * corecte.
+ */
 function continut(v: Verificare, clientDir: string) {
-  for (const f of fisiere(clientDir, ['.md'])) {
-    linii(f).forEach((l, i) => {
+  for (const f of fisiereClient(clientDir)) {
+    faraComentarii(readFileSync(f, 'utf8')).split(/\r?\n/).forEach((l, i) => {
       const ph = l.match(PLACEHOLDER)
       if (ph) {
         v.eroare({
@@ -344,7 +397,7 @@ function linkuriMoarte(v: Verificare, clientDir: string, date: SiteData, rute: S
   for (const feat of date.features) for (const cta of feat.ctas) verifica(cta.href, { fisier: 'date/03-prima-pagina.md', unde: feat.title })
 
   // Din linkuri Markdown scrise în text.
-  for (const f of fisiere(clientDir, ['.md'])) {
+  for (const f of fisiereClient(clientDir)) {
     linii(f).forEach((l, i) => {
       for (const m of l.matchAll(/\]\(([^)]+)\)/g)) {
         verifica(m[1].trim(), { fisier: v.rel(f), linie: i + 1 })
@@ -705,6 +758,7 @@ function main() {
   reguliCdn(v)
   reguliAnimatie(v)
   reguliMotor(v)
+  reguliDeploy(v, clientDir)
 
   // Conținut.
   continut(v, clientDir)

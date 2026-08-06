@@ -20,7 +20,7 @@
  * tăcere: o a doua rulare pe un client deja construit se oprește fără
  * `--forteaza`, iar fișierele pre-completate de analiză nu se ating.
  */
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { incarcaClient } from '../lib/continut'
@@ -64,6 +64,20 @@ function copiazaMotor(dest: string, slugClient: string) {
       recursive: true,
       filter: (s) => path.basename(s) !== 'node_modules',
     })
+    // Puntea de dependențe. Vercel buildează cu Root Directory = _motor/, deci
+    // `npm install` scrie în _motor/node_modules — iar un fișier din sabloane/
+    // nu urcă niciodată prin _motor/ ca să găsească `next` sau `react`.
+    // Symlinkul se COMITE (nu e prins de „node_modules/" din .gitignore, care
+    // are slash și deci prinde doar directoare). Local rămâne dangling, fiindcă
+    // node_modules stă în rădăcina clientului — rezolvarea îl sare și urcă mai
+    // departe, exact ca înainte. Vezi reguliDeploy() din verifica.ts.
+    // (existsSync minte pe un symlink dangling — de aici lstatSync.)
+    const punte = path.join(dest, 'sabloane', 'node_modules')
+    try {
+      lstatSync(punte)
+    } catch {
+      symlinkSync('../_motor/node_modules', punte)
+    }
   }
 }
 
@@ -130,6 +144,9 @@ function scrieAuxiliare(dest: string) {
     [
       '# dependențe',
       'node_modules/',
+      '# … dar puntea către ele se comite: fără symlinkul ăsta, buildul pe',
+      '# Vercel (Root Directory = _motor/) nu rezolvă `next` din sabloane/.',
+      '!sabloane/node_modules',
       '',
       '# build',
       '_motor/.next/',
