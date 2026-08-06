@@ -1,0 +1,31 @@
+{
+  "name": "belvedere-murighiol",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site de cazare — belvedere-murighiol. Motorul e în _motor/ și nu se editează.",
+  "scripts": {
+    "dev": "cd _motor && npm run dev",
+    "build": "cd _motor && npm run build",
+    "start": "cd _motor && npm run start",
+    "verifica": "cd _motor && npm run verifica",
+    "publica": "cd _motor && npm run publica"
+  },
+  "dependencies": {
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "resend": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "cheerio": "^1.0.0",
+    "sharp": "^0.33.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,1155 @@
+/* ============================================================
+   base.css — design system-ul.
+
+   Sursă: Fiald/hotel-forge/app/globals.css (697 linii), portat.
+
+   Ce s-a schimbat față de sursă, și de ce:
+
+   1. SURSA CULORILOR. În `hotel-forge`, culorile veneau din
+      `<html style="…">` scris de `ingest.ts`. Aici vin din
+      `tokens.css`, iar clientul le suprascrie din
+      `date/11-culori-si-fonturi.md`. Numele semantice sunt aceleași.
+
+   2. ZERO CULORI HARDCODATE. Sursa avea ~40 de albi hex și de albi și
+      negri cu alfa, scriși direct. Toate presupuneau
+      tacit că textul pe brand e alb și că umbra e neagră — adevărat pe
+      o temă deschisă, fals pe una închisă. Fiecare a devenit un token
+      derivat cu `color-mix()` din `--on-brand` sau `--ink`.
+      Verificare: `grep -nE '#[0-9a-fA-F]{3,6}|rgb\(|hsl\(' base.css`
+      trebuie să dea gol.
+
+   3. FAQ NATIV. Sursa deschidea FAQ-ul cu `[data-open]` pus din
+      JavaScript. Aici funcționează pe `<details>`/`<summary>`, deci și
+      fără JS (REGULI.md 12). Selectorii `[data-open]` rămân pentru
+      șabloanele care vor o animație proprie.
+
+   4. `@import './fonts.css'` scos. Ordinea de încărcare e explicită în
+      `app/layout.tsx`: tokens → fonts → base → icons → motion → depth.
+      Un `@import` în capul unui CSS blochează randarea până se rezolvă.
+
+   Secțiuni: reset, typography, layout, buttons, header, hero, booking,
+   trust strip, perks, rooms, feature, events, reviews, faq, footer,
+   sticky mobil, chrome de propunere, responsive, reduced-motion.
+   ============================================================ */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+* { margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg, video { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: 3px;
+}
+
+/* Sări la conținut — primul element focusabil din pagină. */
+.skip {
+  position: absolute;
+  inset-inline-start: -9999px;
+  top: var(--sp-2);
+  z-index: var(--z-modal);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: var(--sp-3) var(--sp-4);
+}
+.skip:focus { inset-inline-start: var(--sp-2); }
+
+/* Vizibil doar pentru cititoarele de ecran. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------------ typography */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--display-tracking);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--fs-4xl); }
+h2 { font-size: var(--fs-3xl); }
+h3 { font-size: var(--fs-xl); }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.lede {
+  font-size: var(--fs-lg);
+  color: var(--muted);
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+/* Cifrele aliniate în coloană: prețuri, capacități, note. */
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* ---------------------------------------------------------------------- layout */
+
+.wrap {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+section { padding-block: var(--section-pad); }
+/* Ancorele nu ajung sub antetul lipit. */
+section[id], footer[id] { scroll-margin-top: calc(var(--header-h) + var(--sp-6)); }
+
+.grid { display: grid; gap: 26px; }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+
+.sec-head { max-width: 64ch; margin-bottom: 46px; }
+.sec-head.center { margin-inline: auto; text-align: center; }
+.sec-head.center .lede { margin-inline: auto; }
+
+.stack { display: flex; flex-wrap: wrap; gap: var(--sp-3); }
+
+/* --------------------------------------------------------------------- buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  padding: 14px 26px;
+  border-radius: var(--r-full);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  /* REGULI.md 11: se animează doar transform și opacity. Culoarea de
+     fundal e o tranziție de vopsea, nu de layout — nu declanșează
+     reflow și rămâne acceptabilă la hover, unde nu e în calea LCP. */
+  transition: background-color var(--tr-base), color var(--tr-base),
+              border-color var(--tr-base), transform var(--tr-base);
+}
+.btn-primary { background: var(--brand); color: var(--on-brand); }
+.btn-primary:hover { background: var(--brand-lift); transform: translateY(-1px); }
+
+.btn-accent { background: var(--accent); color: var(--on-accent); }
+.btn-accent:hover { background: var(--accent-lift); transform: translateY(-1px); }
+
+.btn-ghost { border-color: var(--line); color: var(--ink); }
+.btn-ghost:hover { border-color: var(--brand); color: var(--brand); }
+
+/* Pe fundal închis sau peste o poză: sticlă, nu o culoare plină. */
+.btn-light {
+  background: var(--on-brand-glass);
+  color: var(--on-brand);
+  border-color: var(--on-brand-border);
+  backdrop-filter: blur(8px);
+}
+.btn-light:hover { background: var(--on-brand-ghost); }
+
+.btn-wa { background: var(--wa-green); color: var(--on-accent); }
+.btn-wa:hover { background: var(--wa-green-dk); transform: translateY(-1px); }
+
+.btn-sm { padding: 10px 20px; font-size: var(--fs-xs); }
+.btn[aria-disabled='true'] { opacity: 0.55; pointer-events: none; }
+
+/* ---------------------------------------------------------------------- header */
+
+.topbar {
+  background: var(--brand);
+  color: var(--on-brand-soft);
+  font-size: var(--fs-xs);
+}
+.topbar .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  min-height: 38px;
+}
+.topbar a:hover { color: var(--on-brand); }
+.topbar-l, .topbar-r { display: flex; align-items: center; gap: var(--sp-5); }
+.topbar-item { display: inline-flex; align-items: center; gap: 7px; }
+
+.lang { display: flex; gap: 2px; }
+.lang a { padding: 3px 8px; border-radius: 5px; font-weight: var(--fw-semibold); }
+/* Pila limbii active stă în antetul deschis (glass pe canvas), nu pe brand:
+   un fundal translucid-alb cu text alb ar fi invizibil. Pilă solidă brand cu
+   text alb — lizibilă pe orice antet. */
+.lang a[aria-current='true'] { background: var(--brand); color: var(--on-brand); }
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background: var(--glass-header);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  transition: box-shadow var(--tr-slow), background-color var(--tr-slow);
+}
+/* `.is-scrolled` vine din motion.css; `[data-stuck]` e forma din sursă.
+   Amândouă sunt suportate, ca un șablon să poată folosi oricare. */
+.site-header.is-scrolled,
+.site-header[data-stuck='true'] {
+  box-shadow: var(--sh-header);
+  background: var(--glass-scrolled);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  height: var(--header-h);
+}
+.logo { display: flex; align-items: center; gap: 11px; }
+.logo-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-sm);
+  background: var(--brand);
+  color: var(--accent-lift);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+}
+.logo-name { font-family: var(--font-display); font-size: var(--fs-xl); line-height: var(--lh-tight); }
+.logo-tag {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: var(--fw-semibold);
+}
+.logo-img { height: 38px; width: auto; }
+
+.nav-links { display: flex; gap: 26px; list-style: none; }
+.nav-links a {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--ink-soft);
+  position: relative;
+  padding: 6px 0;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--accent);
+  /* scaleX în loc de width: rulează pe compositor (REGULI.md 11). */
+  transform: scaleX(0);
+  transform-origin: inline-start;
+  transition: transform var(--tr-base);
+}
+.nav-links a:hover::after,
+.nav-links a[aria-current='page']::after { transform: scaleX(1); }
+.nav-cta { display: flex; align-items: center; gap: var(--sp-3); }
+
+.burger { display: none; flex-direction: column; gap: 5px; padding: var(--sp-2); }
+.burger span { width: 22px; height: 1.5px; background: var(--ink); }
+
+/* ------------------------------------------------------------------------ hero */
+
+.hero {
+  position: relative;
+  min-height: min(88vh, 780px);
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+  background: var(--brand);
+}
+.hero-media { position: absolute; inset: 0; z-index: -2; }
+.hero-media img { width: 100%; height: 100%; object-fit: cover; opacity: 0.66; }
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-behind);
+  background: linear-gradient(
+    180deg,
+    var(--hero-veil-top) 0%,
+    var(--hero-veil-mid) 35%,
+    var(--hero-veil-bot) 100%
+  );
+}
+.hero-inner { width: 100%; padding: 120px 0 40px; color: var(--on-brand); }
+.hero h1 { color: var(--on-brand); max-width: 16ch; margin-bottom: 18px; }
+.hero-sub {
+  font-size: var(--fs-lg);
+  color: var(--on-brand-strong);
+  max-width: 52ch;
+  margin-bottom: 28px;
+}
+.hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: var(--on-brand-glass);
+  border: 1px solid var(--on-brand-border);
+  backdrop-filter: blur(10px);
+  padding: var(--sp-2) 15px;
+  border-radius: var(--r-full);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--on-brand);
+}
+.pill-score {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: var(--fw-bold);
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: var(--fs-xs);
+}
+
+/* --------------------------------------------------------------------- booking */
+
+.booking {
+  background: var(--glass-bar);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  box-shadow: var(--sh-sm), var(--sh-lg);
+  padding: var(--sp-4);
+  display: grid;
+  grid-template-columns: 1.1fr 1.1fr 0.9fr auto;
+  gap: var(--sp-3);
+  align-items: end;
+}
+.bk-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 6px var(--sp-3);
+  border-inline-end: 1px solid var(--line);
+}
+.bk-field:nth-of-type(3) { border-inline-end: 0; }
+.bk-field label {
+  font-size: 0.68rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.bk-field input,
+.bk-field select {
+  border: 0;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+  color: var(--ink);
+  width: 100%;
+  cursor: pointer;
+}
+.booking .btn { height: 52px; padding-inline: 30px; }
+.bk-note {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  padding: 10px var(--sp-3) 2px;
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+.bk-note span { display: inline-flex; align-items: center; gap: 6px; }
+.bk-note svg { color: var(--positive); }
+
+/* Placeholder-ul iframe-ului de rezervări (T12): dimensiune fixă, ca
+   încărcarea lui târzie să nu miște layout-ul. CLS 0. */
+.bk-frame-slot {
+  min-height: 620px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface-alt);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: var(--sp-6);
+}
+.bk-frame-slot iframe { width: 100%; height: 620px; border: 0; border-radius: var(--radius); }
+
+/* ----------------------------------------------------------------- trust strip */
+
+.trust { background: var(--surface-alt); border-block: 1px solid var(--line); }
+.trust .wrap {
+  display: grid;
+  grid-template-columns: repeat(var(--trust-cols, 5), 1fr);
+  padding-block: 22px;
+  text-align: center;
+}
+.trust-item { padding-inline: 10px; border-inline-end: 1px solid var(--line); }
+.trust-item:last-child { border-inline-end: 0; }
+.trust-item b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-regular);
+  color: var(--brand);
+}
+.trust-item span { font-size: var(--fs-xs); color: var(--muted); }
+
+/* ----------------------------------------------------------------------- perks */
+
+.on-brand { background: var(--brand); color: var(--on-brand); }
+.on-brand h2, .on-brand h3 { color: var(--on-brand); }
+.on-brand .lede { color: var(--on-brand-soft); }
+.on-brand .eyebrow { color: var(--accent-lift); }
+
+.perk {
+  background: var(--on-brand-wash);
+  border: 1px solid var(--on-brand-line);
+  border-radius: var(--radius);
+  padding: 26px var(--sp-6);
+  transition: background-color var(--tr-base), transform var(--tr-base);
+}
+.perk:hover { background: var(--on-brand-wash-2); transform: translateY(-3px); }
+.perk-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-sm);
+  background: var(--accent-lift-icon);
+  color: var(--accent-lift);
+  display: grid;
+  place-items: center;
+  margin-bottom: var(--sp-4);
+}
+.perk h3 {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  margin-bottom: 7px;
+  color: var(--on-brand);
+}
+.perk p { font-size: var(--fs-sm); color: var(--on-brand-dim); }
+
+.perk-footnote {
+  margin-top: var(--sp-10);
+  padding: var(--sp-6) 28px;
+  border-radius: var(--radius);
+  background: var(--accent-lift-tint);
+  border: 1px solid var(--accent-lift-edge);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-6);
+  flex-wrap: wrap;
+}
+.perk-footnote p { font-size: var(--fs-sm); color: var(--on-brand-strong); max-width: 58ch; }
+.perk-footnote b { color: var(--accent-lift); }
+
+/* ----------------------------------------------------------------------- rooms */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--tr-slow), box-shadow var(--tr-slow), border-color var(--tr-slow);
+}
+.card:hover {
+  transform: translateY(var(--lift));
+  box-shadow: var(--sh-sm), var(--sh-md);
+  border-color: transparent;
+}
+/* aspect-ratio ține locul pozei înainte să se încarce → CLS 0. */
+.card-media { position: relative; aspect-ratio: 4 / 3; background: var(--surface-alt); overflow: hidden; }
+.card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+.card:hover .card-media img { transform: scale(1.045); }
+
+.ribbon {
+  position: absolute;
+  top: 13px;
+  inset-inline-start: 13px;
+  background: var(--glass-ribbon);
+  backdrop-filter: blur(6px);
+  padding: 5px var(--sp-3);
+  border-radius: var(--r-full);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--brand);
+}
+/* Se aprinde DOAR din disponibilitate reală, niciodată ca truc de
+   marketing (REGULI.md 3). */
+.ribbon[data-scarce='true'] { background: var(--attention); color: var(--on-accent); }
+
+.card-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+.card-body h3 { margin-bottom: var(--sp-2); }
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.meta span { display: inline-flex; align-items: center; gap: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; list-style: none; }
+.chip {
+  font-size: var(--fs-xs);
+  background: var(--surface-alt);
+  color: var(--ink-soft);
+  padding: 4px 10px;
+  border-radius: var(--r-xs);
+  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.card-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.price small {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.price b {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-medium);
+  color: var(--brand);
+  line-height: var(--lh-tight);
+  font-variant-numeric: tabular-nums;
+}
+.price b em {
+  font-style: normal;
+  font-size: var(--fs-sm);
+  font-family: var(--font-body);
+  color: var(--muted);
+  font-weight: var(--fw-medium);
+}
+.price .was { font-size: var(--fs-xs); color: var(--muted); text-decoration: line-through; margin-inline-start: 6px; }
+/* Se afișează în locul prețului când clientul nu a confirmat un tarif.
+   Un preț inventat e mai rău decât un gol (REGULI.md 3). */
+.price-ask { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--brand); }
+
+/* --------------------------------------------------------------------- feature */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--sh-hairline), var(--sh-md);
+}
+/* Motorul Șablonului 2: două feature-uri consecutive alternează. */
+.split[data-reverse='true'] .split-media { order: 2; }
+.split-media { background: var(--surface-alt); min-height: 440px; }
+.split-media img { width: 100%; height: 100%; object-fit: cover; }
+.split-body {
+  background: var(--surface-alt);
+  padding: clamp(32px, 4.5vw, 58px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.split-body ul { list-style: none; margin: 22px 0 28px; display: grid; gap: 11px; }
+.split-body li { display: flex; gap: 11px; font-size: var(--fs-sm); color: var(--ink-soft); }
+.split-body li svg { color: var(--accent); flex-shrink: 0; margin-top: 3px; }
+
+/* --------------------------------------------------------------------- events */
+
+.event { display: grid; grid-template-columns: 1fr 1fr; }
+.event-media { background: var(--surface-alt); min-height: 280px; }
+.event-media img { width: 100%; height: 100%; object-fit: cover; }
+.event-body { padding: var(--sp-8) 30px; display: flex; flex-direction: column; justify-content: center; }
+.capacity {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  color: var(--accent);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  margin-bottom: var(--sp-3);
+}
+.event-body h3 { font-size: var(--fs-xl); margin-bottom: 10px; }
+.event-body p { font-size: var(--fs-sm); color: var(--muted); margin-bottom: var(--sp-5); }
+
+/* --------------------------------------------------------------------- reviews */
+
+.review {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+}
+.stars { color: var(--accent); display: inline-flex; gap: 3px; margin-bottom: 14px; }
+.review blockquote {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin-bottom: var(--sp-5);
+  flex: 1;
+}
+.review figcaption {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--line);
+}
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: var(--accent-lift);
+  display: grid;
+  place-items: center;
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-sm);
+}
+.review figcaption b { display: block; font-size: var(--fs-sm); }
+/* Sursa recenziei. Fără ea, componenta nu randează recenzia deloc. */
+.review figcaption span { font-size: var(--fs-xs); color: var(--muted); }
+
+/* Nota agregată — se afișează fără să numească platforma. */
+.rating-badge { display: inline-flex; align-items: baseline; gap: var(--sp-2); }
+.rating-badge b {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  color: var(--brand);
+  font-variant-numeric: tabular-nums;
+}
+.rating-badge span { font-size: var(--fs-sm); color: var(--muted); }
+
+/* ------------------------------------------------------------------------ faq */
+
+.faq-item { border-bottom: 1px solid var(--line); }
+
+/* Forma nativă: <details class="faq-item"><summary class="faq-q">.
+   Funcționează fără JavaScript (REGULI.md 12). */
+.faq-q {
+  width: 100%;
+  text-align: start;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  padding: 22px 44px 22px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  cursor: pointer;
+  list-style: none;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q svg { color: var(--accent); flex-shrink: 0; transition: transform var(--tr-slow); }
+details.faq-item[open] > .faq-q svg,
+.faq-item[data-open='true'] .faq-q svg { transform: rotate(45deg); }
+
+/* Varianta animată, pentru șabloanele care o vor. `<details>` sare
+   direct la deschidere; grid-template-rows dă tranziția. */
+.faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.32s ease; }
+details.faq-item[open] > .faq-a,
+.faq-item[data-open='true'] .faq-a { grid-template-rows: 1fr; }
+.faq-a > div { overflow: hidden; }
+.faq-a p { padding-bottom: 22px; color: var(--muted); font-size: var(--fs-sm); max-width: 76ch; }
+
+/* ---------------------------------------------------------------------- footer */
+
+.site-footer { background: var(--brand); color: var(--on-brand-dim); padding-top: 62px; }
+.site-footer h4 {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--accent-lift);
+  margin-bottom: 18px;
+}
+.site-footer a:hover { color: var(--on-brand); }
+.f-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.3fr; gap: var(--sp-10); padding-bottom: 46px; }
+.f-grid ul { list-style: none; display: grid; gap: 10px; font-size: var(--fs-sm); }
+.f-brand p { font-size: var(--fs-sm); margin: var(--sp-4) 0 var(--sp-5); max-width: 38ch; }
+.f-social { display: flex; gap: 10px; }
+.f-social a {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--on-brand-border);
+  display: grid;
+  place-items: center;
+  transition: background-color var(--tr-fast), border-color var(--tr-fast);
+}
+.f-social a:hover { background: var(--on-brand-glass); border-color: var(--on-brand-ghost); }
+
+/* NAP — trebuie să fie identic cu Google Business Profile. */
+.f-nap { font-size: var(--fs-sm); display: grid; gap: 10px; }
+.f-nap div { display: flex; gap: 9px; }
+.f-nap b { color: var(--on-brand); font-weight: var(--fw-semibold); }
+
+/* Datele de identificare a firmei — obligatorii (REGULI.md 14). */
+.f-firma {
+  font-size: var(--fs-xs);
+  color: var(--on-brand-dim);
+  line-height: 1.7;
+  padding-block: var(--sp-5);
+  border-top: 1px solid var(--on-brand-line);
+  display: grid;
+  gap: 2px;
+}
+
+.f-bot {
+  border-top: 1px solid var(--on-brand-line);
+  padding-block: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+  font-size: var(--fs-xs);
+}
+.f-bot ul { display: flex; gap: 18px; flex-wrap: wrap; list-style: none; }
+
+/* ANPC și SOL — linkuri către paginile oficiale, nu text. */
+.f-anpc { display: flex; flex-wrap: wrap; gap: var(--sp-4); align-items: center; }
+.f-anpc img { height: 34px; width: auto; }
+
+/* --------------------------------------------------------------- sticky mobile */
+
+.mobile-bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-sticky);
+  display: none;
+  background: var(--glass-bar);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+  padding: 11px var(--sp-4) calc(11px + env(safe-area-inset-bottom));
+  box-shadow: var(--sh-up);
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.mobile-bar small {
+  display: block;
+  font-size: 0.66rem;
+  color: var(--muted);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.mobile-bar b {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-medium);
+  color: var(--brand);
+}
+
+/* ---------------------------------------------------------------- form + cookies */
+
+.field { display: grid; gap: 6px; margin-bottom: var(--sp-4); }
+.field label { font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--ink-soft); }
+.field input,
+.field select,
+.field textarea {
+  font: inherit;
+  font-size: var(--fs-base);
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  width: 100%;
+}
+.field input:focus-visible,
+.field textarea:focus-visible { border-color: var(--accent); }
+.field-check { display: flex; align-items: flex-start; gap: 10px; font-size: var(--fs-sm); }
+.field-check input { width: auto; margin-top: 4px; }
+.field-err { font-size: var(--fs-xs); color: var(--attention); }
+.field-hint { font-size: var(--fs-xs); color: var(--muted); margin: -8px 0 var(--sp-4); }
+
+/* Pagini legale — coloană îngustă, lizibilă. */
+.legal { max-width: 72ch; margin-inline: auto; padding-block: var(--sp-10); }
+.legal h1 { margin-bottom: var(--sp-2); }
+.legal h2 { font-size: var(--fs-2xl); margin-top: var(--sp-8); margin-bottom: var(--sp-3); }
+.legal p, .legal li { color: var(--ink-soft); line-height: 1.7; }
+.legal ul { padding-inline-start: var(--sp-5); display: grid; gap: 6px; margin-block: var(--sp-3); }
+.legal p { margin-block: var(--sp-3); }
+.legal-actualizat { font-size: var(--fs-sm); color: var(--muted); }
+.legal a { color: var(--accent); }
+.field[data-invalid='true'] input,
+.field[data-invalid='true'] textarea { border-color: var(--attention); }
+
+/* Honeypot: invizibil pentru om, prezent pentru bot. Nu `display:none`,
+   pe care unii boți îl detectează. */
+.hp {
+  position: absolute;
+  inset-inline-start: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.form-msg { border-radius: var(--r-sm); padding: var(--sp-4); font-size: var(--fs-sm); }
+.form-msg[data-tone='ok'] { background: color-mix(in srgb, var(--positive) 12%, transparent); color: var(--positive); }
+.form-msg[data-tone='err'] { background: var(--attention-tint); color: var(--attention); }
+
+.cookie-bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-modal);
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  box-shadow: var(--sh-up);
+  padding: var(--sp-5) var(--container-pad) calc(var(--sp-5) + env(safe-area-inset-bottom));
+}
+.cookie-bar .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+.cookie-bar p { font-size: var(--fs-sm); color: var(--ink-soft); max-width: 68ch; }
+/* Refuzul are exact aceeași greutate vizuală ca acceptul. Un „Refuz"
+   ascuns într-un submeniu nu e consimțământ liber. */
+.cookie-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.cookie-cat { display: grid; gap: var(--sp-2); width: 100%; }
+/* Buton stilizat ca link — pentru „Setări cookies" din footer, revocabil. */
+.link-buton {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.link-buton:hover { color: var(--accent); }
+
+/* Motorul de rezervări în iframe, încărcat leneș (T12). Înălțime minimă fixă
+   pe placeholder ca layout-ul să nu sară la dezvăluire (CLS 0). */
+.iframe-rezervare {
+  display: grid;
+  place-items: center;
+  margin-top: var(--sp-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface-alt);
+  overflow: hidden;
+}
+
+/* Facade de hartă (T12): imagine statică, harta reală doar la click. */
+.map-facade { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
+.map-facade img { width: 100%; height: auto; }
+.map-facade button {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--on-brand-wash);
+}
+.map-facade button span {
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: var(--r-full);
+  padding: var(--sp-3) var(--sp-5);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  box-shadow: var(--sh-md);
+}
+
+/* Galerie: thumbnail în listă, versiunea mare doar la deschidere. */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--sp-3); }
+.gallery button { border-radius: var(--r-sm); overflow: hidden; aspect-ratio: 4 / 3; background: var(--surface-alt); }
+.gallery img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Meniu de restaurant. */
+.menu-cat { margin-bottom: var(--sp-10); }
+.menu-cat h3 { margin-bottom: var(--sp-5); }
+.menu-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--sp-4);
+  padding-block: var(--sp-3);
+  border-bottom: 1px solid var(--line);
+}
+.menu-row p { font-size: var(--fs-sm); color: var(--muted); }
+.menu-row b { font-variant-numeric: tabular-nums; color: var(--brand); white-space: nowrap; }
+.menu-alergeni { font-size: var(--fs-xs); color: var(--muted); }
+
+/* -------------------------------------------------------------- proposal chrome */
+/* Se randează doar când `SiteData.mockup.enabled` e adevărat, adică
+   într-o propunere, niciodată pe un site livrat (T30). */
+
+.mock-note {
+  background: var(--ink);
+  color: var(--on-brand-strong);
+  font-size: var(--fs-xs);
+  text-align: center;
+  padding: 9px var(--sp-5);
+}
+.mock-note b { color: var(--accent-lift); }
+
+.audit-toggle {
+  position: fixed;
+  inset-inline-end: var(--sp-5);
+  bottom: var(--sp-5);
+  z-index: var(--z-overlay);
+  background: var(--ink);
+  color: var(--on-brand);
+  border-radius: var(--r-full);
+  padding: 13px 22px;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  box-shadow: var(--sh-xl);
+  transition: transform var(--tr-base), background-color var(--tr-base);
+}
+.audit-toggle:hover { transform: translateY(-2px); background: var(--attention); }
+
+.audit-panel {
+  position: fixed;
+  inset-inline-end: var(--sp-5);
+  bottom: 78px;
+  z-index: var(--z-overlay);
+  width: min(420px, calc(100vw - 40px));
+  max-height: min(70vh, 640px);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--sh-xl);
+  padding: 22px;
+}
+.audit-panel h3 { font-size: var(--fs-lg); margin-bottom: 4px; }
+.audit-panel > p { font-size: var(--fs-xs); color: var(--muted); margin-bottom: 18px; }
+.finding { padding: 14px 0; border-top: 1px solid var(--line); }
+.finding:first-of-type { border-top: 0; }
+.finding-head { display: flex; align-items: baseline; gap: 9px; margin-bottom: 6px; }
+.sev {
+  font-size: 0.63rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.sev[data-level='critic'] { background: var(--attention-tint); color: var(--attention); }
+.sev[data-level='important'] { background: var(--accent-tint); color: var(--accent); }
+.sev[data-level='minor'] { background: var(--surface-alt); color: var(--muted); }
+.finding h4 { font-family: var(--font-body); font-size: var(--fs-sm); font-weight: var(--fw-semibold); }
+.finding dl { display: grid; gap: 5px; font-size: var(--fs-xs); margin-top: 6px; }
+.finding dt {
+  font-weight: var(--fw-semibold);
+  color: var(--ink-soft);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.finding dd { color: var(--muted); }
+
+body[data-audit='true'] [data-finding] {
+  outline: 2px dashed var(--attention);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+/* ----------------------------------------------------------------- responsive */
+
+@media (max-width: 1024px) {
+  .g4 { grid-template-columns: repeat(2, 1fr); }
+  .f-grid { grid-template-columns: 1fr 1fr; gap: 34px; }
+  .nav-links { display: none; }
+  .burger { display: flex; }
+  .booking { grid-template-columns: 1fr 1fr; }
+  .booking .btn { grid-column: 1 / -1; width: 100%; }
+  .bk-field { border-inline-end: 0; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+}
+
+@media (max-width: 820px) {
+  .g2, .g3 { grid-template-columns: 1fr; }
+  .split, .event { grid-template-columns: 1fr; }
+  .split[data-reverse='true'] .split-media { order: 0; }
+  .split-media, .event-media { min-height: 260px; }
+  .trust .wrap { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .trust-item { border-inline-end: 0; }
+  .nav-cta .btn-ghost { display: none; }
+  .mobile-bar { display: flex; }
+  /* Loc pentru bara lipită, ca să nu acopere subsolul. */
+  body { padding-bottom: 74px; }
+  .hero-inner { padding-top: 84px; }
+}
+
+@media (max-width: 640px) {
+  .booking { grid-template-columns: 1fr; }
+  .topbar-l .topbar-item:first-child { display: none; }
+  .audit-toggle { bottom: 88px; inset-inline-end: var(--sp-3); }
+  .audit-panel { bottom: 146px; }
+  .cookie-bar { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 520px) {
+  .trust .wrap { grid-template-columns: 1fr 1fr; }
+  .f-grid { grid-template-columns: 1fr; }
+}
+
+/* ----------------------------------------------------- pagină de ofertă (T61) */
+.oferta-media {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.oferta-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ------------------------------------------------------ video vertical (T60) */
+/*
+ * Player pentru clipuri verticale de telefon (9/16). Posterul e singurul
+ * lucru randat până la click; `<video>` se montează din JS (VideoVertical).
+ */
+.video-vertical {
+  width: 100%;
+  max-width: 380px;
+  margin-inline: auto;
+  aspect-ratio: 9 / 16;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--brand);
+  box-shadow: var(--sh-lg);
+}
+
+.video-vertical-play,
+.video-vertical-el {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.video-vertical-el { object-fit: cover; background: var(--brand); }
+
+.video-vertical-play {
+  position: relative;
+  padding: 0;
+  background: var(--brand);
+  cursor: pointer;
+}
+.video-vertical-play img { object-fit: cover; }
+
+/* Ținta de atingere e tot posterul; discul e doar semnalul vizual. */
+.video-vertical-icon {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-full);
+  background: var(--on-brand-glass);
+  color: var(--on-brand);
+  border: 1px solid var(--on-brand-border);
+  backdrop-filter: blur(8px);
+  transition: transform var(--tr-base), background-color var(--tr-base);
+}
+/* Triunghiul e vizual mai greu pe stânga; îl împingem optic spre centru. */
+.video-vertical-icon .icon { transform: translateX(2px); }
+.video-vertical-play:hover .video-vertical-icon {
+  background: var(--on-brand-ghost);
+  transform: scale(1.06);
+}
+
+/* Secțiunea de prezentare: text lângă player, pe fundal contrastant. */
+.prezentare { background: var(--surface-alt); }
+.prezentare-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--sp-12);
+  align-items: center;
+}
+.prezentare-text .sec-head { margin-bottom: 0; }
+
+@media (max-width: 760px) {
+  .prezentare-grid { grid-template-columns: 1fr; }
+}
+
+/* --------------------------------------------------------- reduced motion */
+/*
+ * Taie durata ȘI întârzierea. Doar durata ar lăsa un element revelat
+ * la `opacity: 0` timp de 700 ms — adică exact bug-ul pe care regula
+ * încearcă să-l prevină (T02, criteriu de terminare).
+ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  html { scroll-behavior: auto; }
+}

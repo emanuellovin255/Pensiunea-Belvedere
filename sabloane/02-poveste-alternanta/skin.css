@@ -1,0 +1,119 @@
+/* ============================================================
+   skin.css — Șablonul 2 · Poveste alternantă (T21)
+
+   Doar layout și skin, încapsulat sub `.skin-poveste`. Nicio culoare
+   hardcodată (REGULI.md 4). Se animează doar transform/opacity, iar
+   starea „ascuns" trăiește exclusiv sub `html.js-reveal` — deci fără
+   JavaScript și sub `prefers-reduced-motion` pagina e integral vizibilă,
+   fără întârziere (REGULI.md 11, 12).
+   ============================================================ */
+
+/* ---------------------------------------------------------------- hero split */
+
+.skin-poveste .hero-split {
+  background: var(--surface-alt);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+.skin-poveste .hero-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+  min-height: min(78vh, 720px);
+  padding-block: var(--section-pad);
+}
+.skin-poveste .hero-split-text { max-width: 40ch; }
+.skin-poveste .hero-split-text h1 { margin-bottom: var(--sp-5); }
+.skin-poveste .hero-split-text .hero-badges { margin-top: var(--sp-5); margin-bottom: 0; }
+
+/* Insigne pe fundal deschis: variantă „ink", nu cea de sticlă de pe hero
+   întunecat. Aceiași tokeni, alt teren. */
+.skin-poveste .pill-ink {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink-soft);
+  backdrop-filter: none;
+}
+
+/* Imaginea de hero e candidatul la LCP: NU o animăm (REGULI.md 13,
+   standarde/02). Doar îi dăm formă și proporție fixă → CLS 0. */
+.skin-poveste .hero-split-media {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--sh-hairline), var(--sh-lg);
+  aspect-ratio: 4 / 5;
+  background: var(--surface);
+}
+.skin-poveste .hero-split-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.skin-poveste .hero-split-fallback {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: var(--brand);
+}
+.skin-poveste .hero-split-fallback .logo-mark {
+  width: 92px;
+  height: 92px;
+  font-size: var(--fs-3xl);
+}
+
+/* Textul de hero intră la load — nu depinde de JS, dar nici nu blochează
+   LCP-ul (imaginea rămâne neatinsă). */
+.skin-poveste .hero-split-text .eyebrow { animation: m-fade-in 600ms ease-out 40ms both; }
+.skin-poveste .hero-split-text .lede { animation: m-fade-up 700ms var(--ease-out-expo) 360ms both; }
+.skin-poveste .hero-split-text .hero-badges { animation: m-fade-up 700ms var(--ease-out-expo) 460ms both; }
+.skin-poveste .hero-split-text .stack { animation: m-fade-up 700ms var(--ease-out-expo) 560ms both; }
+
+/* ------------------------------------------------------- feature alternant */
+
+/* Feature-urile primesc puțin aer între ele și pierd umbra „card", ca să
+   citească drept coloane de poveste, nu casete. */
+.skin-poveste .feature { padding-block: clamp(28px, 5vw, 56px); }
+.skin-poveste .feature .split {
+  box-shadow: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+/*
+ * Apariția la scroll. Starea „ascuns" e pusă DOAR când JS rulează
+ * (`html.js-reveal`, setată de reveal.ts). `is-revealed` vine tot de la
+ * reveal.ts când secțiunea intră în viewport. `both` ține starea finală,
+ * deci nu clipește. Imaginea alunecă dinspre marginea ei (`--from-x`),
+ * textul urcă, ușor decalat — „elegante, nu exagerate".
+ */
+html.js-reveal .skin-poveste .feature .split-media {
+  opacity: 0;
+  transform: translateX(var(--from-x, -24px));
+}
+html.js-reveal .skin-poveste .feature .split-body {
+  opacity: 0;
+  transform: translateY(18px);
+}
+/* Când feature-ul e „reverse", imaginea e în dreapta → alunecă dinspre dreapta. */
+html.js-reveal .skin-poveste .feature .split[data-reverse='true'] .split-media {
+  --from-x: 24px;
+}
+html.js-reveal .skin-poveste .feature.is-revealed .split-media {
+  animation: m-slide-x 760ms var(--ease-out-expo) both;
+}
+html.js-reveal .skin-poveste .feature.is-revealed .split-body {
+  animation: m-fade-up 760ms var(--ease-out-expo) 120ms both;
+}
+
+@media (max-width: 900px) {
+  .skin-poveste .hero-split-grid {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    gap: var(--sp-6);
+  }
+  /* Imaginea sub text pe mobil, dar tot cu proporție fixă. */
+  .skin-poveste .hero-split-media { aspect-ratio: 16 / 10; }
+  .skin-poveste .hero-split-text { max-width: none; }
+}

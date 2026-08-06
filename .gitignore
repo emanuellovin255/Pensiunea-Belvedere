@@ -1,0 +1,14 @@
+# dependențe
+node_modules/
+
+# build
+_motor/.next/
+_motor/tsconfig.tsbuildinfo
+_motor/public/media/
+_motor/content/site.json
+_motor/content/audit.json
+
+# secrete — niciodată în repo (REGULI.md 6)
+.env
+.env.local
+.env.*.local
