@@ -933,7 +933,17 @@ details.faq-item[open] > .faq-a,
 }
 .menu-row p { font-size: var(--fs-sm); color: var(--muted); }
 .menu-row b { font-variant-numeric: tabular-nums; color: var(--brand); white-space: nowrap; }
-.menu-alergeni { font-size: var(--fs-xs); color: var(--muted); }
+.menu-info { min-width: 0; }
+.menu-nume { font-weight: 600; }
+/* Gramajul e o precizare, nu un titlu: aceeași linie, greutate mai mică. */
+.menu-gramaj { font-style: normal; font-weight: 400; color: var(--muted); }
+.menu-descriere { margin-top: var(--sp-2); max-width: 60ch; }
+.menu-nota { margin-top: var(--sp-1); font-size: var(--fs-xs); color: var(--brand); }
+.menu-alergeni { margin-top: var(--sp-1); font-size: var(--fs-xs); color: var(--muted); }
+/* Obligație de etichetare: în HTML mereu, pe ecran doar la cerere. */
+.menu-nutritie { margin-top: var(--sp-2); font-size: var(--fs-xs); color: var(--muted); }
+.menu-nutritie summary { cursor: pointer; width: fit-content; }
+.menu-nutritie p { font-size: var(--fs-xs); margin-top: var(--sp-1); }
 
 /* -------------------------------------------------------------- proposal chrome */
 /* Se randează doar când `SiteData.mockup.enabled` e adevărat, adică

@@ -6,162 +6,104 @@ Textele din prima pagină, în ordinea în care apar.
 
 ## Prima secțiune
 
-Titlu: 
+Titlu: Camere cu vedere la Lacul Murighiol, piscină încălzită și pește gătit pe loc
 
-<!--
-  Cel mai important text din tot site-ul. Are 3 secunde să spună de ce
-  cineva ar sta AICI și nu în altă parte.
+Subtitlu: Pensiune în zona protejată a Deltei Dunării, la aproximativ patru ore cu mașina din București. Restaurant pescăresc propriu și opt trasee de excursie cu barca, cu transfer până la ponton.
 
-  Slab:  „Bine ați venit la Vila Bradul"     (nu spune nimic)
-  Slab:  „Cazare de lux în Apuseni"          (o spune toată lumea)
-  Bun:   „Nouă camere, o pădure de fag și liniște la 900 de metri"
-  Bun:   „Cabana cu ciubăr sub stele, la 20 minute de Cheile Turzii"
--->
-
-Subtitlu: 
-
-<!-- O propoziție care completează titlul. Nu îl repetă cu alte cuvinte. -->
-
-Poza: 
-
-<!--
-  Cea mai bună fotografie pe care o avem. Orizontală, minim 2000px lățime.
-  E primul lucru care se vede și decide cât de repede PARE că se încarcă site-ul.
--->
+Poza: exterior-pensiune-piscina.webp
 
 Video: 
 
-<!--
-  DOAR pe șablonul 1. Numele fișierului din poze/.
-  6-10 secunde, sub 3 MB, fără sunet. Nu se redă pe telefon, intenționat.
-  Lasă gol dacă nu ai filmări bune — o poză bună bate un video prost.
--->
+<!-- Doar pe Șablonul 1. Aici e Șablonul 2, deci rămâne gol. -->
 
-Buton principal: 
-Buton secundar: 
-
-<!-- Ex: „Verifică disponibilitatea"  ·  „Vezi camerele" -->
+Buton principal: Verifică disponibilitatea
+Buton secundar: Vezi camerele
 
 ---
 
 ## Bandă de încredere
 
-<!--
-  3-4 cifre sau fapte, sub prima secțiune. Doar lucruri REALE și verificabile.
-  Lasă gol ce nu poți dovedi.
-
-  Ex:
-  9,2 din 10 — nota oaspeților
-  12 ani — de când primim oaspeți
-  900 m — altitudine
-  100% — energie din surse regenerabile
--->
-
-Elemente: 
+Elemente:
+8 trasee — de excursie cu barca în Deltă
+6 tipuri — de camere și suite
+4 ore — cu mașina din București
+Piscină — cu apă încălzită, pentru adulți și copii
 
 ---
 
 ## Secțiunea de facilități
 
-Eticheta: 
-Titlu: 
-Text introductiv: 
-
-<!--
-  Eticheta   textul mic, colorat, deasupra titlului. Ex: „Ce găsești aici"
-  Titlu      Ex: „Tot ce trebuie pentru câteva zile bune"
--->
+Eticheta: Ce găsești aici
+Titlu: Tot ce ține o familie ocupată, la marginea Deltei
+Text introductiv: De la piscina cu apă încălzită și complexul de joacă până la pontonul de pescuit — cât stai aici, nu e nevoie să scoți mașina din curte.
 
 ---
 
 ## Secțiunea de camere
 
-Eticheta: 
-Titlu: 
-Text introductiv: 
+Eticheta: Camerele
+Titlu: Șase feluri de a dormi la marginea Deltei
+Text introductiv: De la camera dublă până la suita de familie pentru cinci persoane. Toate au aer condiționat, baie proprie, seif și TV, iar cele cu balcon dau spre Lacul Murighiol.
 
 ---
 
 ## Feature-uri alternante
 
-<!--
-  Motorul șablonului 2, dar merg în toate trei. Fiecare bloc `###` e o secțiune
-  cu o imagine pe o parte și text pe cealaltă. Se alternează AUTOMAT —
-  nu trebuie să specifici partea.
+### Piscina și zona de agrement
 
-  Adaugă sau șterge blocuri după cât conținut are locația.
--->
+Eticheta: Locul
+Poza: piscina-si-loc-de-joaca.webp
+Text: Piscina are apă încălzită și zonă pentru copii, cu șezlonguri și umbrele în jur. Alături e complexul de joacă, iar în spate terenul de fotbal. Accesul e gratuit pentru toți oaspeții cazați.
+Buline: Piscină cu apă încălzită, pentru adulți și copii, cu șezlonguri
+        Complex de joacă: 3 tobogane, trambulină, 3 leagăne, balansoar, cățărătoare
+        Teren de fotbal și bărcuțe de agrement, în incintă
+Buton: Vezi camerele
 
-### 
+### Restaurantul pescăresc
 
-Eticheta: 
-Poza: 
-Text: 
-Buline: 
-Buton: 
+Eticheta: Masa
+Poza: preparat-peste-la-gratar.webp
+Text: Specialitățile casei sunt storceagul de somn și friptura de pește, după rețete proprii. Alături, scrumbie afumată și marinată, batog de somn și de crap, hamsie marinată și pateu de pește. Totul se gătește pe loc, la comandă.
+Buline: Storceag de somn și friptură de pește, după rețete proprii
+        Platou pescăresc de 2 kg, pentru patru persoane
+        Pentru cei care nu mănâncă pește, meniul se schimbă la cerere
+Buton: Vezi meniul | #meniu
 
-<!--
-  Ex:
-  ### Pădurea din spatele casei
+### Delta, la câteva minute de poartă
 
-  Eticheta: Locul
-  Poza: padurea-de-fag-toamna.jpg
-  Text: Trei hectare de fag bătrân, cu poteci marcate care pornesc
-        din curte. Vara e umbră, toamna e roșu, iarna e liniște completă.
-  Buline: Poteci marcate de la 2 la 9 km
-          Ciubăr în aer liber, pe terasa de sus
-          Foc de tabără amenajat
-  Buton: Vezi galeria
--->
+Eticheta: Împrejurimile
+Poza: plimbare-cu-barca-in-delta.webp
+Text: Din portul Murighiol pleacă opt trasee cu ambarcațiuni mari și acoperite: de la o tură scurtă de 2,5 ore pe șase lacuri până la o zi întreagă spre Sulina, Sfântu Gheorghe sau Pădurea Letea. Transferul de la pensiune până la ponton îl facem noi.
+Buline: Opt trasee, de la 2,5 ore până la o zi întreagă
+        Ambarcațiuni mari și acoperite, cu ghid
+        Transfer de la pensiune la ponton
+Buton: Vezi excursiile | /oferte
 
-### 
+### Pensiunea, văzută dinspre lac
 
-Eticheta: 
-Poza: 
-Text: 
-Buline: 
-Buton: 
-
-### 
-
-Eticheta: 
-Poza: 
-Text: 
-Buline: 
-Buton: 
+Eticheta: Locul
+Poza: pensiunea-vazuta-din-delta.webp
+Text: Clădirea stă chiar pe malul Lacului Murighiol, într-o zonă protejată a Deltei Dunării, cu pontonul propriu în față. Accesul în cameră se face cu cardul, iar mașina rămâne în curtea pensiunii.
+Buline: Ponton de pescuit propriu, în fața pensiunii
+        Acces în cameră cu cardul și supraveghere video
+        Parcare în curte și stație de încărcare pentru mașini electrice
+Buton: Verifică disponibilitatea
 
 ---
 
 ## Clip de prezentare
 
-Eticheta: 
-Titlu: 
-Text: 
-Video: 
-Poster: 
-
-<!--
-  OPȚIONAL. Un singur clip care prezintă locația, filmat cu telefonul.
-  Vertical, cu sunet, se redă la click (nu automat). Pune fișierul .mp4
-  în poze/ și un cadru din el ca poster.
-
-  Apare pe prima pagină DOAR dacă:
-    1. blocul ăsta are și Video, și Poster;
-    2. „Clip de prezentare" e trecut în lista de secțiuni din setari.md.
-
-  Lasă gol dacă n-ai un clip bun — o poză bună bate un clip prost.
--->
+Eticheta: Un tur scurt
+Titlu: Pensiunea, filmată de gazde
+Text: Un clip filmat cu telefonul, cu gazdele comentând pe parcurs. Pornește la click — nu se redă singur și nu consumă date până nu apeși play.
+Video: prezentare-pensiune.mp4
+Poster: prezentare-pensiune.webp
 
 ---
 
 ## Secțiunea de închidere
 
-Eticheta: 
-Titlu: 
-Text: 
-Buton: 
-
-<!--
-  Ultima secțiune înainte de footer. UN singur buton, cel mai important.
-  Ex: Titlu: „Verifică ce e liber în perioada ta"
--->
+Eticheta: Rezervă direct
+Titlu: Vezi ce e liber în perioada ta
+Text: Rezervarea se confirmă cu un avans de 30%. Acceptăm vouchere de vacanță. Sună-ne sau trimite o cerere — răspundem în aceeași zi.
+Buton: Verifică disponibilitatea

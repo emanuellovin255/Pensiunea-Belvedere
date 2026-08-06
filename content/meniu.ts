@@ -10,6 +10,21 @@ export interface MeniuPreparat {
   /** Formatat, ca la oferte: „38 lei". */
   pret?: string
   alergeni?: string
+  /** Gramajul porției, lângă nume: „300 g pește / 300 g legume". */
+  gramaj?: string
+  /**
+   * Ingredientele, din corpul blocului `###`. E textul care vinde
+   * preparatul și, la un restaurant de nișă, singurul care răspunde la
+   * „ce e într-un storceag?" fără un telefon.
+   */
+  descriere?: string
+  /** O condiție de comandă: „precomandă, minimum 4 persoane". */
+  nota?: string
+  /**
+   * Valorile nutriționale, ca text liber. Sunt o obligație de etichetare,
+   * nu un argument de vânzare — de asta se randează pliate.
+   */
+  nutritie?: string
 }
 
 export interface MeniuCategorie {

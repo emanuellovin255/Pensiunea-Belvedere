@@ -282,7 +282,10 @@ export function schemaBreadcrumb(
 
 /** Menu din meniul restaurantului. */
 export function schemaMeniu(
-  categorii: { nume: string; preparate: { nume: string; pret?: string }[] }[],
+  categorii: {
+    nume: string
+    preparate: { nume: string; pret?: string; descriere?: string; gramaj?: string }[]
+  }[],
   numeLocatie: string,
 ): Jsonld | null {
   if (!categorii.length) return null
@@ -297,6 +300,12 @@ export function schemaMeniu(
         curat({
           '@type': 'MenuItem',
           name: p.nume,
+          description: p.descriere,
+          // `suitableForDiet` n-ar avea ce citi aici; gramajul e cea mai
+          // apropiată informație structurată reală despre porție.
+          nutrition: p.gramaj
+            ? { '@type': 'NutritionInformation', servingSize: p.gramaj }
+            : undefined,
           offers: p.pret ? { '@type': 'Offer', price: p.pret } : undefined,
         }),
       ),

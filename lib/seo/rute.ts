@@ -40,12 +40,14 @@ export function ruteleSitului(date: SiteData, setari: Setari): Ruta[] {
     }
   }
 
-  if (setari.module.meniuRestaurant) rute.push({ cale: '/facilitati/restaurant', prioritate: 0.6, frecventa: 'monthly' })
+  // Meniul restaurantului și contactul NU sunt rute: primul e o secțiune a
+  // primei pagini (`dispecer.tsx`, id `menu`), al doilea e footerul
+  // (`id="contact"`). Erau listate aici ca `/facilitati/restaurant` și
+  // `/contact` — două adrese fără pagină în `app/`, deci două 404-uri
+  // trimise la Google în sitemap-ul fiecărui client.
   if (setari.module.evenimente) rute.push({ cale: '/evenimente', prioritate: 0.6, frecventa: 'monthly' })
   if (setari.module.galerieExtinsa) rute.push({ cale: '/galerie', prioritate: 0.5, frecventa: 'monthly' })
   if (setari.module.zona) rute.push({ cale: '/zona', prioritate: 0.6, frecventa: 'monthly' })
-
-  rute.push({ cale: '/contact', prioritate: 0.7, frecventa: 'monthly' })
 
   // Paginile legale există mereu, dar contează puțin pentru căutare.
   for (const l of date.legal.links) {

@@ -216,8 +216,8 @@ const DESTINATII: [RegExp, string][] = [
   [/camer/i, '/camere'],
   [/ofert|pachet/i, '/oferte'],
   [/galeri|poz|foto/i, '/galerie'],
-  [/contact|scrie|mesaj/i, '/contact'],
-  [/meniu|restaurant|mânc|manc/i, '/facilitati/restaurant'],
+  [/contact|scrie|mesaj/i, '/#contact'],
+  [/meniu|restaurant|mânc|manc/i, '/#meniu'],
   [/eveniment|nunt|conferint/i, '/evenimente'],
   [/zon|împrejur|imprejur|atracți|atracti/i, '/zona'],
   [/disponibil|rezerv|caut/i, '#rezervare'],
@@ -751,14 +751,30 @@ export function incarcaClient(nume: string, limba = 'ro'): ContinutClient {
   /* Navigația — se generează din ce EXISTĂ, nu dintr-o listă fixă    */
   /* ---------------------------------------------------------------- */
 
+  // Meniul restaurantului și contactul sunt SECȚIUNI ale primei pagini, nu
+  // rute proprii — `dispecer.tsx` randează `menu`, iar `Subsol.tsx` poartă
+  // `id="contact"`. Legăturile trebuie deci să fie ancore. Până aici erau
+  // `/facilitati/restaurant` și `/contact`, adrese care nu există în `app/`:
+  // fiecare client livrat avea două 404-uri, unul dintre ele în antetul
+  // fiecărei pagini.
+  const meniuVizibil = setari.module.meniuRestaurant && setari.sectiuni.includes('menu')
+  if (setari.module.meniuRestaurant && !meniuVizibil) {
+    raport.avertisment({
+      fisier: 'setari.md',
+      unde: 'Secțiuni pe prima pagină',
+      mesaj: 'Modulul „Meniu restaurant" e pornit, dar „Meniu restaurant" nu apare în lista de secțiuni, deci meniul nu se randează nicăieri.',
+      solutie: 'Adaugă rândul „Meniu restaurant: da" în „Secțiuni pe prima pagină", unde vrei să apară în ordine.',
+    })
+  }
+
   const nav = [
     camere.length ? { label: 'Camere', href: '/camere' } : null,
     oferte.length ? { label: 'Oferte', href: '/oferte' } : null,
-    setari.module.meniuRestaurant ? { label: 'Restaurant', href: '/facilitati/restaurant' } : null,
+    meniuVizibil ? { label: 'Restaurant', href: '/#meniu' } : null,
     setari.module.evenimente ? { label: 'Evenimente', href: '/evenimente' } : null,
     setari.module.galerieExtinsa ? { label: 'Galerie', href: '/galerie' } : null,
     setari.module.zona ? { label: 'Zona', href: '/zona' } : null,
-    { label: 'Contact', href: '/contact' },
+    { label: 'Contact', href: '/#contact' },
   ].filter((x): x is { label: string; href: string } => x !== null)
 
   const date: SiteData = {

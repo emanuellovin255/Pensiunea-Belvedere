@@ -34,14 +34,22 @@ aici e regula 3: **ce nu e confirmat rămâne necompletat.**
 
 | # | Task | Stare | Depinde de |
 |---|---|---|---|
-| T60 | [Video la cameră și clip de prezentare](tasks/T60-video-camera-prezentare.md) | ⬜ | — |
-| T61 | [Ruta `/oferte/[slug]` și titluri traductibile](tasks/T61-ruta-oferte-si-traduceri.md) | ⬜ | — |
-| T62 | [Media: clipuri re-encodate + fotografii](tasks/T62-belvedere-media.md) | ⬜ | T60 |
-| T63 | [Conținutul: `date/` și `en/`](tasks/T63-belvedere-continut.md) | ⬜ | T60, T61, T62 |
-| T64 | [Verificare, migrare SEO, lansare](tasks/T64-belvedere-verificare-lansare.md) | ⬜ | T63 |
+| T60 | [Video la cameră și clip de prezentare](tasks/T60-video-camera-prezentare.md) | ✅ | — |
+| T61 | [Ruta `/oferte/[slug]` și titluri traductibile](tasks/T61-ruta-oferte-si-traduceri.md) | ✅ | — |
+| T62 | [Media: clipuri re-encodate + fotografii](tasks/T62-belvedere-media.md) | ✅ | T60 |
+| T63 | [Conținutul: `date/` și `en/`](tasks/T63-belvedere-continut.md) | ✅ | T60, T61, T62 |
+| T64 | [Verificare, migrare SEO, lansare](tasks/T64-belvedere-verificare-lansare.md) | 🟨 | T63 |
+| T65 | [Meniu: restul preparatelor din PDF](tasks/T65-meniu-restul-preparatelor.md) | ⬜ | T63 |
+| T66 | [Date lipsă de la client: prețuri, GPS, recenzii](tasks/T66-date-lipsa-client.md) | ⬜ | — |
 
 T60 și T61 sunt corecții de motor, nu muncă de client — profită orice client viitor. Pot merge
 în paralel.
+
+**Stare la 6 august 2026:** T60–T63 sunt gata. `npm run verifica` dă 0 erori și 0 avertismente,
+`npm run typecheck` și `npm run build` trec, iar toate cele 24 de rute se generează. T64 rămâne
+pe jumătate: partea măsurabilă abia după deploy (Lighthouse, Rich Results, tab de rețea gol
+înainte de accept-cookies). T65 și T66 sunt muncă nouă, deschisă de ce am găsit în PDF și pe
+site-ul lor.
 
 ---
 
@@ -86,8 +94,10 @@ excursie sunt azi imagini JPG, deci invizibile pentru Google. Le-am extras integ
    1 e exclus și clipurile primesc player portret cu buton de play, nu autoplay mut.
 2. **Fotografiile sunt sub standard** — maximum 1200 px, majoritatea 828×621, derivate din
    Facebook. Standardul cere ≥1600 px. O ședință foto e primul upgrade care merită plătit.
-3. **Meniul nu are prețuri** — căsuțele din PDF sunt goale la toate cele ~90 de preparate.
-4. **Prețul de 200 lei/noapte e placeholder**, pus la cererea ta. Blocant de publicare.
+3. **Meniul are tot ce trebuie** — PDF-ul din `Meniu/` dă pentru fiecare preparat preț, gramaj,
+   ingrediente și valori nutriționale. Am publicat 10 ca mostră; restul, în T65.
+4. **Prețul de 300 lei/noapte e placeholder** la toate cele 6 camere, păstrat la cererea ta.
+   Blocant de publicare — vezi T66.
 5. **Coordonatele GPS lipsesc** de pe site și de pe Facebook. Harta nu se randează până le avem.
 
 ---

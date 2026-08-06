@@ -1,21 +1,26 @@
 # Identitate
 
 ## Nume
-Nume: Belvedere Murighiol
+Nume: Pensiunea Belvedere Murighiol
 Nume scurt: Belvedere Murighiol
 
 ## Slogan
-Slogan: Cazare la marginea Deltei Dunării, cu vedere la lac și bucătărie pescărească.
+Slogan: Perla Deltei Dunării
 
 ## Clasificare
 Stele: 
-<!-- Nu am găsit o clasificare oficială pe site. Pune-o doar dacă e reală — nu inventăm stele. -->
+<!-- Nu am găsit o clasificare oficială pe site. Restaurantul e descris ca fiind „de 3 stele",
+     dar clasificarea unității de cazare nu e publicată nicăieri. Pune-o doar dacă e reală. -->
 Tip: pensiune
 
 ## Logo
 Logo: 
-<!-- Nu am găsit un logo utilizabil. Pune fișierul în poze/ și scrie numele aici. -->
+<!--
+  Singurul fișier de logo de pe site-ul lor (`logo9094.png`) e doar textul „Pensiunea Belvedere"
+  scris cu negru, 232×100 px — nu stema cu pelican. La 38 px înălțime nu se citește, iar negrul
+  se pierde pe fundal închis. Fără el, motorul afișează monograma + numele, care arată mai bine.
+  Cere-le fișierul vectorial al stemei (SVG sau PDF) și pune-l în poze/.
+-->
 
 ## Descriere scurtă
-Descriere: Cazati-va in Delta Dunarii la cea mai completa pensiune si bucurati-va de o vacanta minunata experimentand gastronomia si frumusetea peisajelor locale.
-
+Descriere: Pensiune pe malul Lacului Murighiol, în zona protejată a Deltei Dunării, la aproximativ 4 ore de mașină din București. Restaurant pescăresc propriu, piscină cu apă încălzită și excursii cu barca pe opt trasee din Deltă.

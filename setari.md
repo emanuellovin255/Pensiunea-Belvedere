@@ -46,9 +46,10 @@ Bandă de încredere: da
 Facilități: da
 Camere: da
 Feature-uri alternante: da
-Clip de prezentare: nu
+Clip de prezentare: da
 Oferte: da
 Recenzii: da
+Meniu restaurant: da
 Hartă: da
 Întrebări frecvente: da
 Secțiune de închidere: da
@@ -56,6 +57,10 @@ Secțiune de închidere: da
 <!--
   Clip de prezentare  → apare doar dacă e „da" AICI și dacă blocul
   „## Clip de prezentare" din date/03-prima-pagina.md are video și poster.
+
+  Meniu restaurant    → modulul de mai sus îl PORNEȘTE, dar secțiunea apare pe prima pagină doar
+  dacă e trecută și aici. Fără rândul ăsta, meniul nu se randează nicăieri, iar motorul
+  te avertizează la `npm run verifica`.
 -->
 
 
@@ -63,7 +68,7 @@ Secțiune de închidere: da
 
 ## Altele
 
-Buton WhatsApp: nu
+Buton WhatsApp: da
 Analytics: nu
 
 <!--

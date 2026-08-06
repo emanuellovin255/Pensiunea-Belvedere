@@ -9,26 +9,18 @@ amendă ANPC.
 
 ## Firmă
 
-Denumire: 
-CUI: 
+Denumire: SC Inima Deltei SRL
+CUI: RO38559817
 Nr. Reg. Com.: 
-Adresă sediu social: 
+Adresă sediu social: Str. Peninsula 2, loc. Murighiol, jud. Tulcea, 827150
 
 <!--
-  Denumirea COMPLETĂ, cu forma juridică: „Vila Bradul SRL", nu „Vila Bradul".
-
-  CUI cu prefix: „RO12345678" dacă e plătitoare de TVA, „12345678" dacă nu.
-
-  Nr. Reg. Com.: „J12/1234/2015"
-
-  Adresa sediului social poate fi DIFERITĂ de adresa locației.
-  Aici merge cea din documentele firmei.
+  Nr. Reg. Com. („J36/xxx/anul") nu apare nici pe site, nici pe facturile publicate. E singurul
+  câmp obligatoriu care lipsește. Cere-le-l — e pe certificatul de înregistrare, prima pagină.
 -->
 
-Cont bancar: 
-Bancă: 
-
-<!-- Opțional. Util dacă se acceptă plata prin transfer bancar. -->
+Cont bancar: RO11UGBI0000252015729RON
+Bancă: Garanti Bank
 
 ---
 
@@ -38,9 +30,8 @@ Certificat de clasificare:
 Autorizație sanitară: 
 
 <!--
-  Opțional, dar CREȘTE ÎNCREDEREA — puține site-uri le afișează.
-
-  Doar numere de documente REALE. Nu se inventează o autorizație.
+  Nu sunt publicate nicăieri. Dacă le ai, pune-le — puține site-uri de cazare le afișează, iar
+  asta crește vizibil încrederea. Doar numere REALE de documente.
 -->
 
 ---
@@ -49,14 +40,6 @@ Autorizație sanitară:
 
 ANPC: https://anpc.ro
 SOL: https://ec.europa.eu/consumers/odr
-
-<!--
-  Ambele sunt OBLIGATORII pentru site-urile care vând online.
-  Sunt pre-completate — nu le șterge.
-
-  ANPC  Autoritatea Națională pentru Protecția Consumatorilor
-  SOL   Soluționarea Online a Litigiilor (platforma europeană ODR)
--->
 
 ---
 
@@ -67,54 +50,33 @@ Politica de cookies: /politica-cookies
 Termeni și condiții: /termeni
 Politica de anulare: /politica-anulare
 
-<!--
-  Paginile se generează automat, pe legislația RO. Nu le șterge.
-
-  IMPORTANT: politica de confidențialitate trebuie să descrie FLUXUL REAL
-  al acestui site.
-
-  Fără plăți online:  „nu stocăm date; formularul trimite email"
-  Cu plăți online:    apare procesatorul, apare stocarea, apare retenția
-
-  O politică ce spune „nu stocăm date" pe un site care stochează comenzi
-  e o problemă reală, nu o formalitate. Se actualizează automat când
-  se activează modulul de plăți.
--->
-
 ---
 
 ## Responsabil protecția datelor
 
-Email pentru cereri GDPR: 
-
-<!--
-  Adresa la care se pot trimite cereri de acces, rectificare sau
-  ștergere a datelor. Poate fi aceeași cu emailul de contact.
-
-  Obligatoriu în politica de confidențialitate.
--->
+Email pentru cereri GDPR: belvederemurighiol@gmail.com
 
 ---
 
 ## Politica de anulare — textul
 
-Anulare: 
+Anulare: Rezervarea se confirmă după achitarea unui avans de 30% din costul pachetului ales.
+         Avansul nu este rambursabil, dar poate fi reprogramat din motive obiective, dacă ne
+         anunțați cu cel puțin 3 săptămâni înainte de data sosirii. Reprogramarea se face de
+         comun acord, în funcție de disponibilitatea dumneavoastră și a pensiunii, la același
+         preț deja stabilit pentru pachet, indiferent dacă e vorba de anul în curs sau de anul
+         următor.
+         Avansul se virează în contul firmei, ca persoană fizică (cu CNP și adresă) sau ca
+         persoană juridică, cu sau fără factură proformă. Vă rugăm ca plata sejurului să fie
+         făcută de aceeași persoană care face rezervarea, menționând în ordinul de plată și
+         perioada sejurului.
+         Acceptăm plata cu vouchere de vacanță sub orice formă. Voucherele pe suport de hârtie
+         se pot trimite prin curier ca avans. Cardul de vacanță pe suport electronic se acceptă
+         doar pentru rezervări făcute direct la recepție.
+         În caz de urgență, sunați-ne — încercăm să reprogramăm.
 
 <!--
-  Textul care apare pe pagina de politică ȘI înainte de pasul de plată.
-
-  Fii CONCRET. Vagul crește ezitarea; precizia o reduce.
-
-  Slab: „Politica de anulare este flexibilă."
-
-  Bun:
-  Anulare: Anulare gratuită până la 7 zile înainte de data sosirii.
-           Între 7 și 2 zile înainte, se reține 50% din valoarea rezervării.
-           În ultimele 48 de ore, se reține integral.
-           Nu se percep taxe pentru modificarea datelor, dacă există
-           disponibilitate.
-           În caz de urgență, sunați — încercăm să reprogramăm.
-
-  Politica de anulare e cea mai mare sursă de ezitare înainte de plată.
-  Una clară vinde mai mult decât una „flexibilă".
+  Textul e reformulat din regulile lor publicate pe /pagina-5 („Rezervari"). Am scos paragraful
+  despre restricțiile COVID-19: se referea la o situație care nu mai există și, lăsat acolo,
+  ar face politica să pară necitită din 2021.
 -->

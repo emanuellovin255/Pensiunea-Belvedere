@@ -85,7 +85,7 @@ export const DEMO: SiteData = {
   nav: [
     { label: 'Camere', href: '/camere' },
     { label: 'Oferte', href: '/oferte' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Contact', href: '/#contact' },
   ],
   locales: [],
   hero: {
@@ -213,7 +213,7 @@ export const DEMO: SiteData = {
         capacity: 'până la 30 de persoane',
         text: 'Pentru zile de naștere, botezuri mici sau team-building-uri de weekend.',
         image: '',
-        cta: { label: 'Cere o ofertă', href: '/contact', variant: 'ghost' },
+        cta: { label: 'Cere o ofertă', href: '/#contact', variant: 'ghost' },
       },
     ],
   },

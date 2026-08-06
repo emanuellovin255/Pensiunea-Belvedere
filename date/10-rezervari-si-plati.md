@@ -5,7 +5,10 @@
 Tip: formular
 Sistem: 
 Adresă: 
-<!-- Nu am detectat niciun motor de rezervări. Recomandarea: formular + telefon. La cabane telefonul rămâne canalul principal. -->
+<!--
+  Nu au niciun motor de rezervări. Canalele reale sunt telefonul, emailul și transferul bancar.
+  Formularul trimite cererea pe email, fără bază de date.
+-->
 
 ## Etichete
 
@@ -14,8 +17,8 @@ Sosire: Sosire
 Plecare: Plecare
 Persoane: Oaspeți
 Opțiuni persoane: 1 oaspete, 2 oaspeți, 3 oaspeți, 4 oaspeți, 5+ oaspeți
+Asigurări: Avans 30% pentru confirmare, Acceptăm vouchere de vacanță, Răspundem în aceeași zi
 
 ## Plăți online
 
 Activ: nu
-

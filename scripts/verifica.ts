@@ -375,7 +375,10 @@ function continutDate(v: Verificare, date: SiteData, poze: string[], limba: Limb
 /* ------------------------------------------------------------------ */
 
 function ruteInterne(date: SiteData, setari: Setari): Set<string> {
-  const r = new Set<string>(['/', '/contact', '/multumim'])
+  // `/contact` și `/facilitati/restaurant` NU sunt rute — sunt ancore pe
+  // prima pagină. Un link către ele se validează prin `/`, fiindcă
+  // `linkuriMoarte` taie fragmentul înainte de comparație.
+  const r = new Set<string>(['/', '/multumim'])
   if (date.rooms.items.length) {
     r.add('/camere')
     for (const c of date.rooms.items) r.add(`/camere/${c.slug}`)
@@ -384,7 +387,6 @@ function ruteInterne(date: SiteData, setari: Setari): Set<string> {
     r.add('/oferte')
     for (const o of date.offers.items) r.add(`/oferte/${o.slug}`)
   }
-  if (setari.module.meniuRestaurant) r.add('/facilitati/restaurant')
   if (setari.module.evenimente) r.add('/evenimente')
   if (setari.module.galerieExtinsa) r.add('/galerie')
   if (setari.module.zona) r.add('/zona')
