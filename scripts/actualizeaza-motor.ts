@@ -42,7 +42,7 @@ const NU_SE_PROPAGA = new Set([
 function filtruMotor(sursa: string): boolean {
   const baza = path.basename(sursa)
   if (NU_SE_PROPAGA.has(baza)) return false
-  if (/\/content\/(site|audit)\.json$/.test(sursa)) return false
+  if (/\/content\/(site|audit|poze)\.json$/.test(sursa)) return false
   if (/\/public\/media(\/|$)/.test(sursa) && !sursa.endsWith('/media')) return false
   return true
 }
@@ -148,6 +148,10 @@ function main() {
     cpSync(path.join(MOTOR, c), path.join(clientDir, c), { recursive: true, filter: filtruMotor })
   }
   fuzioneazaPackageJson(clientDir)
+  // `.gitignore` e generat, nu scris de om: lista de artefacte se schimbă odată
+  // cu motorul (ultimul adăugat: `content/poze.json`). Rescris de fiecare dată,
+  // altfel un client vechi ar începe să comită artefacte fără să observe nimeni.
+  writeFileSync(path.join(clientDir, '.gitignore'), GITIGNORE_CLIENT)
   console.log(`\n  Motor propagat în ${tinta}/.`)
 
   // Migrarea din layout-ul vechi. `_motor/` conținea numai cod de motor, iar
@@ -167,9 +171,6 @@ function main() {
     // `node_modules` e în rădăcină, deci `sabloane/` îl găsește urcând normal.
     rmSync(path.join(clientDir, 'sabloane', 'node_modules'), { force: true })
     rmSync(vechiMotor, { recursive: true, force: true })
-    // Căile din vechiul `.gitignore` erau prefixate cu `_motor/`; fără
-    // rescriere, `.next/` din rădăcină ar ajunge comis în repo.
-    writeFileSync(path.join(clientDir, '.gitignore'), GITIGNORE_CLIENT)
     console.log('  Layout vechi migrat: `_motor/` șters, motorul e acum în rădăcină.')
     console.log('  Pe Vercel, pune Root Directory înapoi pe `./` dacă îl setaseși pe `_motor`.')
   }

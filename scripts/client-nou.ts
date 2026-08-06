@@ -55,7 +55,7 @@ function filtruMotor(sursa: string): boolean {
   const baza = path.basename(sursa)
   if (EXCLUS.has(baza)) return false
   // Artefacte de conținut generate (site.json/audit.json) + media build-time.
-  if (/\/content\/(site|audit)\.json$/.test(sursa)) return false
+  if (/\/content\/(site|audit|poze)\.json$/.test(sursa)) return false
   if (/\/public\/media(\/|$)/.test(sursa) && !sursa.endsWith('/media')) return false
   return true
 }

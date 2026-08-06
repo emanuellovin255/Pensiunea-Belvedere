@@ -118,10 +118,29 @@ function verificaChei(b: Bloc, cunoscute: readonly string[], fisier: string, rap
 /* Poze                                                                */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Numele fișierelor din `poze/`.
+ *
+ * Sursa de adevăr e folderul, citit direct — așa „am pus o poză nouă"
+ * funcționează imediat la `npm run dev` și la `verifica`. Dar pe Vercel
+ * paginile se randează la cerere (nonce-ul CSP), iar funcția serverless
+ * n-are folderul: zeci de MB nu intră într-o funcție ca să-i citim numele.
+ * Pentru cazul ăla, `sync-media` scrie la prebuild `content/poze.json`, cu
+ * exact aceleași nume. Calea e literală, deci o vede și urmăritorul de
+ * fișiere al Next.
+ */
 function citestePoze(radacina: string): string[] {
   const dir = path.join(radacina, 'poze')
-  if (!existsSync(dir)) return []
-  return readdirSync(dir).filter((f) => !f.startsWith('.'))
+  if (existsSync(dir)) return readdirSync(dir).filter((f) => !f.startsWith('.'))
+
+  const lista = path.resolve(process.cwd(), 'content', 'poze.json')
+  if (!existsSync(lista)) return []
+  try {
+    const nume = JSON.parse(readFileSync(lista, 'utf8'))
+    return Array.isArray(nume) ? nume : []
+  } catch {
+    return []
+  }
 }
 
 /** Extensiile acceptate pentru fiecare fel de fișier din `poze/`. */

@@ -42,6 +42,7 @@ export const GITIGNORE_CLIENT = [
   'public/media/',
   'content/site.json',
   'content/audit.json',
+  'content/poze.json',
   '',
   '# secrete — niciodată în repo (REGULI.md 6)',
   '.env',

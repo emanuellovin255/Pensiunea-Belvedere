@@ -3,10 +3,17 @@
  * Next. Rulează automat înainte de `dev` și `build` (predev / prebuild),
  * ca „am pus o poză nouă în poze/" să funcționeze fără un pas manual.
  *
- * `public/media` e artefact de build (în .gitignore) — se regenerează.
+ * Scrie și `content/poze.json` — lista de nume din `poze/`. Loader-ul are
+ * nevoie de ea la RULARE (paginile se randează la cerere, ca să poarte
+ * nonce-ul CSP), iar pe Vercel funcția serverless primește doar fișierele
+ * urmărite. `poze/` are zeci de MB și n-are ce căuta într-o funcție; lista
+ * de nume are câțiva KB și e tot ce se cere.
+ *
+ * `public/media` și `content/poze.json` sunt artefacte de build (în
+ * .gitignore) — se regenerează.
  * No-op tăcut dacă nu există un client activ sau un folder `poze/`.
  */
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { radacinaClientDir } from '../lib/continut/radacina'
@@ -25,10 +32,15 @@ if (!existsSync(poze)) process.exit(0)
 const media = path.join(MOTOR, 'public', 'media')
 mkdirSync(media, { recursive: true })
 
-let n = 0
+const nume_poze: string[] = []
 for (const f of readdirSync(poze)) {
   if (f.startsWith('.')) continue
   copyFileSync(path.join(poze, f), path.join(media, f))
-  n++
+  nume_poze.push(f)
 }
-if (n) console.log(`  sync-media: ${n} poze → public/media`)
+
+const continut = path.join(MOTOR, 'content')
+mkdirSync(continut, { recursive: true })
+writeFileSync(path.join(continut, 'poze.json'), JSON.stringify(nume_poze, null, 2) + '\n')
+
+if (nume_poze.length) console.log(`  sync-media: ${nume_poze.length} poze → public/media`)

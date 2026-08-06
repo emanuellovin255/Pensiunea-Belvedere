@@ -259,11 +259,27 @@ function reguliDeploy(v: Verificare, clientDir: string) {
       repara: 'Într-un repo de client motorul stă în rădăcină. Reconstruiește cu `npm run client-nou`, sau mută conținutul lui `_motor/` în rădăcină.',
     })
   }
-  if (!existsSync(path.join(REPO, 'next.config.ts'))) {
+  const config = path.join(REPO, 'next.config.ts')
+  if (!existsSync(config)) {
     v.eroare({
       fisier: 'next.config.ts',
       mesaj: 'Lipsește `next.config.ts` din rădăcina repo-ului — Vercel nu recunoaște proiectul ca aplicație Next.',
       repara: 'Propagă motorul: `npm run actualizeaza-motor -- clienti/<nume>`.',
+    })
+    return
+  }
+
+  // Paginile se randează la cerere (nonce-ul CSP), deci loader-ul citește
+  // `date/*.md` la fiecare cerere. Urmăritorul de fișiere al Next vede doar
+  // căi literale, iar loader-ul le compune la rulare — fără includerea
+  // explicită, funcția serverless ajunge pe Vercel fără niciun fișier al
+  // clientului și fiecare pagină moare cu „Application error: a server-side
+  // exception has occurred". Se vede doar în producție, deci se verifică aici.
+  if (!/outputFileTracingIncludes/.test(readFileSync(config, 'utf8'))) {
+    v.eroare({
+      fisier: 'next.config.ts',
+      mesaj: 'Conținutul clientului nu e inclus în funcțiile serverless — pe Vercel fiecare pagină va da „a server-side exception has occurred".',
+      repara: 'Propagă motorul: `npm run actualizeaza-motor -- clienti/<nume>`. Adaugă `outputFileTracingIncludes` cu setari.md, date/, en/ și content/poze.json.',
     })
   }
 }
