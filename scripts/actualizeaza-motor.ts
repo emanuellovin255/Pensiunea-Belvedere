@@ -22,9 +22,10 @@
  * commit git al repo-ului de client — de asta clientul e un repo git (T34).
  */
 import { execFileSync } from 'node:child_process'
-import { cpSync, existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { GITIGNORE_CLIENT } from './lib/layout'
 
 const MOTOR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -114,14 +115,21 @@ function main() {
 
   /* ---------------------------- verificarea de siguranță (REGULI.md 1) */
 
+  // Layout vechi: motorul într-un sub-folder `_motor/`. Îl migrăm mai jos, dar
+  // întâi îl includem în verificarea de siguranță — altfel o modificare locală
+  // din `_motor/` s-ar pierde fără să apară în listă.
+  const vechiMotor = path.join(clientDir, '_motor')
+  const deMigrat = existsSync(vechiMotor)
+  const caiVerificate = deMigrat ? [...cai, '_motor'] : cai
+
   const gitRoot = git(clientDir, 'rev-parse', '--show-toplevel')
   if (gitRoot) {
-    const modificat = git(clientDir, 'status', '--porcelain', '--', ...cai)
+    const modificat = git(clientDir, 'status', '--porcelain', '--', ...caiVerificate)
     if (modificat && !forteaza) {
       console.error('\n  OPRIT — motorul clientului are modificări locale necomise:\n')
       for (const l of modificat.split('\n')) console.error(`    ${l}`)
       console.error('\n  Regula 1 din REGULI.md: un client nu editează codul motorului.')
-      console.error(`  Inspectează:  git -C ${tinta} diff ${cai.join(' ')}`)
+      console.error(`  Inspectează:  git -C ${tinta} diff ${caiVerificate.join(' ')}`)
       console.error('  Comite sau renunță la aceste schimbări, apoi reia.')
       console.error('  (Sau, dacă chiar vrei să le pierzi: --forteaza)\n')
       process.exit(1)
@@ -141,6 +149,30 @@ function main() {
   }
   fuzioneazaPackageJson(clientDir)
   console.log(`\n  Motor propagat în ${tinta}/.`)
+
+  // Migrarea din layout-ul vechi. `_motor/` conținea numai cod de motor, iar
+  // versiunea curentă a lui tocmai a fost scrisă în rădăcină — deci ștergerea
+  // nu pierde nimic ce nu se poate reface. Se face abia după copiere, ca o
+  // întrerupere să lase repo-ul cu motorul dublat, nu fără el.
+  if (deMigrat) {
+    // `.client-activ` e al clientului, nu al motorului, deci nu se propagă —
+    // dar în layout-ul vechi stătea în `_motor/`. Fără mutarea asta, `verifica`
+    // și `sync-media` ar rămâne fără client activ după migrare.
+    const markerVechi = path.join(vechiMotor, '.client-activ')
+    const markerNou = path.join(clientDir, '.client-activ')
+    if (existsSync(markerVechi) && !existsSync(markerNou)) {
+      writeFileSync(markerNou, readFileSync(markerVechi, 'utf8'))
+    }
+    // Symlinkul de dependențe al șabloanelor n-are rost în layout-ul nou:
+    // `node_modules` e în rădăcină, deci `sabloane/` îl găsește urcând normal.
+    rmSync(path.join(clientDir, 'sabloane', 'node_modules'), { force: true })
+    rmSync(vechiMotor, { recursive: true, force: true })
+    // Căile din vechiul `.gitignore` erau prefixate cu `_motor/`; fără
+    // rescriere, `.next/` din rădăcină ar ajunge comis în repo.
+    writeFileSync(path.join(clientDir, '.gitignore'), GITIGNORE_CLIENT)
+    console.log('  Layout vechi migrat: `_motor/` șters, motorul e acum în rădăcină.')
+    console.log('  Pe Vercel, pune Root Directory înapoi pe `./` dacă îl setaseși pe `_motor`.')
+  }
 
   if (gitRoot) {
     const stat = git(clientDir, 'diff', '--stat')

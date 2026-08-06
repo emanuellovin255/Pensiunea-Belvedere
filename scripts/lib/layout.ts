@@ -25,3 +25,27 @@ export function radacinaRepo(motor: string): string {
 export function eRepoClient(motor: string): boolean {
   return radacinaRepo(motor) === motor
 }
+
+/**
+ * `.gitignore`-ul unui repo de client. Stă aici, nu în `client-nou`, fiindcă
+ * îl scrie și `actualizeaza-motor` când migrează un client din layout-ul vechi
+ * — unde căile erau prefixate cu `_motor/`. Lăsat nemigrat, `.next/` ar ajunge
+ * comis în repo.
+ */
+export const GITIGNORE_CLIENT = [
+  '# dependențe',
+  'node_modules/',
+  '',
+  '# build',
+  '.next/',
+  'tsconfig.tsbuildinfo',
+  'public/media/',
+  'content/site.json',
+  'content/audit.json',
+  '',
+  '# secrete — niciodată în repo (REGULI.md 6)',
+  '.env',
+  '.env.local',
+  '.env.*.local',
+  '',
+].join('\n')

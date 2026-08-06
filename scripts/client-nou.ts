@@ -21,8 +21,8 @@
  * mână la fiecare proiect, altfel buildul se termină cu „The Next.js output
  * directory '.next' was not found". Aici repo-ul e o aplicație Next
  * obișnuită, deci merge pe setările implicite. Separarea motor/client rămâne
- * (regula 1): ce e motor se propagă cu `actualizeaza-motor`, care știe exact
- * ce căi îi aparțin — vezi CAI_MOTOR de acolo.
+ * (regula 1): ce e motor se propagă cu `actualizeaza-motor`, care își citește
+ * lista de căi chiar din motorul-sursă — vezi `caiMotor()` de acolo.
  *
  * Model: `Web Tamplate/scripts/new-client.sh`. Nu suprascrie niciodată în
  * tăcere: o a doua rulare pe un client deja construit se oprește fără
@@ -32,6 +32,7 @@ import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { incarcaClient } from '../lib/continut'
+import { GITIGNORE_CLIENT } from './lib/layout'
 import { Raport } from '../lib/continut/raport'
 
 const MOTOR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
@@ -113,6 +114,15 @@ function scriePackageJson(dest: string, nume: string) {
     engines: motorPkg.engines,
   }
   writeFileSync(path.join(dest, 'package.json'), JSON.stringify(pkg, null, 2) + '\n')
+
+  // Lockfile-ul vine copiat din motor, deci poartă numele motorului. Lăsat așa,
+  // `npm ci` s-ar plânge că nu se potrivește cu package.json.
+  const caleLock = path.join(dest, 'package-lock.json')
+  if (!existsSync(caleLock)) return
+  const lock = JSON.parse(readFileSync(caleLock, 'utf8'))
+  lock.name = pkg.name
+  if (lock.packages?.['']) lock.packages[''].name = pkg.name
+  writeFileSync(caleLock, JSON.stringify(lock, null, 2) + '\n')
 }
 
 function scrieAuxiliare(dest: string) {
@@ -122,26 +132,7 @@ function scrieAuxiliare(dest: string) {
   const env = path.join(MOTOR, '.env.example')
   if (existsSync(env)) cpSync(env, path.join(dest, '.env.example'))
 
-  writeFileSync(
-    path.join(dest, '.gitignore'),
-    [
-      '# dependențe',
-      'node_modules/',
-      '',
-      '# build',
-      '.next/',
-      'tsconfig.tsbuildinfo',
-      'public/media/',
-      'content/site.json',
-      'content/audit.json',
-      '',
-      '# secrete — niciodată în repo (REGULI.md 6)',
-      '.env',
-      '.env.local',
-      '.env.*.local',
-      '',
-    ].join('\n'),
-  )
+  writeFileSync(path.join(dest, '.gitignore'), GITIGNORE_CLIENT)
 }
 
 /* --------------------------------------------------------- CITESTE-MA */
