@@ -73,6 +73,16 @@ function fuzioneazaPackageJson(clientDir: string) {
     engines: motor.engines,
   }
   writeFileSync(caleClient, JSON.stringify(fuzionat, null, 2) + '\n')
+
+  // Lockfile-ul copiat poartă numele motorului. Fără corectura asta, fiecare
+  // propagare ar produce un diff fals pe două linii, iar `npm ci` s-ar plânge
+  // că lockfile-ul nu se potrivește cu package.json.
+  const caleLock = path.join(clientDir, 'package-lock.json')
+  if (!existsSync(caleLock)) return
+  const lock = JSON.parse(readFileSync(caleLock, 'utf8'))
+  lock.name = client.name
+  if (lock.packages?.['']) lock.packages[''].name = client.name
+  writeFileSync(caleLock, JSON.stringify(lock, null, 2) + '\n')
 }
 
 function main() {
