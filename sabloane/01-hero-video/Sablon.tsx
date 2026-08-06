@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 
-import { Antet, BaraDisponibilitate, BaraLipita, Inchidere, Subsol } from '@/components/sectiuni'
+import { Antet, BlocRezervare, BaraLipita, Inchidere, Subsol } from '@/components/sectiuni'
 import { sectiune } from '@/components/sectiuni/dispecer'
 import type { PropsSablon } from '@/lib/sablon'
 
@@ -19,7 +19,7 @@ import { HeroVideo } from './HeroVideo'
  * Restul secțiunilor vin din motor, în ordinea din `setari.sectiuni`.
  */
 export function SablonHeroVideo({ date, setari, meniu }: PropsSablon) {
-  const ctx = { date, meniu }
+  const ctx = { date, meniu, meniuPdf: setari.meniuPdf }
   const areInchidere = setari.sectiuni.includes('closing')
 
   return (
@@ -33,7 +33,7 @@ export function SablonHeroVideo({ date, setari, meniu }: PropsSablon) {
             hero-ului (skin.css o trage în sus). `#rezervare` rămâne
             ancora pentru butonul din antet și pentru bara mobilă. */}
         <div className="hero-booking-wrap">
-          <BaraDisponibilitate date={date} />
+          <BlocRezervare date={date} />
         </div>
 
         {setari.sectiuni.map((id) => (

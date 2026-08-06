@@ -192,6 +192,8 @@ export interface SiteData {
   contact: {
     phone: string
     phoneHref: string
+    /** Numărul de WhatsApp, doar cifre — se lipește direct după `https://wa.me/`. */
+    whatsapp?: string
     email: string
     street: string
     city: string

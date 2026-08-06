@@ -69,9 +69,15 @@ Secțiune de închidere: da
 ## Altele
 
 Buton WhatsApp: da
+Meniu PDF: /documente/meniu-belvedere-2026.pdf
 Analytics: nu
 
 <!--
   Buton WhatsApp  → un link simplu, nu un widget. La cabane e util
+  Meniu PDF       → calea unui fișier din public/. Când e completată, secțiunea „Meniu restaurant"
+                    de pe prima pagină se reduce la un buton „Vezi meniul (PDF)", în loc să înșire
+                    toate preparatele. Datele structurate (JSON-LD) rămân complete, deci Google
+                    vede în continuare preparatele și prețurile. Șterge rândul ca să revii la
+                    meniul afișat integral în pagină.
   Analytics       → se încarcă doar după acceptul de cookies
 -->

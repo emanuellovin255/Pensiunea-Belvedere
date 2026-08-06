@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+import { AntetSectiune } from './AntetSectiune'
 import { Icon } from '@/components/Icon'
 import type { SiteData } from '@/content/types'
 
@@ -26,11 +27,13 @@ export function HartaFacade({
   imagineStatica,
   distante,
   indicatii,
+  titlu = 'Pe hartă',
 }: {
   contact: SiteData['contact']
   imagineStatica?: string
   distante?: string[]
   indicatii?: string
+  titlu?: string
 }) {
   const [incarcata, setIncarcata] = useState(false)
 
@@ -45,6 +48,9 @@ export function HartaFacade({
 
   return (
     <section id="harta">
+      <div className="wrap">
+        <AntetSectiune eyebrow="Unde ne găsești" title={titlu} />
+      </div>
       <div className="wrap grid g2" style={{ alignItems: 'start' }}>
         <div>
           {adresa && (

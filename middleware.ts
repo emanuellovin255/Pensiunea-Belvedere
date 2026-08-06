@@ -73,6 +73,6 @@ export const config = {
     // imagini: un rewrite sau un CSP pe un .woff2 nu apără nimic și costă
     // la fiecare cerere. Fișierele statice primesc headerele lor din
     // vercel.json. Route handler-ul formularului (T10) își pune singur CSP-ul.
-    '/((?!api/|_next/static|_next/image|fonts/|media/|favicon.ico|icon|robots.txt|sitemap.xml|llms.txt).*)',
+    '/((?!api/|_next/static|_next/image|fonts/|media/|documente/|favicon.ico|icon|robots.txt|sitemap.xml|llms.txt).*)',
   ],
 }

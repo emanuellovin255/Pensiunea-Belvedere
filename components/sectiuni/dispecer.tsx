@@ -8,6 +8,7 @@ import {
   Faq,
   Features,
   Inchidere,
+  MeniuLinkPdf,
   MeniuRestaurant,
   Oferte,
   Prezentare,
@@ -33,9 +34,15 @@ import type { MeniuCategorie } from '@/content/meniu'
 export interface ContextSectiuni {
   date: SiteData
   meniu: MeniuCategorie[]
+  /**
+   * Calea PDF-ului cu meniul (`setari.md` → „Meniu PDF"). Când există,
+   * secțiunea `menu` devine un link către fișier în loc de lista întreagă
+   * de preparate.
+   */
+  meniuPdf?: string
 }
 
-export function sectiune(id: string, { date, meniu }: ContextSectiuni): ReactNode {
+export function sectiune(id: string, { date, meniu, meniuPdf }: ContextSectiuni): ReactNode {
   switch (id) {
     case 'trust':
       return <BandaIncredere date={date} />
@@ -56,6 +63,7 @@ export function sectiune(id: string, { date, meniu }: ContextSectiuni): ReactNod
     case 'map':
       return <HartaFacade contact={date.contact} />
     case 'menu':
+      if (meniuPdf) return <MeniuLinkPdf href={meniuPdf} />
       return meniu.length ? <MeniuRestaurant categorii={meniu} /> : null
     case 'faq':
       return <Faq date={date} />

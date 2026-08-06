@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 
 import {
   Antet,
-  BaraDisponibilitate,
+  BlocRezervare,
   BaraLipita,
   Hero,
   Inchidere,
@@ -67,14 +67,14 @@ function RailRezervare({ date }: { date: SiteData }) {
             <small>/ {date.booking.labels.perNight}</small>
           </p>
         )}
-        <BaraDisponibilitate date={date} />
+        <BlocRezervare date={date} />
       </div>
     </aside>
   )
 }
 
 export function SablonGalerieRezervare({ date, setari, meniu }: PropsSablon) {
-  const ctx = { date, meniu }
+  const ctx = { date, meniu, meniuPdf: setari.meniuPdf }
   const galerie = adunaGalerie(date)
 
   // Închiderea rămâne mereu pe toată lățimea, sub layout-ul cu rail —

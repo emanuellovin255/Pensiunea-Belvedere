@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import {
   Antet,
-  BaraDisponibilitate,
+  BlocRezervare,
   BaraLipita,
   FeatureAlternant,
   Inchidere,
@@ -85,7 +85,7 @@ function HeroPoveste({ date }: { date: SiteData }) {
 }
 
 export function SablonPovesteAlternanta({ date, setari, meniu }: PropsSablon) {
-  const ctx = { date, meniu }
+  const ctx = { date, meniu, meniuPdf: setari.meniuPdf }
   const areInchidere = setari.sectiuni.includes('closing')
 
   return (
@@ -98,7 +98,7 @@ export function SablonPovesteAlternanta({ date, setari, meniu }: PropsSablon) {
         {/* Disponibilitatea are secțiunea ei, ca `#rezervare` să existe
             pentru butonul din antet (care rămâne vizibil la scroll) și
             pentru bara mobilă. */}
-        <BaraDisponibilitate date={date} />
+        <BlocRezervare date={date} />
 
         {setari.sectiuni.map((id) => {
           // `features` e miezul acestui șablon: alternanța se recalculează

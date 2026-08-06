@@ -70,31 +70,14 @@
 @keyframes m-line-up { from { transform: translateY(105%); } }
 
 /* ------------------------------------------------------------
-   3 · REVEAL ÎN CASCADĂ
-   `.reveal-child` și `--i` sunt puse exclusiv de lib/reveal.ts.
-   Fără JavaScript, `.is-revealed` nu apare niciodată — de asta
-   `.reveal-child` primește starea vizibilă printr-un `@supports`
-   invers mai jos, nu prin `opacity: 0` necondiționat.
+   3 · REVEAL ÎN CASCADĂ — OPRIT
+   Cerință de la client: nimic nu mai „intră" la derulare. `initReveal`
+   nu se mai montează (components/Miscare.tsx), deci `.reveal-child` nu
+   mai ajunge pe niciun element. Regula rămâne, dar pe vizibil: dacă un
+   browser servește HTML vechi din cache, conținutul e tot acolo.
    ------------------------------------------------------------ */
-.reveal-child {
-  opacity: 0;
-  transform: translateY(16px);
-}
-.is-revealed .reveal-child {
-  opacity: 1;
-  transform: none;
-  transition:
-    opacity   var(--tr-slow) var(--ease-out-expo) calc(var(--i, 0) * var(--stagger)),
-    transform var(--tr-slow) var(--ease-out-expo) calc(var(--i, 0) * var(--stagger));
-}
-
-/*
- * Plasa de siguranță pentru „fără JavaScript".
- * `reveal.ts` pune `js-reveal` pe <html> în primul tick. Dacă JS nu
- * rulează, clasa nu apare și regula de mai jos readuce totul la
- * vizibil — deci conținutul e întreg pentru un om cu JS oprit ȘI
- * pentru un crawler AI care nu execută JavaScript (REGULI.md 12).
- */
+.reveal-child,
+.is-revealed .reveal-child,
 html:not(.js-reveal) .reveal-child {
   opacity: 1;
   transform: none;

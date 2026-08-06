@@ -33,36 +33,14 @@
    1 · KEYFRAMES
    ------------------------------------------------------------ */
 
-/* Cardul urcă din spatele planului paginii și se îndreaptă. */
-@keyframes d-rise {
-  from {
-    opacity: 0;
-    transform: translateY(30px) translateZ(-120px) rotateX(-18deg);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* Coverflow: cardul se rotește pe măsură ce traversează ecranul. */
-@keyframes d-coverflow {
-  0%   { transform: rotateY(22deg) scale(0.88);  opacity: 0.5; }
-  50%  { transform: none;                        opacity: 1; }
-  100% { transform: rotateY(-22deg) scale(0.88); opacity: 0.5; }
-}
-
-/* Panoul pe brand intră înclinat, ca o placă care se așază. */
-@keyframes d-panel {
-  from { transform: perspective(1600px) rotateX(7deg) scaleY(0.97); }
-  to   { transform: none; }
-}
-
-/* Textul din hero se retrage în adâncime când derulezi peste el.
-   POZA din hero nu intră aici: e candidatul la LCP. */
-@keyframes d-hero-sink {
-  to { transform: perspective(1400px) rotateX(5deg) scale(0.96); opacity: 0.55; }
-}
+/*
+ * CE S-A SCOS, la cererea clientului:
+ * `d-rise`, `d-coverflow`, `d-panel` și `d-hero-sink` — cele patru
+ * animații legate de scroll. Textul și cardurile nu mai „vin" de nicăieri
+ * când derulezi: sunt acolo, la opacitate întreagă, de la prima pictare.
+ * A rămas doar ce se întâmplă la ATINGERE sau la mouse (înclinarea și
+ * luciul), fiindcă acelea sunt răspuns la un gest, nu efect de derulare.
+ */
 
 /* ------------------------------------------------------------
    2 · CONTAINERE CU PERSPECTIVĂ
@@ -99,29 +77,9 @@
 }
 
 /* ------------------------------------------------------------
-   3 · INTRAREA CARDURILOR, LEGATĂ DE SCROLL
+   3 · INTRAREA CARDURILOR — SCOASĂ
+   Cardurile sunt vizibile din start. Vezi nota de la secțiunea 1.
    ------------------------------------------------------------ */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    /* Animația preia complet intrarea, deci starea de bază pusă de
-       reveal.ts (`opacity: 0`) trebuie neutralizată — altfel un card
-       ar rămâne invizibil dacă observerul n-a apucat să tragă. */
-    :is(.camere, .oferte, .facilitati, .spatii-evenimente, .recenzii) > .reveal-child {
-      opacity: 1;
-      transform: none;
-    }
-
-    :is(.camere, .oferte, .facilitati, .spatii-evenimente, .recenzii) > * {
-      animation: d-rise linear backwards;
-      animation-timeline: view();
-      animation-range: entry 12% cover 42%;
-    }
-
-    /* `backwards`, nu `both`: după ce cardul s-a așezat, animația nu
-       mai umple nimic, iar înclinarea la atingere (lib/depth.ts) poate
-       prelua transformul. Cu `both` ar fi rămas blocat. */
-  }
-}
 
 /* ------------------------------------------------------------
    4 · OFERTELE PE TELEFON — caruselul 3D
@@ -156,46 +114,16 @@
   .oferta { gap: var(--sp-4); padding: var(--sp-6) var(--sp-5); }
 }
 
-@supports (animation-timeline: view(inline)) {
-  @media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
-    .oferte > .reveal-child { opacity: 1; transform: none; }
-    .oferta {
-      animation: d-coverflow linear both;
-      animation-timeline: view(inline);
-      animation-range: cover;
-    }
-  }
-}
+/* Caruselul rămâne carusel — se derulează cu degetul — dar cardurile nu
+   se mai rotesc în timpul derulării. */
 
 /* ------------------------------------------------------------
-   5 · PANOURILE PE BRAND
+   5 · PANOURILE PE BRAND — înclinarea la derulare, scoasă
    ------------------------------------------------------------ */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .tilt-panel {
-      transform-origin: 50% 0%;
-      animation: d-panel linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 90%;
-    }
-  }
-}
 
 /* ------------------------------------------------------------
-   6 · HERO — se retrage în adâncime la derulare
-   Doar `.hero-inner` (textul). `.hero-media` rămâne neatins: e
-   elementul LCP și orice transform pe el întârzie măsurătoarea.
+   6 · HERO — retragerea în adâncime, scoasă
    ------------------------------------------------------------ */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .hero-inner {
-      transform-origin: 50% 20%;
-      animation: d-hero-sink linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 90%;
-    }
-  }
-}
 
 /* ------------------------------------------------------------
    7 · ÎNCLINAREA LA ATINGERE / MOUSE

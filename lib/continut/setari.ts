@@ -21,6 +21,13 @@ export interface Setari {
   /** Secțiunile de pe prima pagină, în ordinea din fișier. */
   sectiuni: string[]
   butonWhatsApp: boolean
+  /**
+   * Calea către meniul în PDF, servit din `public/` (de ex.
+   * `/documente/meniu-2026.pdf`). Când e completată, secțiunea de meniu de
+   * pe prima pagină se reduce la un link către fișier, în loc să înșire
+   * toate preparatele. JSON-LD-ul rămâne complet, deci SEO-ul nu pierde.
+   */
+  meniuPdf?: string
   analytics: boolean
 }
 
@@ -91,6 +98,7 @@ export function citesteSetari(doc: Document | null): Setari {
     module,
     sectiuni: sectiuni.length ? sectiuni : IMPLICIT.sectiuni,
     butonWhatsApp: boolean(alt.get('buton whatsapp')) ?? false,
+    meniuPdf: alt.get('meniu pdf')?.trim() || undefined,
     analytics: boolean(alt.get('analytics')) ?? false,
   }
 }

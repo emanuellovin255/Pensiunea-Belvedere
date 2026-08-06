@@ -840,6 +840,10 @@ export function incarcaClient(nume: string, limba = 'ro'): ContinutClient {
       phone: telefonAfisat,
       // `tel:` are nevoie de forma fără spații; afișarea rămâne lizibilă.
       phoneHref: telefon ? `tel:${telefon.replace(/[^\d+]/g, '')}` : '',
+      // Numărul de WhatsApp, curățat, gata de `wa.me`. Locația n-are motor
+      // de rezervări: WhatsApp E canalul de rezervare, deci stă pe
+      // `contact`, la îndemâna oricărei secțiuni, nu doar în `social`.
+      whatsapp: whatsapp ? whatsapp.replace(/[^\d]/g, '') : undefined,
       email,
       street: camp(bAdr, 'strada') ?? '',
       city: oras,

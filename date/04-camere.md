@@ -17,6 +17,9 @@ Ghid detaliat: [`ghiduri/04-cum-adaug-sau-scot-o-camera.md`](../../../ghiduri/04
 
   Prima poză din „Poze:" e poza camerei: apare pe card, e prima în galeria paginii și e
   candidatul la LCP. Clipul camerei se randează ULTIMUL în pagină, sub preț și buton.
+
+  ATENȚIE: posterul clipului (fișierul de la „Poster video:") NU se pune în „Poze:". E un cadru
+  din videoclip, nu o fotografie a camerei — pus primul, cardul arăta ca un screenshot de video.
 -->
 
 ---
@@ -27,7 +30,7 @@ Preț de la: 300
 Persoane: 2 persoane
 Pat: pat matrimonial 160 × 200
 Suprafață: 
-Poze: camera-dubla-cu-balcon.webp, camera-balcon-vedere-lac.webp, camera-dubla-tv.webp, baie-dus.webp
+Poze: camera-balcon-vedere-lac.webp, camera-dubla-tv.webp, camera-dubla-pat.webp, baie-dus.webp
 Facilități: wifi, tv, climate, shower, safe, terrace
 Etichetă: Vedere la lac
 Video: camera-dubla-cu-balcon.mp4
@@ -44,7 +47,7 @@ Preț de la: 300
 Persoane: 5 persoane
 Pat: pat matrimonial 160 × 200, canapea extensibilă pentru 2 persoane și pat single 90 × 200
 Suprafață: 
-Poze: suita-familie-balcon-5-persoane.webp, camera-vedere-lac-tv.webp, camera-mansarda-frigider.webp, baie-cada.webp
+Poze: camera-vedere-lac-tv.webp, camera-mansarda-frigider.webp, camera-balcon-vedere-lac.webp, baie-cada.webp
 Facilități: wifi, tv, climate, shower, fridge, safe, terrace
 Etichetă: Cea mai spațioasă
 Video: suita-familie-balcon-5-persoane.mp4
@@ -62,7 +65,7 @@ Preț de la: 300
 Persoane: 4 persoane
 Pat: pat matrimonial 160 × 200 și pat 140 × 200
 Suprafață: 
-Poze: camera-cvadrupla-cu-balcon.webp, camera-balcon-iesire-lac.webp, camera-matrimonial.webp, baie-cada.webp
+Poze: camera-balcon-iesire-lac.webp, camera-matrimonial.webp, camera-tv-albastru.webp, baie-cada.webp
 Facilități: wifi, tv, climate, shower, safe, terrace
 Etichetă: Vedere la lac
 Video: camera-cvadrupla-cu-balcon.mp4
@@ -79,7 +82,7 @@ Preț de la: 300
 Persoane: 4 persoane
 Pat: pat matrimonial 160 × 200 și două paturi single 90 × 200
 Suprafață: 
-Poze: suita-familie-4-persoane.webp, camera-mansarda-doua-paturi.webp, camera-mansarda-single.webp, baie-dus.webp
+Poze: camera-mansarda-doua-paturi.webp, camera-mansarda-single.webp, camera-mansarda-frigider.webp, baie-dus.webp
 Facilități: wifi, tv, climate, shower, fridge, safe
 Etichetă: Pentru familii
 Video: suita-familie-4-persoane.mp4
@@ -97,7 +100,7 @@ Preț de la: 300
 Persoane: 3 persoane
 Pat: pat matrimonial 160 × 200 și pat single 90 × 200
 Suprafață: 
-Poze: camera-tripla-fara-balcon.webp, camera-pat-dulap.webp, camera-tv-albastru.webp, baie-dus.webp
+Poze: camera-pat-dulap.webp, camera-tv-albastru.webp, camera-matrimonial.webp, baie-dus.webp
 Facilități: wifi, tv, climate, shower, safe
 Etichetă: 
 Video: camera-tripla-fara-balcon.mp4
@@ -114,7 +117,7 @@ Preț de la: 300
 Persoane: 2 persoane
 Pat: pat matrimonial 160 × 200
 Suprafață: 
-Poze: camera-dubla-fara-balcon.webp, camera-dubla-pat.webp, baie-cada.webp
+Poze: camera-dubla-pat.webp, camera-matrimonial.webp, baie-cada.webp
 Facilități: wifi, tv, climate, shower, safe
 Etichetă: 
 Video: camera-dubla-fara-balcon.mp4
