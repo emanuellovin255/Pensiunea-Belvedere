@@ -2,13 +2,22 @@
   "name": "belvedere-murighiol",
   "version": "1.0.0",
   "private": true,
-  "description": "Site de cazare — belvedere-murighiol. Motorul e în _motor/ și nu se editează.",
+  "description": "Site de cazare — Belvedere Murighiol. Codul motorului nu se editează; se propagă cu actualizeaza-motor.",
   "scripts": {
-    "dev": "cd _motor && npm run dev",
-    "build": "cd _motor && npm run build",
-    "start": "cd _motor && npm run start",
-    "verifica": "cd _motor && npm run verifica",
-    "publica": "cd _motor && npm run publica"
+    "predev": "tsx scripts/sync-media.ts",
+    "dev": "next dev",
+    "prebuild": "tsx scripts/sync-media.ts",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "sync-media": "tsx scripts/sync-media.ts",
+    "analiza": "tsx scripts/analiza.ts",
+    "client-nou": "tsx scripts/client-nou.ts",
+    "verifica": "tsx scripts/verifica.ts",
+    "migrare": "tsx scripts/migrare.ts",
+    "publica": "tsx scripts/publica.ts",
+    "actualizeaza-motor": "tsx scripts/actualizeaza-motor.ts"
   },
   "dependencies": {
     "next": "^15.1.0",

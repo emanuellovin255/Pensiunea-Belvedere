@@ -2,25 +2,6 @@
 
 > Regenerat la fiecare `npm run client-nou` și `npm run verifica`. Îl citești ca să știi unde ai rămas.
 
-## Setarea din Vercel, la crearea proiectului
-
-Aplicația Next stă în `_motor/`, nu în rădăcina repo-ului. Deci, la **New Project → Configure
-Project**, înainte de Deploy:
-
-| Setare | Valoare |
-|---|---|
-| **Root Directory** | `_motor` (Edit → alegi folderul `_motor`) |
-| **Include files outside of the Root Directory** | bifat (e implicit) |
-
-Restul rămâne pe automat: Framework `Next.js`, Build `npm run build`, Output `.next`.
-
-Cu Root Directory pe rădăcină, buildul se termină cu:
-`Error: The Next.js output directory ".next" was not found at "/vercel/path0/.next"` —
-fiindcă `next build` a scris în `_motor/.next`, iar Vercel a căutat în rădăcină.
-
-Dacă proiectul e deja creat: **Settings → Build & Deployment → Root Directory → `_motor` → Save**,
-apoi **Deployments → ultimul → Redeploy**.
-
 **Șablon:** 2 · Poveste alternantă
 **Module pornite:** meniu restaurant
 **Analiză:** a rulat — vezi `PROPUNERE.md`

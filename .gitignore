@@ -1,15 +1,12 @@
 # dependențe
 node_modules/
-# … dar puntea către ele se comite: fără symlinkul ăsta, buildul pe
-# Vercel (Root Directory = _motor/) nu rezolvă `next` din sabloane/.
-!sabloane/node_modules
 
 # build
-_motor/.next/
-_motor/tsconfig.tsbuildinfo
-_motor/public/media/
-_motor/content/site.json
-_motor/content/audit.json
+.next/
+tsconfig.tsbuildinfo
+public/media/
+content/site.json
+content/audit.json
 
 # secrete — niciodată în repo (REGULI.md 6)
 .env

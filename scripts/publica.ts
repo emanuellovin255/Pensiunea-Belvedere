@@ -2,8 +2,8 @@
  * npm run publica -- [--nume <repo>] [--da] [--dry-run]
  *
  * Duce un client de la local la live, cu securitatea pornită din prima —
- * nu adăugată „când avem timp". Rulează din `_motor/`, dar operează pe
- * repo-ul clientului (folderul-părinte al lui `_motor/`).
+ * nu adăugată „când avem timp". Rulează din rădăcina repo-ului de client —
+ * care e și rădăcina motorului, fiindcă așa îl buildează Vercel implicit.
  *
  * Pași (T34), în ordine, oprindu-se la prima eroare:
  *   1. `npm run verifica` — dacă dă eroare, NU se publică nimic
@@ -24,9 +24,10 @@ import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { createInterface } from 'node:readline'
 import { fileURLToPath } from 'node:url'
+import { radacinaRepo } from './lib/layout'
 
 const MOTOR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const REPO = path.resolve(MOTOR, '..')       // repo-ul clientului = părintele lui _motor/
+const REPO = radacinaRepo(MOTOR)             // într-un client, chiar MOTOR
 const CONT = 'Emanuellovin255'
 
 const DRY = process.argv.includes('--dry-run')
@@ -80,11 +81,11 @@ async function main() {
   const numeRepo = slug(arg('--nume') ?? path.basename(REPO))
   if (!numeRepo) opreste('nu pot deriva un nume de repo. Dă unul cu --nume <repo>.')
 
-  // Un repo de client are, în rădăcină, `setari.md` și `date/` lângă `_motor/`.
-  // Motorul-sursă are în schimb boardul (`tasks/`, `standarde/`) și niciun `setari.md`.
+  // Un repo de client are `setari.md` și `date/` chiar lângă `app/`.
+  // Motorul-sursă are în schimb boardul (`tasks/`, `standarde/`) un nivel mai sus.
   const eClient = existsSync(path.join(REPO, 'setari.md')) || existsSync(path.join(REPO, 'date'))
   if (!eClient) {
-    opreste('pare că rulezi din motorul-sursă, nu dintr-un repo de client. Rulează `publica` din _motor/-ul unui client construit (`npm run client-nou` întâi).')
+    opreste('pare că rulezi din motorul-sursă, nu dintr-un repo de client. Rulează `publica` din folderul unui client construit (`npm run client-nou` întâi).')
   }
 
   console.log(`\n  Publică: ${numeRepo}  (cont ${CONT})`)

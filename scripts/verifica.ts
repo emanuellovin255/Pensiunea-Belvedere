@@ -13,18 +13,19 @@
  * Model: `Web Tamplate/scripts/check.sh` (DECIZII.md), portat în TS și
  * legat de loader-ul de conținut (T05), ca să nu dublăm regulile.
  */
-import { existsSync, lstatSync, readFileSync, readlinkSync, statSync } from 'node:fs'
+import { existsSync, readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import type { SiteData } from '../content/types'
 import { incarcaClient, type Setari } from '../lib/continut'
 import { LIMBA_IMPLICITA, LIMBI, type Limba } from '../lib/i18n/limbi'
+import { radacinaRepo } from './lib/layout'
 import { faraComentarii, fisiere, linii, Verificare } from './lib/verifica-lib'
 
 const MOTOR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const REPO = path.resolve(MOTOR, '..')
-const SABLOANE = path.join(REPO, 'sabloane')
+const REPO = radacinaRepo(MOTOR)
+const SABLOANE = path.join(MOTOR, 'sabloane')
 
 // Loader-ul (lib/site.ts, lib/continut) rezolvă clienții din `process.cwd()`,
 // presupunând că e `_motor/` (ca la `next build`). Ancorăm cwd aici, ca
@@ -243,28 +244,26 @@ function reguliMotor(v: Verificare) {
 }
 
 /**
- * `sabloane/` stă în afara motorului (regula 1), dar Vercel buildează cu
- * Root Directory = `_motor/`, deci `npm install` scrie în `_motor/node_modules`.
- * De acolo, un fișier din `sabloane/` nu mai găsește `next` sau `react`:
- * rezolvarea urcă din folderul lui și nu trece niciodată prin `_motor/`.
- * Puntea e un symlink `sabloane/node_modules → ../_motor/node_modules`,
- * comis în repo. Local e dangling (node_modules e în rădăcină) și e ignorat
- * fără efect; pe Vercel e singura cale prin care șabloanele văd dependențele.
+ * Repo-ul de client trebuie să rămână o aplicație Next obișnuită: motorul în
+ * rădăcină, deci `.next` în rădăcină, deci Vercel îl buildează cu setările
+ * implicite. Dacă cineva reintroduce un `_motor/`, buildul pe Vercel pică cu
+ * „The Next.js output directory '.next' was not found" — și pică pe Vercel,
+ * nu aici, unde s-ar vedea ieftin.
  */
 function reguliDeploy(v: Verificare, clientDir: string) {
   if (path.resolve(clientDir) !== path.resolve(REPO)) return // repo-ul sistemului, nu al unui client
-  const punte = path.join(REPO, 'sabloane', 'node_modules')
-  let tinta: string | null = null
-  try {
-    tinta = lstatSync(punte).isSymbolicLink() ? readlinkSync(punte) : null
-  } catch {
-    tinta = null
-  }
-  if (tinta !== '../_motor/node_modules') {
+  if (existsSync(path.join(REPO, '_motor'))) {
     v.eroare({
-      fisier: 'sabloane/node_modules',
-      mesaj: 'Lipsește puntea de dependențe a șabloanelor — buildul pe Vercel va pica cu „Cannot find module \'next/image\'".',
-      repara: "Rulează în rădăcina clientului: ln -sfn ../_motor/node_modules sabloane/node_modules && git add sabloane/node_modules",
+      fisier: '_motor/',
+      mesaj: 'Repo-ul de client are un sub-folder `_motor/` — Vercel nu va găsi `.next` în rădăcină.',
+      repara: 'Într-un repo de client motorul stă în rădăcină. Reconstruiește cu `npm run client-nou`, sau mută conținutul lui `_motor/` în rădăcină.',
+    })
+  }
+  if (!existsSync(path.join(REPO, 'next.config.ts'))) {
+    v.eroare({
+      fisier: 'next.config.ts',
+      mesaj: 'Lipsește `next.config.ts` din rădăcina repo-ului — Vercel nu recunoaște proiectul ca aplicație Next.',
+      repara: 'Propagă motorul: `npm run actualizeaza-motor -- clienti/<nume>`.',
     })
   }
 }

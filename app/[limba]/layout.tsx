@@ -14,10 +14,10 @@ import '../../styles/depth.css'
 // `.skin-galerie`), deci încărcarea tuturor trei nu contaminează nimic:
 // pe o pagină se aplică doar regulile sub clasa șablonului activ. Se
 // importă aici, din app-dir, ca fișierele de skin să rămână în
-// `sabloane/` fără ca vreun șablon să atingă `_motor/` (REGULI.md 1).
-import '../../../sabloane/01-hero-video/skin.css'
-import '../../../sabloane/02-poveste-alternanta/skin.css'
-import '../../../sabloane/03-galerie-rezervare/skin.css'
+// `sabloane/`, separat de restul motorului (REGULI.md 1).
+import '../../sabloane/01-hero-video/skin.css'
+import '../../sabloane/02-poveste-alternanta/skin.css'
+import '../../sabloane/03-galerie-rezervare/skin.css'
 
 import { Analytics } from '@/components/Analytics'
 import { BannerCookies } from '@/components/BannerCookies'

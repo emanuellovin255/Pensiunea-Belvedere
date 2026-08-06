@@ -5,8 +5,8 @@
  * se buildează din prima și nu depinde de nimic din afara lui:
  *
  *   clienti/<slug>/
- *   ├── _motor/        copiat (nemodificat)
- *   ├── sabloane/      copiate (dispecerul le importă)
+ *   ├── app/ components/ lib/ content/ styles/ scripts/ public/ sabloane/
+ *   ├── next.config.ts · tsconfig.json · middleware.ts   ← motorul, copiat
  *   ├── date/          din analiză, dacă a rulat; altfel scheletul
  *   ├── poze/          din analiză
  *   ├── en/            gol
@@ -16,11 +16,19 @@
  *   ├── vercel.json · .env.example · .gitignore
  *   └── PROPUNERE.md   păstrat, dacă analiza a rulat
  *
+ * Motorul stă în RĂDĂCINA repo-ului, nu într-un sub-folder. Motivul e
+ * Vercel: o aplicație Next într-un sub-folder cere Root Directory setat de
+ * mână la fiecare proiect, altfel buildul se termină cu „The Next.js output
+ * directory '.next' was not found". Aici repo-ul e o aplicație Next
+ * obișnuită, deci merge pe setările implicite. Separarea motor/client rămâne
+ * (regula 1): ce e motor se propagă cu `actualizeaza-motor`, care știe exact
+ * ce căi îi aparțin — vezi CAI_MOTOR de acolo.
+ *
  * Model: `Web Tamplate/scripts/new-client.sh`. Nu suprascrie niciodată în
  * tăcere: o a doua rulare pe un client deja construit se oprește fără
  * `--forteaza`, iar fișierele pre-completate de analiză nu se ating.
  */
-import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { incarcaClient } from '../lib/continut'
@@ -52,33 +60,11 @@ function filtruMotor(sursa: string): boolean {
 }
 
 function copiazaMotor(dest: string, slugClient: string) {
-  cpSync(MOTOR, path.join(dest, '_motor'), { recursive: true, filter: filtruMotor })
-  // În repo-ul de client, motorul rezolvă datele plat (../date). Markerul
-  // trebuie doar să fie ne-gol; radacinaClientDir ignoră numele la layout plat.
-  writeFileSync(path.join(dest, '_motor', '.client-activ'), slugClient + '\n')
-  // sabloane/ sunt în afara motorului; dispecerul le importă prin @sabloane/*
-  // = ../sabloane relativ la _motor. La layout plat ajung lângă _motor.
-  const sabloane = path.join(RADACINA, 'sabloane')
-  if (existsSync(sabloane)) {
-    cpSync(sabloane, path.join(dest, 'sabloane'), {
-      recursive: true,
-      filter: (s) => path.basename(s) !== 'node_modules',
-    })
-    // Puntea de dependențe. Vercel buildează cu Root Directory = _motor/, deci
-    // `npm install` scrie în _motor/node_modules — iar un fișier din sabloane/
-    // nu urcă niciodată prin _motor/ ca să găsească `next` sau `react`.
-    // Symlinkul se COMITE (nu e prins de „node_modules/" din .gitignore, care
-    // are slash și deci prinde doar directoare). Local rămâne dangling, fiindcă
-    // node_modules stă în rădăcina clientului — rezolvarea îl sare și urcă mai
-    // departe, exact ca înainte. Vezi reguliDeploy() din verifica.ts.
-    // (existsSync minte pe un symlink dangling — de aici lstatSync.)
-    const punte = path.join(dest, 'sabloane', 'node_modules')
-    try {
-      lstatSync(punte)
-    } catch {
-      symlinkSync('../_motor/node_modules', punte)
-    }
-  }
+  // Motorul devine rădăcina repo-ului. `sabloane/` vine cu el, fiind în el.
+  cpSync(MOTOR, dest, { recursive: true, filter: filtruMotor })
+  // Markerul trebuie doar să fie ne-gol: într-un repo de client datele sunt
+  // chiar lângă motor, deci `radacinaClientDir` ignoră numele.
+  writeFileSync(path.join(dest, '.client-activ'), slugClient + '\n')
 }
 
 function scrieSetari(dest: string, sablon: number) {
@@ -117,14 +103,11 @@ function scriePackageJson(dest: string, nume: string) {
     name: slug(nume),
     version: '1.0.0',
     private: true,
-    description: `Site de cazare — ${nume}. Motorul e în _motor/ și nu se editează.`,
-    scripts: {
-      dev: 'cd _motor && npm run dev',
-      build: 'cd _motor && npm run build',
-      start: 'cd _motor && npm run start',
-      verifica: 'cd _motor && npm run verifica',
-      publica: 'cd _motor && npm run publica',
-    },
+    description: `Site de cazare — ${nume}. Codul motorului nu se editează; se propagă cu actualizeaza-motor.`,
+    // Scripturile motorului, cuvânt cu cuvânt: repo-ul de client E aplicația
+    // Next, deci `npm run build` din rădăcină trebuie să fie chiar `next build`
+    // — asta caută Vercel pe setările implicite.
+    scripts: motorPkg.scripts,
     dependencies: motorPkg.dependencies,
     devDependencies: motorPkg.devDependencies,
     engines: motorPkg.engines,
@@ -144,16 +127,13 @@ function scrieAuxiliare(dest: string) {
     [
       '# dependențe',
       'node_modules/',
-      '# … dar puntea către ele se comite: fără symlinkul ăsta, buildul pe',
-      '# Vercel (Root Directory = _motor/) nu rezolvă `next` din sabloane/.',
-      '!sabloane/node_modules',
       '',
       '# build',
-      '_motor/.next/',
-      '_motor/tsconfig.tsbuildinfo',
-      '_motor/public/media/',
-      '_motor/content/site.json',
-      '_motor/content/audit.json',
+      '.next/',
+      'tsconfig.tsbuildinfo',
+      'public/media/',
+      'content/site.json',
+      'content/audit.json',
       '',
       '# secrete — niciodată în repo (REGULI.md 6)',
       '.env',

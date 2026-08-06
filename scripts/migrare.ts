@@ -31,13 +31,14 @@ import { fileURLToPath } from 'node:url'
 import { incarcaClient } from '../lib/continut'
 import { LIMBA_IMPLICITA, type Limba } from '../lib/i18n/limbi'
 import { ruteleSitului } from '../lib/seo/rute'
+import { radacinaRepo } from './lib/layout'
 import { fetchPage, sameHost } from './lib/net'
 
 const MOTOR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const REPO = path.resolve(MOTOR, '..')
+const REPO = radacinaRepo(MOTOR)
 const CLIENTI = path.join(REPO, 'clienti')
 
-// Loader-ul rezolvă clienții din cwd (presupune `_motor/`, ca `next build`).
+// Loader-ul rezolvă clienții din cwd (rădăcina aplicației Next, ca `next build`).
 process.chdir(MOTOR)
 
 function arg(flag: string): string | undefined {
