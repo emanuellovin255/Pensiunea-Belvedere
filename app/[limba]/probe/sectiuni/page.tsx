@@ -74,7 +74,7 @@ function Coloana({ titlu, date }: { titlu: string; date: SiteData }) {
       <BandaIncredere date={date} />
       <Facilitati date={date} />
       <Camere date={date} />
-      <Features features={date.features} />
+      <Features features={date.features} date={date} />
       <Oferte date={date} />
       <Evenimente date={date} />
       <Recenzii date={date} />

@@ -1,16 +1,24 @@
+'use client'
+
+import { useState } from 'react'
+
+import { ModalRezervare } from './ModalRezervare'
 import type { SiteData } from '@/content/types'
 import { esteExtern, linkRezervare } from '@/lib/whatsapp'
 
 /**
- * Butonul „Verifică disponibilitatea", în varianta care chiar face ceva.
+ * Butonul „Verifică disponibilitatea", peste tot în site.
  *
- * Locația n-are motor de rezervări, deci butonul nu duce la un calendar,
- * ci deschide WhatsApp cu mesajul scris (`lib/whatsapp.ts`). Când stă
- * lângă o cameră sau o ofertă, primește `subiect` — mesajul spune de la
- * început despre ce e vorba.
+ * Cu JavaScript deschide calendarul (T64): perioada și numărul de oaspeți
+ * se aleg în pagină, iar WhatsApp primește totul scris.
  *
- * Server Component: un `<a>`, fără stare. Eticheta vine tot din
- * `booking.labels.submit` (T05), ca traducerea să rămână în date.
+ * Fără JavaScript rămâne exact ce se vede în HTML — un `<a>` către
+ * WhatsApp, cu mesajul scurt și camera, dacă butonul stă lângă una
+ * (REGULI.md 12). De asta e `<a href>` cu `preventDefault`, nu `<button>`:
+ * un `<button>` fără JavaScript nu duce nicăieri.
+ *
+ * `subiect` — numele camerei sau al ofertei. Intră și în mesaj, și în
+ * capul dialogului, ca omul să vadă pentru ce cere.
  */
 export function BtnRezervare({
   date,
@@ -23,16 +31,28 @@ export function BtnRezervare({
   clasa?: string
   eticheta?: string
 }) {
+  const [deschis, setDeschis] = useState(false)
   const href = linkRezervare(date, subiect)
   const extern = esteExtern(href)
 
   return (
-    <a
-      className={clasa}
-      href={href}
-      {...(extern ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-    >
-      {eticheta ?? date.booking.labels.submit}
-    </a>
+    <>
+      <a
+        className={clasa}
+        href={href}
+        {...(extern ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        onClick={(e) => {
+          // Click cu modificator / rotița = „deschide în tab nou". Îl lăsăm
+          // browserului: e linkul real, nu o cursă spre dialog.
+          if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return
+          e.preventDefault()
+          setDeschis(true)
+        }}
+      >
+        {eticheta ?? date.booking.labels.submit}
+      </a>
+
+      {deschis && <ModalRezervare date={date} subiect={subiect} onInchide={() => setDeschis(false)} />}
+    </>
   )
 }

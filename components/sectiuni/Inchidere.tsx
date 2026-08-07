@@ -1,4 +1,6 @@
+import { BtnRezervare } from './BtnRezervare'
 import type { SiteData } from '@/content/types'
+import { esteExtern } from '@/lib/whatsapp'
 
 /**
  * Ultima secțiune: un singur CTA, pe fundal de brand.
@@ -18,9 +20,13 @@ export function Inchidere({ date }: { date: SiteData }) {
         {closing.text && <p className="lede">{closing.text}</p>}
         {closing.cta.label && (
           <p className="stack" style={{ justifyContent: 'center', marginTop: 'var(--sp-6)' }}>
-            <a className="btn btn-accent" href={closing.cta.href}>
-              {closing.cta.label}
-            </a>
+            {esteExtern(closing.cta.href) ? (
+              <BtnRezervare date={date} clasa="btn btn-accent" eticheta={closing.cta.label} />
+            ) : (
+              <a className="btn btn-accent" href={closing.cta.href}>
+                {closing.cta.label}
+              </a>
+            )}
           </p>
         )}
       </div>

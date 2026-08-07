@@ -1,3 +1,4 @@
+import { BtnRezervare } from './BtnRezervare'
 import { Icon } from '@/components/Icon'
 import type { SiteData } from '@/content/types'
 
@@ -20,16 +21,9 @@ import type { SiteData } from '@/content/types'
  * pe telefon; fără niciunul, nu se randează deloc (REGULI.md 3).
  */
 export function BaraWhatsApp({ date }: { date: SiteData }) {
-  const { contact, booking, brand } = date
+  const { contact, booking } = date
 
   if (!contact.whatsapp && !contact.phone) return null
-
-  // Mesajul e precompletat, dar rămâne editabil în WhatsApp. Îi scutește
-  // pe amândoi de primul schimb de replici („bună, aveți liber?").
-  const mesaj = encodeURIComponent(
-    `Bună ziua! Aș vrea să știu dacă aveți camere libere la ${brand.name}. Perioada: `,
-  )
-  const urlWa = contact.whatsapp ? `https://wa.me/${contact.whatsapp}?text=${mesaj}` : null
 
   return (
     <section id="rezervare" aria-label={booking.labels.submit}>
@@ -38,18 +32,13 @@ export function BaraWhatsApp({ date }: { date: SiteData }) {
           <div className="wa-block-text">
             <h2>{booking.labels.submit}</h2>
             <p className="lede">
-              Scrie-ne perioada pe WhatsApp și îți răspundem cu ce e liber și cu prețul exact.
-              Răspundem în aceeași zi.
+              Alege perioada și câți sunteți, iar noi îți răspundem pe WhatsApp cu ce e liber și cu
+              prețul exact. Răspundem în aceeași zi.
             </p>
           </div>
 
           <div className="stack wa-block-actions">
-            {urlWa && (
-              <a className="btn btn-wa" href={urlWa} target="_blank" rel="noopener noreferrer">
-                <Icon name="phone" marime="sm" />
-                Întreabă pe WhatsApp
-              </a>
-            )}
+            <BtnRezervare date={date} clasa="btn btn-wa" />
             {contact.phoneHref && (
               <a className="btn btn-ghost" href={contact.phoneHref}>
                 <Icon name="phone" marime="sm" />

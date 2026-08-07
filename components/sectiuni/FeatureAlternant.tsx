@@ -1,7 +1,9 @@
 import Image from 'next/image'
 
+import { BtnRezervare } from './BtnRezervare'
 import { Icon } from '@/components/Icon'
-import type { Cta, Feature } from '@/content/types'
+import type { Cta, Feature, SiteData } from '@/content/types'
+import { esteExtern } from '@/lib/whatsapp'
 
 /**
  * Feature alternant: imagine + text, cu latura care alternează.
@@ -21,7 +23,7 @@ function butonClasa(v: Cta['variant']): string {
   return 'btn btn-ghost'
 }
 
-export function FeatureAlternant({ feature }: { feature: Feature }) {
+export function FeatureAlternant({ feature, date }: { feature: Feature; date: SiteData }) {
   return (
     <section className="feature" id={feature.id}>
       <div className="wrap">
@@ -54,11 +56,17 @@ export function FeatureAlternant({ feature }: { feature: Feature }) {
             )}
             {feature.ctas.length > 0 && (
               <div className="stack">
-                {feature.ctas.map((c) => (
-                  <a key={c.href} className={butonClasa(c.variant)} href={c.href}>
-                    {c.label}
-                  </a>
-                ))}
+                {feature.ctas.map((c) =>
+                  // Butonul de rezervare deschide calendarul (T64); restul
+                  // sunt linkuri obișnuite către alte pagini.
+                  esteExtern(c.href) ? (
+                    <BtnRezervare key={c.href} date={date} clasa={butonClasa(c.variant)} eticheta={c.label} />
+                  ) : (
+                    <a key={c.href} className={butonClasa(c.variant)} href={c.href}>
+                      {c.label}
+                    </a>
+                  ),
+                )}
               </div>
             )}
           </div>
@@ -69,12 +77,12 @@ export function FeatureAlternant({ feature }: { feature: Feature }) {
 }
 
 /** Toate feature-urile la rând, sărind cele fără titlu. */
-export function Features({ features }: { features: Feature[] }) {
+export function Features({ features, date }: { features: Feature[]; date: SiteData }) {
   if (!features.length) return null
   return (
     <>
       {features.map((f) => (
-        <FeatureAlternant key={f.id} feature={f} />
+        <FeatureAlternant key={f.id} feature={f} date={date} />
       ))}
     </>
   )

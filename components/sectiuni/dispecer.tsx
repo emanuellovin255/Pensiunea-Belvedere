@@ -51,7 +51,7 @@ export function sectiune(id: string, { date, meniu, meniuPdf }: ContextSectiuni)
     case 'rooms':
       return <Camere date={date} />
     case 'features':
-      return <Features features={date.features} />
+      return <Features features={date.features} date={date} />
     case 'prezentare':
       return <Prezentare date={date} />
     case 'offers':

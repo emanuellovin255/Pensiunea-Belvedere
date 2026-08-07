@@ -1,51 +1,90 @@
 /* ============================================================
-   lib/whatsapp.ts — un singur loc care construiește linkul de rezervare.
+   lib/whatsapp.ts — un singur loc care construiește cererea de rezervare.
 
    Locația n-are motor de rezervări (`date/10-rezervari-si-plati.md`:
-   „Tip: formular"), deci canalul real e WhatsApp. Fiecare buton
-   „Verifică disponibilitatea" din site trebuie să deschidă conversația
-   cu mesajul deja scris — și, acolo unde butonul stă lângă o cameră sau
-   o ofertă, mesajul trebuie să spună DESPRE CE e vorba. Altfel gazda
-   primește zece mesaje identice și tot trebuie să întrebe „la ce cameră?".
+   „Tip: formular"), deci canalul real e WhatsApp. Butonul „Verifică
+   disponibilitatea" deschide întâi un calendar (T64) și abia apoi trimite
+   în conversație — cu perioada, numărul de oaspeți și camera deja scrise.
 
-   Un singur helper, folosit din toate componentele, ca formularea să nu
-   diverge la a treia copiere.
+   Mesajul NU spune numele pensiunii: omul scrie pe numărul pensiunii, deci
+   gazda știe unde e. Ce nu știe e ce cameră, ce perioadă și câți oameni —
+   exact ce pune mesajul.
    ============================================================ */
 
 import type { SiteData } from '@/content/types'
 
-/**
- * Mesajul precompletat. `subiect` e numele camerei sau al ofertei; fără
- * el rămâne întrebarea generală de pe prima pagină.
- *
- * Rămâne editabil în WhatsApp — e o schiță, nu un formular trimis.
- */
-export function mesajRezervare(numeLocatie: string, subiect?: string): string {
-  if (subiect) {
-    return `Bună ziua! Aș vrea să știu dacă aveți liber la „${subiect}” (${numeLocatie}). Perioada: `
-  }
-  return `Bună ziua! Aș vrea să știu dacă aveți camere libere la ${numeLocatie}. Perioada: `
+export type CerereRezervare = {
+  /** Numele camerei sau al ofertei. Lipsește pe prima pagină. */
+  subiect?: string
+  /** `YYYY-MM-DD`, așa cum le ține calendarul. */
+  checkIn?: string
+  checkOut?: string
+  persoane?: number
+}
+
+const LUNI = [
+  'ianuarie', 'februarie', 'martie', 'aprilie', 'mai', 'iunie',
+  'iulie', 'august', 'septembrie', 'octombrie', 'noiembrie', 'decembrie',
+]
+
+/** `2026-08-12` → `12 august 2026`. Fără `Date`, ca să nu intre fusul orar. */
+export function dataLizibila(iso: string): string {
+  const [a, l, z] = iso.split('-').map(Number)
+  if (!a || !l || !z) return iso
+  return `${z} ${LUNI[l - 1]} ${a}`
+}
+
+/** Nopțile dintre două date ISO. Zero sau negativ → `undefined`. */
+export function nopti(checkIn: string, checkOut: string): number | undefined {
+  const a = Date.parse(`${checkIn}T00:00:00Z`)
+  const b = Date.parse(`${checkOut}T00:00:00Z`)
+  if (Number.isNaN(a) || Number.isNaN(b)) return undefined
+  const n = Math.round((b - a) / 86400000)
+  return n > 0 ? n : undefined
 }
 
 /**
- * Linkul pe care îl primește un buton de rezervare.
+ * Mesajul precompletat. Rămâne editabil în WhatsApp — e o schiță pe care
+ * omul o poate completa, nu un formular trimis.
  *
- * Ordinea de cădere e cea din REGULI.md 3 — nu inventăm o cale care nu
- * există: WhatsApp → telefon apelabil → ancora `#rezervare` (unde stă
- * blocul de contact). Ultima variantă rămâne validă și fără telefon.
+ * Fără date alese (JavaScript oprit, deci fără calendar) rămâne întrebarea
+ * scurtă: tot e mai mult decât un „bună ziua" gol.
+ */
+export function mesajRezervare(c: CerereRezervare = {}): string {
+  const randuri = ['Bună ziua! Aș vrea să verific disponibilitatea.']
+
+  if (c.subiect) randuri.push(`Camera: ${c.subiect}`)
+  if (c.checkIn) randuri.push(`Sosire: ${dataLizibila(c.checkIn)}`)
+  if (c.checkOut) {
+    const n = c.checkIn ? nopti(c.checkIn, c.checkOut) : undefined
+    randuri.push(`Plecare: ${dataLizibila(c.checkOut)}${n ? ` (${n} ${n === 1 ? 'noapte' : 'nopți'})` : ''}`)
+  }
+  if (c.persoane) randuri.push(`Oaspeți: ${c.persoane}`)
+
+  return randuri.join('\n')
+}
+
+/**
+ * Linkul către conversație. `undefined` dacă locația n-are WhatsApp —
+ * apelantul cade atunci pe telefon (REGULI.md 3: nu inventăm o cale).
+ */
+export function urlWhatsApp(contact: SiteData['contact'], c: CerereRezervare = {}): string | undefined {
+  if (!contact.whatsapp) return undefined
+  return `https://wa.me/${contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(mesajRezervare(c))}`
+}
+
+/**
+ * Linkul pe care îl primește un buton de rezervare, cu tot cu căderile
+ * elegante: WhatsApp → telefon apelabil → ancora `#rezervare`.
+ *
+ * Ăsta e și `href`-ul scris în HTML, deci butonul funcționează și fără
+ * JavaScript — doar că fără perioada aleasă în calendar.
  */
 export function linkRezervare(date: SiteData, subiect?: string): string {
-  const { contact, brand } = date
-
-  if (contact.whatsapp) {
-    const text = encodeURIComponent(mesajRezervare(brand.name, subiect))
-    return `https://wa.me/${contact.whatsapp.replace(/[^\d]/g, '')}?text=${text}`
-  }
-  if (contact.phoneHref) return contact.phoneHref
-  return '#rezervare'
+  return urlWhatsApp(date.contact, { subiect }) ?? date.contact.phoneHref ?? '#rezervare'
 }
 
-/** `true` când linkul iese din site (deci vrea `target`/`rel`). */
+/** `true` pentru linkurile care ies din site (deci vor `target`/`rel`). */
 export function esteExtern(href: string): boolean {
   return href.startsWith('https://wa.me/')
 }

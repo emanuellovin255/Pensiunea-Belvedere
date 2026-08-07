@@ -1196,3 +1196,165 @@ body[data-audit='true'] [data-finding] {
   }
   html { scroll-behavior: auto; }
 }
+
+/* ------------------------------------------------ dialog de rezervare (T64) */
+/*
+ * Calendarul care se deschide din „Verifică disponibilitatea". Fără motor
+ * de rezervări, dialogul nu afișează disponibilitate — adună perioada și
+ * numărul de oaspeți, apoi deschide WhatsApp cu ele scrise.
+ */
+.mdl {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--sp-4);
+  background: color-mix(in srgb, var(--shadow-base) 45%, transparent);
+  backdrop-filter: blur(3px);
+  overflow-y: auto;
+}
+
+.mdl-panou {
+  width: min(760px, 100%);
+  max-height: calc(100dvh - var(--sp-8));
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-lg);
+  padding: var(--sp-6);
+}
+.mdl-panou:focus { outline: none; }
+
+.mdl-cap { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sp-4); }
+.mdl-cap h2 { margin: 0; font-size: var(--fs-lg); }
+.mdl-subiect { margin: var(--sp-2) 0 0; color: var(--muted); font-size: var(--fs-sm); }
+
+.mdl-inchide {
+  flex: none;
+  width: 40px; height: 40px;
+  display: grid; place-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--r-full);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color var(--tr-base);
+}
+.mdl-inchide:hover { background: var(--surface-alt); }
+
+.mdl-rezumat {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+.mdl-camp {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--sp-3) var(--sp-4);
+  min-height: 72px;
+  display: flex; flex-direction: column; justify-content: center; gap: 2px;
+}
+.mdl-camp small { color: var(--muted); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: 0.06em; }
+.mdl-camp b { font-size: var(--fs-sm); }
+
+.mdl-pas { display: flex; align-items: center; gap: var(--sp-3); }
+.mdl-pas button {
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--r-full);
+  background: transparent;
+  color: var(--ink);
+  font-size: 17px; line-height: 1;
+  cursor: pointer;
+}
+.mdl-pas button:disabled { opacity: 0.35; cursor: default; }
+.mdl-pas button:not(:disabled):hover { background: var(--surface-alt); }
+
+.mdl-jos {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sp-4);
+  margin-top: var(--sp-5);
+  flex-wrap: wrap;
+}
+.mdl-nopti { margin: 0; color: var(--muted); font-size: var(--fs-sm); }
+.mdl-jos .btn:disabled { opacity: 0.45; pointer-events: none; }
+.mdl-nota { margin: var(--sp-4) 0 0; color: var(--muted); font-size: var(--fs-xs); }
+
+/* --- calendarul propriu-zis --- */
+.cal { margin-top: var(--sp-5); position: relative; }
+.cal-bara { position: absolute; inset: 0 0 auto auto; display: flex; gap: var(--sp-2); }
+.cal-nav {
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--r-full);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+.cal-nav:disabled { opacity: 0.3; cursor: default; }
+.cal-nav:first-child .icon { transform: rotate(180deg); }
+
+.cal-luni { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-6); }
+.cal-titlu { margin: 0 0 var(--sp-3); font-weight: 600; font-size: var(--fs-sm); }
+.cal-zile { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal-cap {
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  padding-bottom: var(--sp-2);
+}
+
+.cal-zi {
+  aspect-ratio: 1;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  border-radius: var(--r-sm);
+  font: inherit;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  transition: background-color var(--tr-base), color var(--tr-base);
+}
+.cal-zi:disabled { color: var(--line); cursor: default; }
+.cal-zi:not(:disabled):hover { background: var(--surface-alt); }
+.cal-zi[data-intre] { background: var(--accent-tint); border-radius: 0; }
+.cal-zi[data-in],
+.cal-zi[data-out] { background: var(--brand); color: var(--on-brand); font-weight: 600; }
+.cal-zi[data-in] { border-radius: var(--r-sm) 0 0 var(--r-sm); }
+.cal-zi[data-out] { border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+
+@media (max-width: 700px) {
+  .mdl-panou { padding: var(--sp-5) var(--sp-4); }
+  /* Sosirea și plecarea stau alături; oaspeții iau rândul lor. Trei câmpuri
+     stivuite împingeau calendarul complet sub ecran. */
+  .mdl-rezumat { grid-template-columns: 1fr 1fr; }
+  .mdl-camp:last-child { grid-column: 1 / -1; }
+  .mdl-camp b { font-size: var(--fs-xs); }
+
+  /* Pe telefon încape o singură lună; a doua rămâne la un tap de „înainte". */
+  .cal-luni { grid-template-columns: 1fr; }
+  .cal-luni > :nth-child(2) { display: none; }
+
+  /* Butonul rămâne lipit de marginea de jos a panoului: calendarul e mai
+     înalt decât ecranul, iar un buton de trimis ascuns sub scroll e un
+     buton neapăsat. */
+  .mdl-jos {
+    position: sticky;
+    bottom: calc(var(--sp-5) * -1);
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-2);
+    margin: var(--sp-5) calc(var(--sp-4) * -1) 0;
+    padding: var(--sp-3) var(--sp-4) var(--sp-5);
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+  }
+  .mdl-nopti { text-align: center; }
+  .mdl-jos .btn { justify-content: center; }
+  .mdl-nota { text-align: center; }
+}

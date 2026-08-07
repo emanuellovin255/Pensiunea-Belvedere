@@ -107,7 +107,7 @@ export function SablonPovesteAlternanta({ date, setari, meniu }: PropsSablon) {
             return (
               <Fragment key="features">
                 {date.features.map((f, i) => (
-                  <FeatureAlternant key={f.id} feature={{ ...f, reverse: i % 2 === 1 }} />
+                  <FeatureAlternant key={f.id} feature={{ ...f, reverse: i % 2 === 1 }} date={date} />
                 ))}
               </Fragment>
             )
