@@ -1,6 +1,7 @@
 import type { SiteData } from '@/content/types'
 import type { Setari } from '@/lib/continut'
 import { caleaPublica, LIMBA_IMPLICITA, type Limba } from '@/lib/i18n/limbi'
+import { traduSegment } from '@/lib/i18n/rute'
 
 /**
  * Enumeră rutele reale ale unui site, din datele și setările lui.
@@ -22,7 +23,7 @@ export interface Ruta {
   frecventa: 'weekly' | 'monthly' | 'yearly'
 }
 
-export function ruteleSitului(date: SiteData, setari: Setari): Ruta[] {
+export function ruteleSitului(date: SiteData, setari: Setari, areMeniu = false): Ruta[] {
   const rute: Ruta[] = [{ cale: '/', prioritate: 1, frecventa: 'weekly' }]
 
   if (date.rooms.items.length) {
@@ -40,11 +41,17 @@ export function ruteleSitului(date: SiteData, setari: Setari): Ruta[] {
     }
   }
 
-  // Meniul restaurantului și contactul NU sunt rute: primul e o secțiune a
-  // primei pagini (`dispecer.tsx`, id `menu`), al doilea e footerul
-  // (`id="contact"`). Erau listate aici ca `/facilitati/restaurant` și
-  // `/contact` — două adrese fără pagină în `app/`, deci două 404-uri
-  // trimise la Google în sitemap-ul fiecărui client.
+  // Meniul restaurantului ARE pagină de când are 100 de preparate (T65):
+  // un PDF nu se indexează util, iar o secțiune de 10 000 px pe prima
+  // pagină nu e o opțiune. Condiția e aceeași ca în `app/[limba]/meniu`:
+  // modul pornit ȘI preparate scrise. Altfel sitemap-ul ar promite o
+  // pagină care întoarce 404.
+  //
+  // Contactul rămâne pe dinafară: e footerul (`id="contact"`), nu o rută.
+  if (setari.module.meniuRestaurant && areMeniu) {
+    rute.push({ cale: '/meniu', prioritate: 0.7, frecventa: 'monthly' })
+  }
+
   if (setari.module.evenimente) rute.push({ cale: '/evenimente', prioritate: 0.6, frecventa: 'monthly' })
   if (setari.module.galerieExtinsa) rute.push({ cale: '/galerie', prioritate: 0.5, frecventa: 'monthly' })
   if (setari.module.zona) rute.push({ cale: '/zona', prioritate: 0.6, frecventa: 'monthly' })
@@ -62,17 +69,27 @@ export function ruteleSitului(date: SiteData, setari: Setari): Ruta[] {
  * poartă prefix; engleza primește `/en` doar dacă e activată.
  */
 export function ruteCuLimbi(
-  date: SiteData,
-  setari: Setari,
   limbi: Limba[],
+  pentruLimba: (l: Limba) => { date: SiteData; setari: Setari; areMeniu: boolean },
 ): { url: string; prioritate: number; frecventa: Ruta['frecventa'] }[] {
-  const rute = ruteleSitului(date, setari)
   const iesire: { url: string; prioritate: number; frecventa: Ruta['frecventa'] }[] = []
   const active = limbi.length ? limbi : [LIMBA_IMPLICITA]
 
   for (const l of active) {
-    for (const r of rute) {
-      iesire.push({ url: caleaPublica(l, r.cale), prioritate: r.prioritate, frecventa: r.frecventa })
+    // Datele se recitesc PE LIMBĂ, nu o dată. Slug-urile de cameră și de
+    // ofertă se generează din titlurile fișierului limbii respective, deci
+    // `/en/rooms/double-room-with-balcony`, nu slug-ul românesc purtat pe
+    // un prefix englezesc.
+    const { date, setari, areMeniu } = pentruLimba(l)
+    for (const r of ruteleSitului(date, setari, areMeniu)) {
+      // Segmentul se traduce separat: adresa publică engleză e `/en/rooms`,
+      // nu `/en/camere`. Un sitemap care le listează pe cele din urmă
+      // trimite Google pe rewrite-uri în loc de canonice.
+      iesire.push({
+        url: caleaPublica(l, traduSegment(r.cale, l)),
+        prioritate: r.prioritate,
+        frecventa: r.frecventa,
+      })
     }
   }
   return iesire

@@ -20,7 +20,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const limbi: Limba[] = setari.module.engleza ? ['ro', 'en'] : [LIMBA_IMPLICITA]
   const lastmod = date.meta.generatedAt
 
-  return ruteCuLimbi(date, setari, limbi).map((r) => ({
+  return ruteCuLimbi(limbi, (l) => {
+    const s = siteCurent(l)
+    return { date: s.date, setari: s.setari, areMeniu: s.meniu.length > 0 }
+  }).map((r) => ({
     url: base + r.url,
     lastModified: lastmod,
     changeFrequency: r.frecventa,

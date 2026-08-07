@@ -1,7 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server'
 
 import { construiesteCsp, genereazaNonce, HEADERE_SECURITATE } from '@/lib/csp'
-import { LIMBA_IMPLICITA, LIMBI } from '@/lib/i18n/limbi'
+import { LIMBA_IMPLICITA, LIMBI, type Limba } from '@/lib/i18n/limbi'
+import { traduSegmentIntern } from '@/lib/i18n/rute'
 
 /**
  * Middleware-ul motorului. Face două lucruri, în ordine:
@@ -47,10 +48,10 @@ export function middleware(request: NextRequest) {
   // 2 · Rewrite de limbă. `/en/...` și `/ro/...` merg neatinse; `/ro/...`
   // rămâne accesibil intenționat (canonical din T07 îl trimite la varianta
   // fără prefix, deci nu se duplică în index).
-  const arePrefix = LIMBI.some((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`))
+  const prefix = LIMBI.find((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`))
 
-  const response = arePrefix
-    ? NextResponse.next({ request: { headers: requestHeaders } })
+  const response = prefix
+    ? rewriteSegmentTradus(request, requestHeaders, prefix)
     : rewriteFaraPrefix(request, requestHeaders)
 
   // CSP + restul politicii pe răspuns.
@@ -64,6 +65,32 @@ function rewriteFaraPrefix(request: NextRequest, requestHeaders: Headers) {
   const url = request.nextUrl.clone()
   const { pathname } = request.nextUrl
   url.pathname = `/${LIMBA_IMPLICITA}${pathname === '/' ? '' : pathname}`
+  return NextResponse.rewrite(url, { request: { headers: requestHeaders } })
+}
+
+/**
+ * Adresa publică tradusă → ruta reală. `/en/rooms/x` servește
+ * `app/[limba]/camere/[slug]`, fără să schimbe bara de adrese.
+ *
+ * DE CE E NEVOIE (T08)
+ * --------------------
+ * `app/[limba]/` are un singur folder per pagină, numit românește. Dar
+ * slug-urile de nivel înalt se traduc (`lib/i18n/rute.ts`), fiindcă
+ * `/en/camere` n-ar fi o adresă engleză. Fără rewrite-ul ăsta, tot ce
+ * produce comutatorul de limbă, sitemap-ul și `hreflang`-ul pe engleză
+ * ar da 404 — engleza n-a fost niciodată pornită, deci nimeni n-a lovit
+ * pragul.
+ *
+ * Pentru română e o funcție identitate: cheia hărții E numele folderului.
+ */
+function rewriteSegmentTradus(request: NextRequest, requestHeaders: Headers, limba: Limba) {
+  const { pathname } = request.nextUrl
+  const fara = pathname.slice(`/${limba}`.length) || '/'
+  const intern = traduSegmentIntern(fara, limba)
+  if (intern === fara) return NextResponse.next({ request: { headers: requestHeaders } })
+
+  const url = request.nextUrl.clone()
+  url.pathname = `/${limba}${intern === '/' ? '' : intern}`
   return NextResponse.rewrite(url, { request: { headers: requestHeaders } })
 }
 

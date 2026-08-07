@@ -987,6 +987,79 @@ details.faq-item[open] > .faq-a,
 .menu-nutritie summary { cursor: pointer; width: fit-content; }
 .menu-nutritie p { font-size: var(--fs-xs); margin-top: var(--sp-1); }
 
+/* Poza preparatului: miniatură pătrată, la stânga rândului.
+   `contain` pe fundal alb, nu `cover`: pozele din meniul tipărit sunt
+   decupaje de farfurie: tăiate la margine, ar pierde exact preparatul. */
+.menu-poza {
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  background: var(--surface);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+}
+/* Cu poză, rândul nu mai poate alinia pe linia de bază. */
+.menu-row:has(.menu-poza) { align-items: flex-start; }
+.menu-row .menu-info { flex: 1 1 auto; }
+
+/* Ancorele către categorii, în capul paginii de meniu. `sticky` ca lista
+   să rămână la îndemână pe o pagină de 100 de preparate. */
+.menu-nav {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-8);
+  padding-block: var(--sp-3);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.menu-nav a {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+}
+.menu-nav a:hover { border-color: var(--brand); color: var(--brand); }
+
+/* Titlul de categorie devine țintă de ancoră: îi lăsăm loc sub bara lipită. */
+.menu-cat h3 { scroll-margin-top: 84px; }
+
+.menu-actiuni { margin-top: var(--sp-8); }
+
+@media (max-width: 560px) {
+  .menu-poza { width: 64px; height: 64px; }
+}
+
+/* Dialogul de alegere a limbii, la prima vizită.
+   Randat doar după montare (AlegeLimba.tsx), deci nu produce CLS: nu
+   există în HTML-ul inițial, apare peste o pagină deja așezată. */
+.alege-limba {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-4);
+  background: var(--scrim);
+}
+.alege-limba-card {
+  width: min(380px, 100%);
+  padding: var(--sp-6);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  text-align: center;
+}
+.alege-limba-card h2 { font-size: var(--fs-lg); margin-bottom: var(--sp-5); }
+.alege-limba-optiuni { display: flex; flex-direction: column; gap: var(--sp-3); }
+.alege-limba-optiuni .btn { width: 100%; justify-content: center; }
+.alege-limba-nota { margin-top: var(--sp-4); font-size: var(--fs-xs); color: var(--muted); }
+
 /* -------------------------------------------------------------- proposal chrome */
 /* Se randează doar când `SiteData.mockup.enabled` e adevărat, adică
    într-o propunere, niciodată pe un site livrat (T30). */

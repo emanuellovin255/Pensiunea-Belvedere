@@ -73,8 +73,8 @@ function RailRezervare({ date }: { date: SiteData }) {
   )
 }
 
-export function SablonGalerieRezervare({ date, setari, meniu }: PropsSablon) {
-  const ctx = { date, meniu, meniuPdf: setari.meniuPdf }
+export function SablonGalerieRezervare({ date, setari, meniu, meniuSectiune, limba }: PropsSablon) {
+  const ctx = { date, meniu, meniuSectiune, limba, meniuPdf: setari.meniuPdf }
   const galerie = adunaGalerie(date)
 
   // Închiderea rămâne mereu pe toată lățimea, sub layout-ul cu rail —

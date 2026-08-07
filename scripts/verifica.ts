@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url'
 
 import type { SiteData } from '../content/types'
 import { incarcaClient, type Setari } from '../lib/continut'
+import { incarcaMeniu } from '../lib/continut/meniu'
 import { LIMBA_IMPLICITA, LIMBI, type Limba } from '../lib/i18n/limbi'
 import { radacinaRepo } from './lib/layout'
 import { faraComentarii, fisiere, linii, Verificare } from './lib/verifica-lib'
@@ -327,7 +328,7 @@ function continut(v: Verificare, clientDir: string) {
 }
 
 /** Prețuri lipsă la camere și poze nefolosite. */
-function continutDate(v: Verificare, date: SiteData, poze: string[], limba: Limba) {
+function continutDate(v: Verificare, date: SiteData, poze: string[], limba: Limba, pozeMeniu: string[] = []) {
   const dir = `${limba === 'ro' ? 'date' : limba}/04-camere.md`
   for (const c of date.rooms.items) {
     if (c.priceFrom == null) {
@@ -359,6 +360,8 @@ function continutDate(v: Verificare, date: SiteData, poze: string[], limba: Limb
   for (const feat of date.features) adauga(feat.image)
   adauga(date.prezentare?.video)
   adauga(date.prezentare?.poster)
+  // Pozele preparatelor: `07-meniu-restaurant.md` nu trece prin `SiteData`.
+  pozeMeniu.forEach(adauga)
   for (const p of poze) {
     if (!folosite.has(p)) {
       v.nota({
@@ -374,7 +377,7 @@ function continutDate(v: Verificare, date: SiteData, poze: string[], limba: Limb
 /* Rutele — sursă comună pentru linkuri moarte, sitemap, diacritice   */
 /* ------------------------------------------------------------------ */
 
-function ruteInterne(date: SiteData, setari: Setari): Set<string> {
+function ruteInterne(date: SiteData, setari: Setari, areMeniu: boolean): Set<string> {
   // `/contact` și `/facilitati/restaurant` NU sunt rute — sunt ancore pe
   // prima pagină. Un link către ele se validează prin `/`, fiindcă
   // `linkuriMoarte` taie fragmentul înainte de comparație.
@@ -387,6 +390,9 @@ function ruteInterne(date: SiteData, setari: Setari): Set<string> {
     r.add('/oferte')
     for (const o of date.offers.items) r.add(`/oferte/${o.slug}`)
   }
+  // Aceeași condiție ca în `lib/seo/rute.ts`: modulul pornit ȘI meniu
+  // completat. Ruta există doar dacă are ce afișa.
+  if (setari.module.meniuRestaurant && areMeniu) r.add('/meniu')
   if (setari.module.evenimente) r.add('/evenimente')
   if (setari.module.galerieExtinsa) r.add('/galerie')
   if (setari.module.zona) r.add('/zona')
@@ -766,7 +772,11 @@ function main() {
   const limbiActive: Limba[] = setari.module.engleza ? [...LIMBI] : [LIMBA_IMPLICITA]
   for (const l of limbiActive) if (l !== 'ro') dinLoader(v, clientNume, l)
 
-  const rute = ruteInterne(date, setari)
+  // Meniul nu e în `SiteData` (are tipurile lui, `content/meniu.ts`), dar
+  // ține și rute, și poze — deci se încarcă o dată, aici.
+  const meniu = incarcaMeniu(path.join(clientDir, 'date'), clientDir).categorii
+  const rute = ruteInterne(date, setari, meniu.length > 0)
+  const pozeMeniu = meniu.flatMap((c) => c.preparate.map((p) => p.poza).filter((p): p is string => !!p))
 
   // Reguli din REGULI.md pe sursă.
   reguliCulori(v)
@@ -779,7 +789,7 @@ function main() {
 
   // Conținut.
   continut(v, clientDir)
-  continutDate(v, date, poze, 'ro')
+  continutDate(v, date, poze, 'ro', pozeMeniu)
   linkuriMoarte(v, clientDir, date, rute)
 
   // SEO.

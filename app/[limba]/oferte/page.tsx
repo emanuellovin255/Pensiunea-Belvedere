@@ -4,7 +4,10 @@ import { notFound } from 'next/navigation'
 import { Antet, BaraLipita, Oferte, Subsol } from '@/components/sectiuni'
 import { JsonLd } from '@/components/JsonLd'
 import { Miscare } from '@/components/Miscare'
+import type { SiteData } from '@/content/types'
 import { esteLimba, type Limba } from '@/lib/i18n/limbi'
+import { etichete } from '@/lib/i18n/etichete'
+import { construiesteLocales, limbiActive } from '@/lib/i18n/rute'
 import { construiesteMeta, baseUrl } from '@/lib/seo/meta'
 import { schemaBreadcrumb } from '@/lib/seo/jsonld'
 import { siteCurent } from '@/lib/site'
@@ -18,11 +21,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { limba } = await params
   if (!esteLimba(limba)) return {}
-  const { date } = siteCurent(limba)
+  const { date, setari } = siteCurent(limba)
+  const t = etichete(limba)
   return construiesteMeta(date, limba, {
     titlu: date.offers.section.title,
-    descriere: date.offers.section.lede || `Pachete și oferte la ${date.brand.name}.`,
+    descriere: date.offers.section.lede || `${t.descriereOferte} ${date.brand.name}.`,
     cale: '/oferte',
+    limbiDisponibile: limbiActive(setari.module.engleza),
   })
 }
 
@@ -30,8 +35,14 @@ export default async function ListaOferte({ params }: { params: Promise<{ limba:
   const { limba } = await params
   if (!esteLimba(limba)) notFound()
   const lang = limba as Limba
-  const { date } = siteCurent(lang)
+  const { date: dateBaza, setari } = siteCurent(lang)
   const base = baseUrl()
+  const t = etichete(lang)
+
+  const date: SiteData = {
+    ...dateBaza,
+    locales: construiesteLocales(lang, '/oferte', limbiActive(setari.module.engleza)),
+  }
 
   return (
     <>
@@ -39,10 +50,11 @@ export default async function ListaOferte({ params }: { params: Promise<{ limba:
       <JsonLd
         data={schemaBreadcrumb(
           [
-            { nume: 'Acasă', cale: '/' },
+            { nume: t.acasa, cale: '/' },
             { nume: date.offers.section.title, cale: '/oferte' },
           ],
           base,
+          lang,
         )}
       />
       <Antet date={date} />

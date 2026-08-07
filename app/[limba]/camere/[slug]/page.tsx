@@ -4,7 +4,11 @@ import { notFound } from 'next/navigation'
 import { Antet, BaraLipita, PaginaCamera, Subsol } from '@/components/sectiuni'
 import { JsonLd } from '@/components/JsonLd'
 import { Miscare } from '@/components/Miscare'
+import type { SiteData } from '@/content/types'
 import { esteLimba, LIMBI, type Limba } from '@/lib/i18n/limbi'
+import { etichete } from '@/lib/i18n/etichete'
+import { caiPereche } from '@/lib/i18n/perechi'
+import { construiesteLocales, limbiActive } from '@/lib/i18n/rute'
 import { construiesteMeta, baseUrl } from '@/lib/seo/meta'
 import { schemaBreadcrumb, schemaCamera } from '@/lib/seo/jsonld'
 import { siteCurent } from '@/lib/site'
@@ -30,9 +34,9 @@ export function generateStaticParams() {
 
 async function camera(limbaBruta: string, slug: string) {
   if (!esteLimba(limbaBruta)) return null
-  const { date } = siteCurent(limbaBruta)
+  const { date, setari } = siteCurent(limbaBruta)
   const cam = date.rooms.items.find((c) => c.slug === slug)
-  return cam ? { date, cam, limba: limbaBruta as Limba } : null
+  return cam ? { date, setari, cam, limba: limbaBruta as Limba } : null
 }
 
 export async function generateMetadata({
@@ -43,7 +47,8 @@ export async function generateMetadata({
   const { limba, slug } = await params
   const g = await camera(limba, slug)
   if (!g) return {}
-  const { date, cam } = g
+  const { date, setari, cam } = g
+  const limbi = limbiActive(setari.module.engleza)
 
   const bucati = [cam.occupancy, cam.bed, cam.size].filter(Boolean).join(' · ')
   return construiesteMeta(date, g.limba, {
@@ -52,6 +57,10 @@ export async function generateMetadata({
       cam.description ?? `${cam.name} la ${date.brand.name}${bucati ? ` — ${bucati}` : ''}.`,
     cale: `/camere/${cam.slug}`,
     imagine: cam.image || date.seo.ogImage,
+    limbiDisponibile: limbi,
+    // Slug-ul diferă între limbi (`camera-dubla` ↔ `double-room`), deci
+    // hreflang-ul are nevoie de perechea reală, nu de calea curentă.
+    caiPerLimba: caiPereche('camere', cam.slug, g.limba, limbi),
   })
 }
 
@@ -63,8 +72,20 @@ export default async function Camera({
   const { limba, slug } = await params
   const g = await camera(limba, slug)
   if (!g) notFound()
-  const { date, cam } = g
+  const { date: dateBaza, setari, cam, limba: lang } = g
   const base = baseUrl()
+  const t = etichete(lang)
+  const limbi = limbiActive(setari.module.engleza)
+
+  const date: SiteData = {
+    ...dateBaza,
+    locales: construiesteLocales(
+      lang,
+      `/camere/${cam.slug}`,
+      limbi,
+      caiPereche('camere', cam.slug, lang, limbi),
+    ),
+  }
 
   return (
     <>
@@ -73,11 +94,12 @@ export default async function Camera({
       <JsonLd
         data={schemaBreadcrumb(
           [
-            { nume: 'Acasă', cale: '/' },
-            { nume: 'Camere', cale: '/camere' },
+            { nume: t.acasa, cale: '/' },
+            { nume: date.rooms.section.title || t.navCamere, cale: '/camere' },
             { nume: cam.name, cale: `/camere/${cam.slug}` },
           ],
           base,
+          lang,
         )}
       />
       <Antet date={date} subiect={cam.name} />

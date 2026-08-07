@@ -14,7 +14,7 @@ import type { Setari } from '@/lib/continut'
  * Ca și restul site-ului: doar date confirmate (REGULI.md 3). O cameră
  * fără preț apare fără preț, nu cu unul inventat.
  */
-export function genereazaLlms(date: SiteData, setari: Setari, base: string): string {
+export function genereazaLlms(date: SiteData, setari: Setari, base: string, areMeniu = false): string {
   const l: string[] = []
   const linie = (s = '') => l.push(s)
 
@@ -85,7 +85,7 @@ export function genereazaLlms(date: SiteData, setari: Setari, base: string): str
   // Paginile importante, ca un asistent să știe unde să trimită.
   linie('## Pagini')
   linie()
-  const rute = ruteleSitului(date, setari).filter((r) => r.prioritate >= 0.6)
+  const rute = ruteleSitului(date, setari, areMeniu).filter((r) => r.prioritate >= 0.6)
   for (const r of rute) {
     linie(`- ${base}${r.cale === '/' ? '/' : r.cale}`)
   }

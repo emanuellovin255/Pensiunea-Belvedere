@@ -1,6 +1,7 @@
 import type { SiteData } from '@/content/types'
 import type { Setari } from '@/lib/continut'
-import type { MeniuCategorie } from '@/content/meniu'
+import type { MeniuCategorie, MeniuSectiune } from '@/content/meniu'
+import type { Limba } from '@/lib/i18n/limbi'
 
 /**
  * Contractul dintre motor și un șablon (C2).
@@ -17,4 +18,8 @@ export interface PropsSablon {
   date: SiteData
   setari: Setari
   meniu: MeniuCategorie[]
+  /** Antetul secțiunii de meniu, din `## Secțiune` (07-meniu-restaurant.md). */
+  meniuSectiune?: MeniuSectiune
+  /** Limba paginii — secțiunile cu text propriu au nevoie de ea. */
+  limba?: Limba
 }

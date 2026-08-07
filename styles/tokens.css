@@ -41,6 +41,7 @@
   --ink:         #17201C;   /* textul principal */
   --ink-soft:    #414D47;   /* text secundar */
   --muted:       #64706B;   /* text terțiar, etichete, legende */
+  --scrim: rgb(23 32 28 / 0.55);  /* fundalul dinapoia unui dialog — --ink, transparent */
 
   /* ---------- [CLIENT 8-11] Rampa de brand ----------
      --brand e culoarea dominantă: antet, secțiuni închise, buton

@@ -1,9 +1,46 @@
 # T65 · Meniu — restul preparatelor din PDF
 
 **Depinde de:** T63
-**Stare:** ⬜ deschis, așteaptă aprobarea mostrei
+**Stare:** ✅ gata — 100 de preparate publicate pe `/meniu` și `/en/menu`
 
-## Context
+## Ce s-a făcut
+
+Clientul a aprobat mostra și a cerut publicarea integrală. S-a transcris **tot** meniul 2026:
+**100 de preparate în 15 categorii**, în ordinea din PDF, cu preț, gramaj, ingrediente, alergeni
+și valori nutriționale.
+
+| # | Categorie | Poziții | | # | Categorie | Poziții |
+|---|---|---|---|---|---|---|
+| 1 | Mic dejun | 6 | | 9 | Cafea și ceai | 9 |
+| 2 | Extra la micul dejun | 9 | | 10 | Apă | 4 |
+| 3 | Ciorbe | 2 | | 11 | Răcoritoare | 7 |
+| 4 | Preparate din pește | 14 | | 12 | Bere | 6 |
+| 5 | Preparate din carne | 4 | | 13 | Vinuri | 9 |
+| 6 | Garnituri | 6 | | 14 | Băuturi spirtoase | 8 |
+| 7 | Salate | 6 | | 15 | Cocktailuri | 5 |
+| 8 | Desert | 5 | | | | |
+
+Cele 6 poziții de la micul dejun n-au preț: sunt incluse în cazare. Corect așa — câmp
+necompletat, nu preț inventat (`REGULI.md` 3).
+
+**Punctul 3 de mai jos s-a rezolvat cu prima variantă**, la cererea clientului: prima pagină arată
+specialitățile casei — ciorbele și peștele, alese din `## Secțiune` → „Categorii pe prima pagină",
+tăiate la 3 preparate pe categorie — plus butonul „Vezi meniul complet". Meniul întreg stă la
+`/meniu`, respectiv `/en/menu`, cu navigație pe ancore și JSON-LD `Menu` complet. PDF-ul rămâne un
+link secundar, jos în pagina de meniu: nu mai e singura cale către meniu, care era exact problema
+de SEO — Google nu vedea niciun preparat.
+
+**Punctul 5 s-a făcut altfel decât scrie mai jos.** Clientul a decis ca **româna să fie sursa de
+adevăr în ambele limbi**, fiindcă cele două PDF-uri se contrazic. `en/07-meniu-restaurant.md`
+copiază cifrele din română și traduce doar textul; PDF-ul englez a servit la formulări, nu la
+cifre. Conflictele — **T68**. Restul englezei — **T69**.
+
+**Ce a rămas:** confirmarea prețurilor cu clientul (punctul 4) e acum T68. Nu mai blochează
+publicarea — a cerut explicit publicarea PDF-ului 2026 ca atare.
+
+---
+
+## Contextul de la deschidere
 
 `date/07-meniu-restaurant.md` are azi **10 preparate**, publicate ca mostră la cererea ta.
 Sursa completă e `Meniu/meniu 2026 română  final.pdf` (atenție: **două spații** în numele

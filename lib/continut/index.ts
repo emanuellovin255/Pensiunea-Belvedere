@@ -23,6 +23,8 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
 import type { Cta, Faq, Feature, IconName, Offer, Review, Room, SiteData } from '@/content/types'
+import { etichete } from '@/lib/i18n/etichete'
+import type { Limba } from '@/lib/i18n/limbi'
 import { linkRezervare } from '@/lib/whatsapp'
 
 import { analizeaza, boolean, lista, numar, numarZecimal, slug, sugereaza, text, type Bloc, type Document } from './md'
@@ -263,7 +265,7 @@ const CHEI_OFERTA = [
 
 const CHEI_RECENZIE = ['autor', 'sursa', 'data', 'nota'] as const
 
-export function incarcaClient(nume: string, limba = 'ro'): ContinutClient {
+export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient {
   const raport = new Raport()
   const radacinaClient = radacinaClientDir(nume)
 
@@ -300,6 +302,12 @@ export function incarcaClient(nume: string, limba = 'ro'): ContinutClient {
   const oferteSursa = citeste(radacinaLimba, '06-oferte.md', raport, { optional })
   const recenziiSursa = citeste(radacinaLimba, '08-recenzii.md', raport, { optional })
   const faqSursa = citeste(radacinaLimba, '09-intrebari-frecvente.md', raport, { optional })
+  // Din 10 se traduce DOAR blocul `## Etichete` (vezi mai jos, secțiunea 10).
+  // Fișierul e opțional în `en/`: cine nu-l pune, moștenește etichetele
+  // românești, nu rămâne cu butoane goale.
+  const rezervariLimba = optional
+    ? citeste(radacinaLimba, '10-rezervari-si-plati.md', raport, { optional })
+    : rezervari
   // Meniul (07) se citește separat, prin lib/continut/meniu.ts.
 
   const setariDoc = existsSync(path.join(radacinaClient, 'setari.md'))
@@ -701,7 +709,12 @@ export function incarcaClient(nume: string, limba = 'ro'): ContinutClient {
   /* ---------------------------------------------------------------- */
 
   const bRez = bloc(rezervari, 'rezervări', 'rezervari')
-  const bEtichete = bloc(rezervari, 'etichete')
+  // Etichetele butoanelor („Verifică disponibilitatea", „Cere ofertă",
+  // „Sosire") sunt SINGURA parte traductibilă din 10-rezervari-si-plati.md:
+  // restul fișierului e structural (tip de motor, adresă, plăți), identic în
+  // orice limbă. Fără pasul ăsta, tot CTA-ul de pe `/en` rămânea în română.
+  // Fallback pe română, ca un `en/` incomplet să nu golească butoanele.
+  const bEtichete = bloc(rezervariLimba, 'etichete') ?? bloc(rezervari, 'etichete')
   const adresaMotor = camp(bRez, 'adresa') ?? ''
   const tipRezervare = (camp(bRez, 'tip') ?? 'formular').toLowerCase()
 
@@ -768,14 +781,22 @@ export function incarcaClient(nume: string, limba = 'ro'): ContinutClient {
     })
   }
 
+  // Etichetele navigației sunt text de MOTOR, nu conținut de client, deci
+  // nu vin din `date/` — dar trebuie totuși traduse, altfel antetul lui
+  // `/en` iese în română (T08). Stau în `lib/i18n/etichete.ts`.
+  //
+  // Meniul restaurantului are pagină proprie de când are 100 de preparate
+  // (T65): linkul nu mai e ancora `/#meniu`, ci ruta `/meniu`. Contactul
+  // rămâne ancoră — e footerul (`Subsol.tsx`, `id="contact"`), nu o pagină.
+  const t = etichete(limba)
   const nav = [
-    camere.length ? { label: 'Camere', href: '/camere' } : null,
-    oferte.length ? { label: 'Oferte', href: '/oferte' } : null,
-    meniuVizibil ? { label: 'Restaurant', href: '/#meniu' } : null,
-    setari.module.evenimente ? { label: 'Evenimente', href: '/evenimente' } : null,
-    setari.module.galerieExtinsa ? { label: 'Galerie', href: '/galerie' } : null,
-    setari.module.zona ? { label: 'Zona', href: '/zona' } : null,
-    { label: 'Contact', href: '/#contact' },
+    camere.length ? { label: t.navCamere, href: '/camere' } : null,
+    oferte.length ? { label: t.navOferte, href: '/oferte' } : null,
+    meniuVizibil ? { label: t.navMeniu, href: '/meniu' } : null,
+    setari.module.evenimente ? { label: t.navEvenimente, href: '/evenimente' } : null,
+    setari.module.galerieExtinsa ? { label: t.navGalerie, href: '/galerie' } : null,
+    setari.module.zona ? { label: t.navZona, href: '/zona' } : null,
+    { label: t.navContact, href: '/#contact' },
   ].filter((x): x is { label: string; href: string } => x !== null)
 
   const date: SiteData = {

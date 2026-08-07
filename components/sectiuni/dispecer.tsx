@@ -8,7 +8,6 @@ import {
   Faq,
   Features,
   Inchidere,
-  MeniuLinkPdf,
   MeniuRestaurant,
   Oferte,
   Prezentare,
@@ -16,7 +15,9 @@ import {
 } from '.'
 import { HartaFacade } from './HartaFacade'
 import type { SiteData } from '@/content/types'
-import type { MeniuCategorie } from '@/content/meniu'
+import type { MeniuCategorie, MeniuSectiune } from '@/content/meniu'
+import { caleaPublica, type Limba } from '@/lib/i18n/limbi'
+import { traduSegment } from '@/lib/i18n/rute'
 
 /**
  * Un id de secțiune → componenta lui.
@@ -34,15 +35,23 @@ import type { MeniuCategorie } from '@/content/meniu'
 export interface ContextSectiuni {
   date: SiteData
   meniu: MeniuCategorie[]
+  /** Antetul secțiunii de meniu, din `## Secțiune` (07-meniu-restaurant.md). */
+  meniuSectiune?: MeniuSectiune
+  limba?: Limba
   /**
-   * Calea PDF-ului cu meniul (`setari.md` → „Meniu PDF"). Când există,
-   * secțiunea `menu` devine un link către fișier în loc de lista întreagă
-   * de preparate.
+   * Calea PDF-ului cu meniul (`setari.md` → „Meniu PDF").
+   *
+   * NU mai schimbă secțiunea de pe prima pagină: de când meniul are pagina
+   * lui, linkul PDF trăiește acolo, ca alternativă de descărcat. Câmpul
+   * rămâne fiindcă `/meniu` îl folosește.
    */
   meniuPdf?: string
 }
 
-export function sectiune(id: string, { date, meniu, meniuPdf }: ContextSectiuni): ReactNode {
+export function sectiune(
+  id: string,
+  { date, meniu, meniuSectiune, limba = 'ro' }: ContextSectiuni,
+): ReactNode {
   switch (id) {
     case 'trust':
       return <BandaIncredere date={date} />
@@ -62,9 +71,26 @@ export function sectiune(id: string, { date, meniu, meniuPdf }: ContextSectiuni)
       return <Recenzii date={date} />
     case 'map':
       return <HartaFacade contact={date.contact} />
-    case 'menu':
-      if (meniuPdf) return <MeniuLinkPdf href={meniuPdf} />
-      return meniu.length ? <MeniuRestaurant categorii={meniu} /> : null
+    case 'menu': {
+      // Pe prima pagină: specialitățile casei, nu meniul întreg (T65).
+      // CARE sunt specialitățile o spune clientul, în `## Secțiune` →
+      // „Categorii pe prima pagină". Motorul n-are de unde ști că la o
+      // pensiune din Deltă vinde peștele — iar „primele categorii din
+      // fișier" ar nimeri micul dejun și extra-urile.
+      if (!meniu.length) return null
+      const alese = meniuSectiune?.evidentiate?.length
+        ? meniu.filter((c) => meniuSectiune.evidentiate?.includes(c.nume))
+        : meniu.slice(0, 2)
+      return (
+        <MeniuRestaurant
+          categorii={alese.length ? alese : meniu.slice(0, 2)}
+          limba={limba}
+          sectiune={meniuSectiune}
+          limita={3}
+          linkComplet={caleaPublica(limba, traduSegment('/meniu', limba))}
+        />
+      )
+    }
     case 'faq':
       return <Faq date={date} />
     case 'closing':

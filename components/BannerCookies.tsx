@@ -9,6 +9,7 @@ import {
   REFUZA_TOT,
   salveaza,
 } from '@/lib/consimtamant'
+import { EVENIMENT_LIMBA_ALEASA, limbaRetinuta } from '@/lib/i18n/preferinta'
 
 /* ============================================================
    components/BannerCookies.tsx — bannerul de consimțământ (T11).
@@ -49,7 +50,18 @@ const TEXTE: Record<Limba, Record<string, string>> = {
   },
 }
 
-export function BannerCookies({ limba = 'ro' }: { limba?: Limba }) {
+export function BannerCookies({
+  limba = 'ro',
+  asteaptaLimba = false,
+}: {
+  limba?: Limba
+  /**
+   * Amână bannerul până când vizitatorul alege limba. Fără asta, la prima
+   * vizită pe un site bilingv apar două dialoguri deodată — cel de limbă
+   * și ăsta — și nu se înțelege la care se răspunde întâi.
+   */
+  asteaptaLimba?: boolean
+}) {
   const t = TEXTE[limba]
   const hrefPolitica = limba === 'en' ? '/en/politica-cookies' : '/politica-cookies'
 
@@ -59,8 +71,16 @@ export function BannerCookies({ limba = 'ro' }: { limba?: Limba }) {
   const [marketing, setMarketing] = useState(false)
 
   useEffect(() => {
-    // Prima vizită (fără alegere salvată) → arată bannerul.
-    if (citeste() === null) setVizibil(true)
+    // Prima vizită (fără alegere salvată) → arată bannerul, dar nu înainte
+    // ca omul să fi ales limba.
+    if (citeste() === null && (!asteaptaLimba || limbaRetinuta() !== null)) setVizibil(true)
+
+    // A ales limba → e rândul bannerului.
+    const dupaLimba = () => {
+      if (citeste() === null) setVizibil(true)
+    }
+    window.addEventListener(EVENIMENT_LIMBA_ALEASA, dupaLimba)
+
     // Footer-ul cere redeschiderea → readucem bannerul cu alegerea curentă.
     const redeschide = () => {
       const c = citeste()
@@ -70,8 +90,12 @@ export function BannerCookies({ limba = 'ro' }: { limba?: Limba }) {
       setVizibil(true)
     }
     window.addEventListener(EVENIMENT_REDESCHIDE, redeschide)
-    return () => window.removeEventListener(EVENIMENT_REDESCHIDE, redeschide)
-  }, [])
+    return () => {
+      window.removeEventListener(EVENIMENT_REDESCHIDE, redeschide)
+      window.removeEventListener(EVENIMENT_LIMBA_ALEASA, dupaLimba)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [asteaptaLimba])
 
   if (!vizibil) return null
 

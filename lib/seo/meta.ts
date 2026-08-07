@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import type { SiteData } from '@/content/types'
 import { caleaPublica, LIMBA_IMPLICITA, LIMBI, LOCALE_COMPLETE, type Limba } from '@/lib/i18n/limbi'
+import { traduSegment } from '@/lib/i18n/rute'
 
 /**
  * Metadatele unei pagini: titlu și description UNICE, canonical, OG,
@@ -29,6 +30,12 @@ export interface MetaPagina {
   imagine?: string
   /** Limbile în care EXISTĂ pagina asta. `/en` apare doar dacă e tradusă. */
   limbiDisponibile?: Limba[]
+  /**
+   * Calea internă pe limbă, pentru paginile `[slug]`: acolo slug-ul
+   * diferă între limbi și nu se poate traduce dintr-o hartă de segmente.
+   * Se calculează cu `caiPereche()` din `lib/i18n/perechi.ts`.
+   */
+  caiPerLimba?: Partial<Record<Limba, string>>
 }
 
 export function construiesteMeta(date: SiteData, limba: Limba, pagina: MetaPagina): Metadata {
@@ -38,7 +45,14 @@ export function construiesteMeta(date: SiteData, limba: Limba, pagina: MetaPagin
     ? `${pagina.titlu} · ${numeLocatie}`
     : `${numeLocatie}${date.contact.city ? ` · ${date.contact.city}` : ''}`
 
-  const canonical = base + caleaPublica(limba, pagina.cale)
+  // Adresa PUBLICĂ a paginii într-o limbă: slug-ul perechii (dacă pagina
+  // l-a calculat) plus segmentul tradus plus prefixul de limbă. Toate trei
+  // trebuie aplicate; sărind unul, canonical-ul și hreflang-ul arată către
+  // adrese care nu există — pe engleză, `/en/camere/...` în loc de
+  // `/en/rooms/...`.
+  const adresa = (l: Limba) => base + caleaPublica(l, traduSegment(pagina.caiPerLimba?.[l] ?? pagina.cale, l))
+
+  const canonical = adresa(limba)
   const imagine = pagina.imagine ?? date.seo.ogImage
 
   // hreflang în ambele direcții, plus x-default. Se generează doar
@@ -47,9 +61,9 @@ export function construiesteMeta(date: SiteData, limba: Limba, pagina: MetaPagin
   const disponibile = pagina.limbiDisponibile ?? LIMBI.filter((l) => l === LIMBA_IMPLICITA)
   const languages: Record<string, string> = {}
   for (const l of disponibile) {
-    languages[l] = base + caleaPublica(l, pagina.cale)
+    languages[l] = adresa(l)
   }
-  languages['x-default'] = base + caleaPublica(LIMBA_IMPLICITA, pagina.cale)
+  languages['x-default'] = adresa(LIMBA_IMPLICITA)
 
   return {
     title: titluComplet,

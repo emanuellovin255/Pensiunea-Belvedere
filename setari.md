@@ -22,7 +22,7 @@ Meniu restaurant: da
 Spații de evenimente: nu
 Galerie extinsă: nu
 Pagina „Zona" (atracții și distanțe): nu
-Engleză: nu
+Engleză: da
 Plăți online: nu
 
 <!--
@@ -32,7 +32,8 @@ Plăți online: nu
   Spații de evenimente   → pentru locațiile cu nunți sau conferințe
   Galerie extinsă        → pagină separată de galerie, peste pozele din secțiuni
   Pagina „Zona"          → atracții, distanțe. Aduce trafic din faza „unde mergem?"
-  Engleză                → copiază fișierele din date/ în en/ și tradu-le
+  Engleză                → copiază fișierele din date/ în en/ și tradu-le. PORNITĂ: folderul `en/`
+                           există, iar la prima vizită site-ul întreabă Română / English
   Plăți online           → NU se pornește fără să citești ghidul 07. Cere bază de date
 -->
 
@@ -74,10 +75,10 @@ Analytics: nu
 
 <!--
   Buton WhatsApp  → un link simplu, nu un widget. La cabane e util
-  Meniu PDF       → calea unui fișier din public/. Când e completată, secțiunea „Meniu restaurant"
-                    de pe prima pagină se reduce la un buton „Vezi meniul (PDF)", în loc să înșire
-                    toate preparatele. Datele structurate (JSON-LD) rămân complete, deci Google
-                    vede în continuare preparatele și prețurile. Șterge rândul ca să revii la
-                    meniul afișat integral în pagină.
+  Meniu PDF       → calea unui fișier din public/. E linkul secundar de jos din pagina `/meniu`,
+                    pentru cine vrea meniul salvat pe telefon. NU mai înlocuiește meniul din
+                    pagină (T65): prima pagină arată specialitățile casei plus butonul „Vezi
+                    meniul complet", iar `/meniu` are tot meniul, indexabil. Șterge rândul ca să
+                    scoți linkul către PDF.
   Analytics       → se încarcă doar după acceptul de cookies
 -->

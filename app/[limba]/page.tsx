@@ -65,7 +65,7 @@ export default async function Acasa({ params }: { params: Promise<{ limba: strin
   if (!esteLimba(limba)) notFound()
   const lang = limba as Limba
 
-  const { date: dateBaza, setari, meniu } = siteCurent(lang)
+  const { date: dateBaza, setari, meniu, meniuSectiune } = siteCurent(lang)
   const base = baseUrl()
 
   // Comutatorul de limbă are nevoie de URL-urile paginilor echivalente.
@@ -90,7 +90,7 @@ export default async function Acasa({ params }: { params: Promise<{ limba: strin
       <JsonLd data={schemaFaq(date)} />
       {meniu.length > 0 && <JsonLd data={schemaMeniu(meniu, date.brand.name)} />}
 
-      <Sablon date={date} setari={setari} meniu={meniu} />
+      <Sablon date={date} setari={setari} meniu={meniu} meniuSectiune={meniuSectiune} limba={lang} />
     </>
   )
 }

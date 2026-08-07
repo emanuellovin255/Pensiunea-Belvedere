@@ -4,7 +4,7 @@ import path from 'node:path'
 import type { SiteData } from '@/content/types'
 import { incarcaClient, radacinaClientDir, IMPLICIT as SETARI_IMPLICITE, type Setari } from '@/lib/continut'
 import { incarcaMeniu } from '@/lib/continut/meniu'
-import type { MeniuCategorie } from '@/content/meniu'
+import type { MeniuCategorie, MeniuSectiune } from '@/content/meniu'
 import { DEMO } from '@/lib/demo'
 import type { Limba } from '@/lib/i18n/limbi'
 
@@ -32,6 +32,8 @@ export interface Site {
   date: SiteData
   setari: Setari
   meniu: MeniuCategorie[]
+  /** Antetul secțiunii de meniu (`## Secțiune` din 07-meniu-restaurant.md). */
+  meniuSectiune: MeniuSectiune
   /** Numele folderului de client, sau `null` pentru demo. */
   client: string | null
 }
@@ -56,12 +58,17 @@ export function siteCurent(limba: Limba = 'ro'): Site {
   let site: Site
   if (client) {
     const { date, setari } = incarcaClient(client, limba)
-    const radacinaDate = path.join(radacinaClientDir(client), limba === 'ro' ? 'date' : limba)
-    const meniu = setari.module.meniuRestaurant ? incarcaMeniu(radacinaDate) : []
-    site = { date, setari, meniu, client }
+    const radacinaClient = radacinaClientDir(client)
+    const radacinaDate = path.join(radacinaClient, limba === 'ro' ? 'date' : limba)
+    // Rădăcina clientului merge mai departe pentru `poze/`: pozele
+    // preparatelor sunt comune ambelor limbi, deci nu stau în `en/`.
+    const incarcat = setari.module.meniuRestaurant
+      ? incarcaMeniu(radacinaDate, radacinaClient)
+      : { sectiune: {}, categorii: [] }
+    site = { date, setari, meniu: incarcat.categorii, meniuSectiune: incarcat.sectiune, client }
   } else {
     // Repo-ul sistemului: demo, cu setările implicite.
-    site = { date: DEMO, setari: SETARI_IMPLICITE, meniu: [], client: null }
+    site = { date: DEMO, setari: SETARI_IMPLICITE, meniu: [], meniuSectiune: {}, client: null }
   }
 
   cache.set(cheie, site)

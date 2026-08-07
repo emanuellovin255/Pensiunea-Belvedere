@@ -19,6 +19,8 @@
 
 import type { Offer, Room, SiteData } from '@/content/types'
 import { numar } from '@/lib/continut/md'
+import { caleaPublica, LIMBA_IMPLICITA, type Limba } from '@/lib/i18n/limbi'
+import { traduSegment } from '@/lib/i18n/rute'
 
 type Jsonld = Record<string, unknown>
 
@@ -262,10 +264,18 @@ export function schemaWebsite(date: SiteData, baseUrl: string): Jsonld {
   }
 }
 
-/** BreadcrumbList pentru o pagină interioară. */
+/**
+ * BreadcrumbList pentru o pagină interioară.
+ *
+ * `limba` nu e decorativă: pe `/en`, un breadcrumb care arată către
+ * `/camere/...` declară o ierarhie care nu există în engleză. Căile
+ * primite sunt interne (`/camere/x`); aici capătă segmentul tradus și
+ * prefixul de limbă, exact ca în `construiesteMeta`.
+ */
 export function schemaBreadcrumb(
   cai: { nume: string; cale: string }[],
   baseUrl: string,
+  limba: Limba = LIMBA_IMPLICITA,
 ): Jsonld | null {
   if (cai.length < 2) return null
   return {
@@ -275,7 +285,7 @@ export function schemaBreadcrumb(
       '@type': 'ListItem',
       position: i + 1,
       name: c.nume,
-      item: url(baseUrl, c.cale),
+      item: url(baseUrl, caleaPublica(limba, traduSegment(c.cale, limba))),
     })),
   }
 }

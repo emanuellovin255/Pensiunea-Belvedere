@@ -8,13 +8,19 @@ import { caleaPublica, ETICHETE, LIMBA_IMPLICITA, LIMBI, type Limba } from './li
  * `hreflang`-ul în ambele direcții.
  *
  * Segmentele de nivel înalt (camere↔rooms) se traduc aici, o dată.
- * Slug-urile de cameră/ofertă se mapează în `en/` prin numele
- * fișierului, la nivel de client (T08); dacă nu există o mapare, se
- * păstrează slug-ul românesc, ca ruta să existe totuși.
+ * Slug-urile de cameră/ofertă se mapează în `lib/i18n/perechi.ts`, după
+ * poziția din fișier — nu aici, fiindcă asta ar cere citirea datelor, iar
+ * fișierul ăsta e importat de `middleware.ts`, care rulează pe edge și nu
+ * poate atinge `node:fs`.
+ *
+ * CHEIA E ȘI NUMELE FOLDERULUI din `app/[limba]/`. Nu e o coincidență:
+ * `traduSegmentIntern` se bazează pe asta ca să traducă înapoi adresa
+ * publică engleză în ruta reală.
  */
 const SEGMENTE: Record<string, Partial<Record<Limba, string>>> = {
   camere: { ro: 'camere', en: 'rooms' },
   oferte: { ro: 'oferte', en: 'offers' },
+  meniu: { ro: 'meniu', en: 'menu' },
   contact: { ro: 'contact', en: 'contact' },
   facilitati: { ro: 'facilitati', en: 'facilities' },
   restaurant: { ro: 'restaurant', en: 'restaurant' },
@@ -33,20 +39,48 @@ export function traduSegment(cale: string, limba: Limba): string {
 }
 
 /**
+ * Inversul lui `traduSegment`: din adresa PUBLICĂ în ruta REALĂ.
+ *
+ * `app/[limba]/` are un singur folder per pagină, numit românește
+ * (`camere/`), dar adresa engleză e `/en/rooms`. Fără pasul ăsta,
+ * comutatorul de limbă ar trimite pe o rută care nu există — 404 pe toată
+ * engleza. Se aplică în `middleware.ts`, printr-un rewrite: bara de
+ * adrese păstrează `/en/rooms`, Next primește `/en/camere`.
+ */
+export function traduSegmentIntern(cale: string, limba: Limba): string {
+  const parti = cale.replace(/^\//, '').split('/')
+  if (!parti[0]) return cale
+  // Cheia din SEGMENTE E numele folderului; căutăm ce cheie are, în limba
+  // asta, exact segmentul primit.
+  for (const [folder, traduceri] of Object.entries(SEGMENTE)) {
+    if (traduceri[limba] === parti[0]) {
+      parti[0] = folder
+      return `/${parti.join('/')}`
+    }
+  }
+  return cale
+}
+
+/**
  * Construiește `SiteData.locales` pentru comutator: fiecare limbă cu
  * eticheta ei și cu URL-ul PAGINII ECHIVALENTE, nu al primei pagini
  * (T08). `limbiActive` sunt limbile în care pagina chiar există.
+ *
+ * `caiPerLimba` acoperă paginile `[slug]`, unde slug-ul însuși diferă
+ * între limbi și nu se poate traduce dintr-o hartă de segmente: pagina
+ * îl calculează cu `caiPereche()` și îl pasează aici.
  */
 export function construiesteLocales(
   limbaCurenta: Limba,
   caleInterna: string,
   limbiActive: Limba[],
+  caiPerLimba?: Partial<Record<Limba, string>>,
 ): SiteData['locales'] {
   const active = limbiActive.length ? limbiActive : [LIMBA_IMPLICITA]
   return active.map((l) => ({
     code: l,
     label: ETICHETE[l],
-    href: caleaPublica(l, traduSegment(caleInterna, l)),
+    href: caleaPublica(l, traduSegment(caiPerLimba?.[l] ?? caleInterna, l)),
     current: l === limbaCurenta,
   }))
 }

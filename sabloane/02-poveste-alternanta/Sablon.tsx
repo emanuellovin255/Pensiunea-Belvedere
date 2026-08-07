@@ -83,8 +83,8 @@ function HeroPoveste({ date }: { date: SiteData }) {
   )
 }
 
-export function SablonPovesteAlternanta({ date, setari, meniu }: PropsSablon) {
-  const ctx = { date, meniu, meniuPdf: setari.meniuPdf }
+export function SablonPovesteAlternanta({ date, setari, meniu, meniuSectiune, limba }: PropsSablon) {
+  const ctx = { date, meniu, meniuSectiune, limba, meniuPdf: setari.meniuPdf }
   const areInchidere = setari.sectiuni.includes('closing')
 
   return (

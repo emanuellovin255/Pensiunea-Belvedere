@@ -19,9 +19,11 @@ import '../../sabloane/01-hero-video/skin.css'
 import '../../sabloane/02-poveste-alternanta/skin.css'
 import '../../sabloane/03-galerie-rezervare/skin.css'
 
+import { AlegeLimba } from '@/components/AlegeLimba'
 import { Analytics } from '@/components/Analytics'
 import { BannerCookies } from '@/components/BannerCookies'
-import { esteLimba, LIMBI } from '@/lib/i18n/limbi'
+import { esteLimba, LIMBI, type Limba } from '@/lib/i18n/limbi'
+import { siteCurent } from '@/lib/site'
 
 /**
  * Layout-ul rădăcină al motorului. Nu există în `hotel-forge` — e cod
@@ -85,6 +87,7 @@ export default async function LayoutRadacina({
 }) {
   const { limba } = await params
   if (!esteLimba(limba)) notFound()
+  const { setari } = siteCurent(limba as Limba)
 
   return (
     <html lang={limba}>
@@ -116,7 +119,14 @@ export default async function LayoutRadacina({
           nu pornește nimic înainte de accept. Ambele sunt pe fiecare pagină,
           din layout, ca alegerea și măsurătoarea să fie consecvente peste tot.
         */}
-        <BannerCookies limba={limba as 'ro' | 'en'} />
+        {/*
+          Întrebarea de limbă, la prima vizită (T08). Apare doar dacă
+          engleza chiar există — pe un site monolingv n-ar fi o alegere,
+          ci un obstacol. Se randează exclusiv după montare, deci nu
+          ajunge niciodată în HTML-ul pe care îl vede un crawler.
+        */}
+        {setari.module.engleza && <AlegeLimba limba={limba as Limba} />}
+        <BannerCookies limba={limba as 'ro' | 'en'} asteaptaLimba={setari.module.engleza} />
         <Analytics />
       </body>
     </html>

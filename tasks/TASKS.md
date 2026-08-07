@@ -39,9 +39,11 @@ aici e regula 3: **ce nu e confirmat rămâne necompletat.**
 | T62 | [Media: clipuri re-encodate + fotografii](tasks/T62-belvedere-media.md) | ✅ | T60 |
 | T63 | [Conținutul: `date/` și `en/`](tasks/T63-belvedere-continut.md) | ✅ | T60, T61, T62 |
 | T64 | [Verificare, migrare SEO, lansare](tasks/T64-belvedere-verificare-lansare.md) | 🟨 | T63 |
-| T65 | [Meniu: restul preparatelor din PDF](tasks/T65-meniu-restul-preparatelor.md) | ⬜ | T63 |
+| T65 | [Meniu: restul preparatelor din PDF](tasks/T65-meniu-restul-preparatelor.md) | ✅ | T63 |
 | T66 | [Date lipsă de la client: prețuri, GPS, recenzii](tasks/T66-date-lipsa-client.md) | ⬜ | — |
 | T67 | [Programul detaliat al celor 6 excursii](tasks/T67-program-excursii.md) | ⬜ | — |
+| T68 | [Conflicte între PDF-ul RO și cel EN al meniului](tasks/T68-conflicte-meniu.md) | ⬜ | T65 |
+| T69 | [Site bilingv RO/EN, pornit](tasks/T69-site-bilingv.md) | ✅ | T63, T65 |
 
 T60 și T61 sunt corecții de motor, nu muncă de client — profită orice client viitor. Pot merge
 în paralel.
@@ -59,6 +61,21 @@ camere doar clipul — galeria foto a ieșit din pagină. Tot atunci a decis **f
 din `06-oferte.md`**, pachete incluse: apare „Cere ofertă". Camerele își păstrează cei 300 lei
 placeholder, deci T66 rămâne blocant. Rutele au scăzut de la 24 la 22. Programul detaliat al
 excursiilor a venit pe jumătate — restul, în T67.
+
+**Meniul complet și engleza, 7 august 2026 (T65, T69).** Clientul a cerut meniul întreg pe o
+pagină proprie, nu în PDF, și site-ul complet în engleză, cu întrebarea „Română / English" la
+prima vizită. S-au publicat **100 de preparate în 15 categorii** pe `/meniu` și `/en/menu`, s-a
+pornit `Engleză: da`, iar folderul `en/` are traducerea tuturor fișierelor traductibile. Engleza
+n-a fost niciodată exercitată până acum și avea trei defecte de motor — `/en/rooms` dădea 404,
+`hreflang` arăta către slug-uri românești, iar slug-urile de cameră n-aveau pereche între limbi.
+Toate trei sunt reparate; detaliile și convenția care trebuie ținută minte (ordinea blocurilor
+din `en/` = ordinea din `date/`) sunt în T69. Prețurile meniului englez sunt cele românești, prin
+decizia clientului — conflictele dintre cele două PDF-uri sunt în T68.
+
+⚠️ **`~/Desktop/Structura Resorturi/` nu mai există.** Regula de mai sus („corecțiile de motor se
+fac upstream") n-are unde să se mai aplice, iar `npm run actualizeaza-motor` n-are sursă. Deci
+corecțiile de motor din T69 rămân **aici** și nu le mai suprascrie nimic. Dacă folderul motor
+reapare, T69 trebuie portat acolo, altfel se pierde la prima actualizare.
 
 ---
 
@@ -105,7 +122,8 @@ T63 sunt cele de atunci — între timp facilitățile au ajuns 9, iar traseele 
 2. **Fotografiile sunt sub standard** — maximum 1200 px, majoritatea 828×621, derivate din
    Facebook. Standardul cere ≥1600 px. O ședință foto e primul upgrade care merită plătit.
 3. **Meniul are tot ce trebuie** — PDF-ul din `Meniu/` dă pentru fiecare preparat preț, gramaj,
-   ingrediente și valori nutriționale. Am publicat 10 ca mostră; restul, în T65.
+   ingrediente și valori nutriționale. Publicat integral: 100 de preparate, 15 categorii (T65).
+   Cele două PDF-uri se contrazic în șapte locuri — româna e sursa de adevăr, conflictele în T68.
 4. **Prețul de 300 lei/noapte e placeholder** la toate cele 6 camere, păstrat la cererea ta.
    Blocant de publicare — vezi T66.
 5. **Coordonatele GPS lipsesc** de pe site și de pe Facebook. Harta nu se randează până le avem.
@@ -117,7 +135,8 @@ T63 sunt cele de atunci — între timp facilitățile au ajuns 9, iar traseele 
 1. Prețurile reale ale celor 6 camere
 2. Linkul de Google Maps, pentru coordonate
 3. Nota medie Google și numărul total de recenzii
-4. Restul de ~80 de preparate din meniu, după ce aprobi mostra de 10
+4. ~~Restul de ~80 de preparate din meniu~~ — făcut, T65. Rămâne confirmarea celor șapte
+   neconcordanțe dintre PDF-ul român și cel englez (T68)
 
 ---
 

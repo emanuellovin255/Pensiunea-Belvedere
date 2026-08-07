@@ -28,13 +28,28 @@ import { LIMBA_IMPLICITA, LIMBI, type Limba } from './limbi'
 
 const CHEIE = 'sr-limba'
 
+/**
+ * Se emite când vizitatorul a ales o limbă — din dialogul de primă vizită
+ * sau din comutatorul din antet. Bannerul de cookies îl ascultă, ca să nu
+ * se suprapună două dialoguri la prima încărcare.
+ */
+export const EVENIMENT_LIMBA_ALEASA = 'sr:limba-aleasa'
+
 /** Reține alegerea. Se apelează când omul apasă pe comutator. */
 export function retineLimba(limba: Limba): void {
   try {
-    if (limba === LIMBA_IMPLICITA) localStorage.removeItem(CHEIE)
-    else localStorage.setItem(CHEIE, limba)
+    // Se scrie ȘI pentru română, deși e limba implicită. Cheia nu ține
+    // „ce limbă", ci „a ales deja" — ștearsă la alegerea românei,
+    // dialogul de primă vizită ar reapărea la fiecare pagină exact pentru
+    // vizitatorii români, adică pentru majoritatea.
+    localStorage.setItem(CHEIE, limba)
   } catch {
     // Mod privat / cookies blocate: nu reținem, dar nici nu crăpăm.
+  }
+  try {
+    window.dispatchEvent(new Event(EVENIMENT_LIMBA_ALEASA))
+  } catch {
+    // Fără `window` n-are cine asculta oricum.
   }
 }
 
@@ -46,4 +61,9 @@ export function limbaRetinuta(): Limba | null {
   } catch {
     return null
   }
+}
+
+/** Limba de pornire a comutatorului, când nu s-a ales nimic. */
+export function limbaSauImplicita(): Limba {
+  return limbaRetinuta() ?? LIMBA_IMPLICITA
 }
