@@ -50,7 +50,7 @@ export function Antet({ date, subiect }: { date: SiteData; subiect?: string }) {
           </Link>
 
           {nav.length > 0 && (
-            <nav aria-label="Navigație principală">
+            <nav id="meniu-principal" aria-label="Navigație principală">
               <ul className="nav-links">
                 {nav.map((item) => (
                   <li key={item.href}>
@@ -64,11 +64,23 @@ export function Antet({ date, subiect }: { date: SiteData; subiect?: string }) {
           <div className="nav-cta">
             {locales.length > 1 && <ComutatorLimba locales={locales} />}
             <BtnRezervare date={date} subiect={subiect} />
-            <button className="burger" type="button" aria-label="Meniu" aria-expanded="false">
-              <span />
-              <span />
-              <span />
-            </button>
+            {/* `data-burger` e contractul cu lib/meniu-mobil.ts, care îi pune
+                handlerul. Butonul apare doar sub 1024px, unde `.nav-links` e
+                ascunsă; peste, navigația e oricum vizibilă. */}
+            {nav.length > 0 && (
+              <button
+                className="burger"
+                type="button"
+                aria-label="Meniu"
+                aria-expanded="false"
+                aria-controls="meniu-principal"
+                data-burger
+              >
+                <span />
+                <span />
+                <span />
+              </button>
+            )}
           </div>
         </div>
       </header>

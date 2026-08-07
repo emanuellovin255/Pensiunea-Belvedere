@@ -291,6 +291,12 @@ section[id], footer[id] { scroll-margin-top: calc(var(--header-h) + var(--sp-6))
 
 .burger { display: none; flex-direction: column; gap: 5px; padding: var(--sp-2); }
 .burger span { width: 22px; height: 1.5px; background: var(--ink); }
+/* Cele trei linii devin un X cât panoul e deschis: butonul spune și ce
+   face acum, nu doar ce făcea. `transform`, deci pe compositor. */
+.burger span { transition: transform var(--tr-base), opacity var(--tr-fast); }
+.site-header.is-menu-open .burger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.site-header.is-menu-open .burger span:nth-child(2) { opacity: 0; }
+.site-header.is-menu-open .burger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* ------------------------------------------------------------------------ hero */
 
@@ -826,7 +832,6 @@ details.faq-item[open] > .faq-a,
   font-weight: var(--fw-medium);
   color: var(--brand);
 }
-
 /* ---------------------------------------------------------------- form + cookies */
 
 .field { display: grid; gap: 6px; margin-bottom: var(--sp-4); }
@@ -1061,6 +1066,32 @@ body[data-audit='true'] [data-finding] {
   .f-grid { grid-template-columns: 1fr 1fr; gap: 34px; }
   .nav-links { display: none; }
   .burger { display: flex; }
+
+  /* Panoul de meniu (lib/meniu-mobil.ts pune `.is-menu-open`). Sub 1024px
+     `.nav-links` e ascunsă; butonul o coboară ca listă sub antet. Poziționat
+     față de antet, care e deja `position: sticky` — deci panoul călătorește
+     cu el și nu împinge conținutul paginii. */
+  .site-header.is-menu-open .nav-links {
+    display: grid;
+    gap: 0;
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    padding: var(--sp-2) var(--sp-5) var(--sp-4);
+    background: var(--glass-scrolled);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    box-shadow: var(--sh-header);
+  }
+  .site-header.is-menu-open .nav-links li + li { border-top: 1px solid var(--line); }
+  .site-header.is-menu-open .nav-links a {
+    display: block;
+    padding: var(--sp-4) 0;
+    font-size: var(--fs-base);
+  }
+  /* Sublinierea care crește la hover e pentru bara orizontală; într-o listă
+     verticală ar fi trasat o linie peste separator. */
+  .site-header.is-menu-open .nav-links a::after { display: none; }
   .booking { grid-template-columns: 1fr 1fr; }
   .booking .btn { grid-column: 1 / -1; width: 100%; }
   .bk-field { border-inline-end: 0; border-bottom: 1px solid var(--line); padding-bottom: 10px; }

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
 
+import { Miscare } from '@/components/Miscare'
 import { Antet, Subsol } from '@/components/sectiuni'
 import { esteLimba, type Limba } from '@/lib/i18n/limbi'
 import { siteCurent } from '@/lib/site'
@@ -34,6 +35,8 @@ export default async function LayoutLegal({
         </div>
       </main>
       <Subsol date={date} />
+      {/* Fără el, burger-ul din antet ar rămâne mort pe paginile legale. */}
+      <Miscare />
     </>
   )
 }

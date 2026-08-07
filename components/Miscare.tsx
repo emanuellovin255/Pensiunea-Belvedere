@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 
 import { initDepthTilt } from '@/lib/depth'
+import { initMeniuMobil } from '@/lib/meniu-mobil'
 import { initHeaderScroll } from '@/lib/reveal'
 
 /**
@@ -27,9 +28,11 @@ export function Miscare() {
   useEffect(() => {
     const opresteTilt = initDepthTilt()
     const opresteAntet = initHeaderScroll()
+    const opresteMeniu = initMeniuMobil()
     return () => {
       opresteTilt()
       opresteAntet()
+      opresteMeniu()
     }
   }, [])
 
