@@ -28,15 +28,15 @@ Text: Trei tobogane, trambulină, două leagăne pentru copii și unul pentru be
 Icon: dining
 Text: Preparatele se gătesc pe loc și la comandă, așa că timpul de așteptare poate fi de 30–35 de minute. Specialitățile casei sunt storceagul de somn și friptura de pește. Pentru cei care nu mănâncă pește, meniul se schimbă la cerere prealabilă.
 
-## Ponton de pescuit
+## Pontoane de pescuit și bărcuțe
 
 Icon: pescuit
-Text: Ponton propriu în fața pensiunii, pe Lacul Murighiol. De aici se pleacă și în excursiile cu barca, cu transfer asigurat de noi până la ambarcațiune.
+Text: Două pontoane proprii în fața pensiunii, pe Lacul Murighiol, și bărcuțe la rame oferite gratuit oaspeților cazați. De aici se pleacă și în excursiile cu barca, cu transfer asigurat de noi până la ambarcațiune.
 
 ## Terasă
 
 Icon: terrace
-Text: Terasă acoperită, cu mese și vedere spre lac. Se servește masa aici când vremea permite.
+Text: Terasă acoperită, cu vedere spre lac, mobilată în lemn masiv, cu decor specific Deltei.
 
 ## Acces în cameră cu cardul
 
@@ -58,7 +58,8 @@ Text: Internet wireless în toată pensiunea și televizor LCD în fiecare camer
 Icon: bed
 Text: Seif, uscător de păr, prosoape curate, papuci, produse de îngrijire personală, aer condiționat, senzori de fum și mobilier pe balcon la camerele cu balcon.
 
-## Transfer la ponton
-
-Icon: transfer-aeroport
-Text: Ducem oaspeții de la pensiune până la ponton pentru excursiile în Deltă, ca să nu fie nevoie de mașină pentru ultimul kilometru.
+<!--
+  Era aici și un card „Transfer la ponton". Scos la cererea clientului: spunea același lucru ca
+  ultima frază a cardului de pontoane. Serviciul rămâne — e menționat în hero, în feature-ul
+  despre Deltă și în întrebările frecvente.
+-->

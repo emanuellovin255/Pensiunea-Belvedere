@@ -79,7 +79,9 @@ export default async function Oferta({
       <Antet date={date} subiect={of.title} />
       <PaginaOferta oferta={of} date={date} />
       <Subsol date={date} />
-      <BaraLipita date={date} subiect={of.title} />
+      {/* Fără prețul camerelor: sub o excursie, „de la 300 lei" s-ar citi
+          drept prețul excursiei. Rămâne telefonul. */}
+      <BaraLipita date={date} subiect={of.title} faraPret />
     </>
   )
 }

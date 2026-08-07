@@ -15,11 +15,25 @@ import type { SiteData } from '@/content/types'
  *
  * Prețul minim se calculează din camere, nu se scrie — și nu apare
  * deloc dacă nicio cameră n-are preț confirmat (REGULI.md 3).
+ *
+ * `faraPret` îl ascunde și acolo unde există: pe paginile de oferte,
+ * „de la 300 lei" e prețul unei camere, dar citit sub o excursie trece
+ * drept prețul excursiei. În locul lui rămâne telefonul.
  */
-export function BaraLipita({ date, subiect }: { date: SiteData; subiect?: string }) {
+export function BaraLipita({
+  date,
+  subiect,
+  faraPret = false,
+}: {
+  date: SiteData
+  subiect?: string
+  faraPret?: boolean
+}) {
   const { contact, rooms, booking, meta } = date
 
-  const preturi = rooms.items.map((c) => c.priceFrom).filter((p): p is number => typeof p === 'number')
+  const preturi = faraPret
+    ? []
+    : rooms.items.map((c) => c.priceFrom).filter((p): p is number => typeof p === 'number')
   const minim = preturi.length ? Math.min(...preturi) : undefined
 
   // Fără telefon și fără preț de arătat, bara n-are ce oferi.
@@ -29,9 +43,13 @@ export function BaraLipita({ date, subiect }: { date: SiteData; subiect?: string
     <div className="mobile-bar" role="region" aria-label="Acțiuni rapide">
       {contact.phone ? (
         <a href={contact.phoneHref}>
-          <small>{booking.labels.from}</small>
+          {/* „de la" e eticheta prețului. Fără preț, dedesubt stă numărul
+              de telefon, iar „de la 0754…" n-ar însemna nimic. */}
           {minim !== undefined ? (
-            <b className="tabular">{pret(minim, meta.currencySymbol)}</b>
+            <>
+              <small>{booking.labels.from}</small>
+              <b className="tabular">{pret(minim, meta.currencySymbol)}</b>
+            </>
           ) : (
             <b>{contact.phone}</b>
           )}

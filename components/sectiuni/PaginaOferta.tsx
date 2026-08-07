@@ -11,8 +11,12 @@ import type { Offer, SiteData } from '@/content/types'
  * `priority`, iar prețul se afișează doar dacă există (REGULI.md 3).
  *
  * Reia structura din `PaginaCamera` fără să forțeze o abstracție peste
- * două cazuri (T61): o cameră are facilități și galerie, o ofertă are un
- * program descriptiv — destul de diferite ca să rămână separate.
+ * două cazuri (T61): o cameră are facilități, o ofertă are un program
+ * descriptiv — destul de diferite ca să rămână separate.
+ *
+ * Fără preț, butonul spune `labels.quote` („Cere ofertă"): un traseu de
+ * excursie se cotează în funcție de vreme și de numărul de persoane,
+ * deci nu se „verifică disponibilitatea" pentru el.
  */
 export function PaginaOferta({ oferta, date }: { oferta: Offer; date: SiteData }) {
 
@@ -57,7 +61,11 @@ export function PaginaOferta({ oferta, date }: { oferta: Offer; date: SiteData }
               {oferta.priceWas && <span className="was tabular">{oferta.priceWas}</span>}
             </div>
           )}
-          <BtnRezervare date={date} subiect={oferta.title} />
+          <BtnRezervare
+            date={date}
+            subiect={oferta.title}
+            eticheta={oferta.price ? undefined : date.booking.labels.quote}
+          />
         </div>
       </article>
     </main>

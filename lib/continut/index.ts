@@ -900,6 +900,12 @@ export function incarcaClient(nume: string, limba = 'ro'): ContinutClient {
         submit: camp(bEtichete, 'text buton') ?? 'Verifică disponibilitatea',
         from: 'de la',
         perNight: 'pe noapte',
+        // Ce n-are tarif fix se cotează, nu se rezervă. Fără eticheta din
+        // fișier cade pe CTA-ul obișnuit, nu pe un text inventat (REGULI.md 3).
+        quote:
+          camp(bEtichete, 'buton oferta') ??
+          camp(bEtichete, 'text buton') ??
+          'Verifică disponibilitatea',
       },
       guestOptions: lista(bEtichete?.campuri.get('optiuni persoane')),
       // Vocabularul din fișier (link/widget/formular) → modul intern.

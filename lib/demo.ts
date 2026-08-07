@@ -269,6 +269,7 @@ export const DEMO: SiteData = {
       submit: 'Verifică disponibilitatea',
       from: 'de la',
       perNight: 'noapte',
+      quote: 'Cere ofertă',
     },
     guestOptions: ['1 persoană', '2 persoane', '3 persoane', '4 persoane'],
     mod: 'formular',

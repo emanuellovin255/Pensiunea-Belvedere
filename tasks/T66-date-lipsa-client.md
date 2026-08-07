@@ -65,6 +65,18 @@ Anul din interval e greșeală de tipar la ei — Paștele ortodox din 2026 cade
 ce include. Nu l-am publicat — o ofertă fără an și fără conținut nu se poate publica. Cere
 detaliile și devine al treilea pachet în `date/06-oferte.md`.
 
-**Prețurile excursiilor.** Cele 8 trasee n-au tarif publicat nicăieri. Cardurile arată acum doar
-titlu, poză și descriere, iar butonul duce la formular. Când primești tarifele, se adaugă
-`Preț:` și `Unitate:` la fiecare bloc și apar automat, inclusiv în schema Offer.
+---
+
+## Prețurile din `06-oferte.md` — rezolvat, nu mai e de cerut
+
+Pe 7 august 2026 clientul a decis: **niciun preț pe cardurile din `date/06-oferte.md`**, nici la
+excursii, nici la cele două pachete, pentru că tariful variază cu sezonul, cu vremea și cu numărul
+de persoane. Cardurile arată „Cere ofertă" (eticheta `Buton ofertă:` din
+`date/10-rezervari-si-plati.md`), iar butonul duce la WhatsApp.
+
+Ce a dispărut din câmpul `Preț:`, dar a rămas în textul pachetelor: grila pe luni a pachetului
+promoțional (mai 1.500 → august 1.800 lei) și cei 1.400 lei ai pachetului de Paște. Sumele citite
+în corpul unui program sunt informație, nu ofertă fermă în schema.org.
+
+**Rămâne blocant doar prețul camerelor** (punctul 1 de mai sus). Tarifele excursiilor, când vin,
+intră în programul din T67 — tot ca text, nu ca `Preț:`.

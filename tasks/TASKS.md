@@ -41,6 +41,7 @@ aici e regula 3: **ce nu e confirmat rămâne necompletat.**
 | T64 | [Verificare, migrare SEO, lansare](tasks/T64-belvedere-verificare-lansare.md) | 🟨 | T63 |
 | T65 | [Meniu: restul preparatelor din PDF](tasks/T65-meniu-restul-preparatelor.md) | ⬜ | T63 |
 | T66 | [Date lipsă de la client: prețuri, GPS, recenzii](tasks/T66-date-lipsa-client.md) | ⬜ | — |
+| T67 | [Programul detaliat al celor 6 excursii](tasks/T67-program-excursii.md) | ⬜ | — |
 
 T60 și T61 sunt corecții de motor, nu muncă de client — profită orice client viitor. Pot merge
 în paralel.
@@ -50,6 +51,14 @@ T60 și T61 sunt corecții de motor, nu muncă de client — profită orice clie
 pe jumătate: partea măsurabilă abia după deploy (Lighthouse, Rich Results, tab de rețea gol
 înainte de accept-cookies). T65 și T66 sunt muncă nouă, deschisă de ce am găsit în PDF și pe
 site-ul lor.
+
+**Corecțiile clientului, 7 august 2026.** A trecut prin site și a cerut: șase trasee în loc de
+opt (au ieșit Plaja Perișor și Gura Portiței), două pontoane și bărcuțe la rame gratuite în locul
+cardului de ponton, mobilier din lemn masiv la terasă, cardul „Transfer la ponton" scos, iar la
+camere doar clipul — galeria foto a ieșit din pagină. Tot atunci a decis **fără preț pe cardurile
+din `06-oferte.md`**, pachete incluse: apare „Cere ofertă". Camerele își păstrează cei 300 lei
+placeholder, deci T66 rămâne blocant. Rutele au scăzut de la 24 la 22. Programul detaliat al
+excursiilor a venit pe jumătate — restul, în T67.
 
 ---
 
@@ -83,8 +92,9 @@ facebook.com/murighiol2
 **Rezervări:** niciun motor de rezervări. Telefon, email, transfer bancar, vouchere de vacanță.
 → `Tip: formular`, `Plăți online: nu`, fără bază de date
 
-**Ce are site-ul actual și noi recuperăm ca text:** cele 10 facilități și cele 7 trasee de
-excursie sunt azi imagini JPG, deci invizibile pentru Google. Le-am extras integral.
+**Ce are site-ul actual și noi recuperăm ca text:** facilitățile și traseele de excursie sunt azi
+imagini JPG, deci invizibile pentru Google. Le-am extras integral. (Numerele din taskurile T61 și
+T63 sunt cele de atunci — între timp facilitățile au ajuns 9, iar traseele 6.)
 
 ---
 

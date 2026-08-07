@@ -28,4 +28,4 @@ Logo: logo-belvedere.png
 -->
 
 ## Descriere scurtă
-Descriere: Pensiune pe malul Lacului Murighiol, în zona protejată a Deltei Dunării, la aproximativ 4 ore de mașină din București. Restaurant pescăresc propriu, piscină cu apă încălzită și excursii cu barca pe opt trasee din Deltă.
+Descriere: Pensiune pe malul Lacului Murighiol, în zona protejată a Deltei Dunării, la aproximativ 4 ore de mașină din București. Restaurant pescăresc propriu, piscină cu apă încălzită și excursii cu barca pe șase trasee din Deltă.

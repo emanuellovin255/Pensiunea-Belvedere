@@ -1,6 +1,5 @@
 import { AmenitatiChips } from './AmenitatiChips'
 import { BtnRezervare } from './BtnRezervare'
-import { Galerie } from './Galerie'
 import { VideoVertical } from './VideoVertical'
 import { pret } from '@/lib/format'
 import { Icon } from '@/components/Icon'
@@ -9,18 +8,18 @@ import type { Room, SiteData } from '@/content/types'
 /**
  * Pagina individuală a unei camere, generată per cameră (T07).
  *
- * Server Component pentru conținut; galeria e singura bucată client.
+ * Server Component pentru conținut; clipul e singura bucată client.
  * Aici aterizează căutările „apartament cu terasă zona X", de asta
  * conținutul — nume, preț, facilități — e livrat în HTML, nu din JS
  * (REGULI.md 12): un crawler care nu execută JavaScript trebuie să
  * vadă prețul.
  *
- * Prima poză e candidatul la LCP al paginii, deci primește `priority`
- * prin galerie; nu inventăm un preț dacă nu există (REGULI.md 3).
+ * Pagina n-are galerie foto: clientul a cerut ca aici camera să se vadă
+ * doar în clip. Fotografia rămâne pe cardul din listă și în JSON-LD.
+ * Nu inventăm un preț dacă nu există (REGULI.md 3).
  */
 export function PaginaCamera({ camera, date }: { camera: Room; date: SiteData }) {
   const { meta, booking } = date
-  const imagini = camera.images?.length ? camera.images : camera.image ? [camera.image] : []
 
   return (
     <main id="continut">
@@ -45,8 +44,6 @@ export function PaginaCamera({ camera, date }: { camera: Room; date: SiteData })
             )}
           </div>
         </header>
-
-        {imagini.length > 0 && <Galerie imagini={imagini} titluri={imagini.map(() => camera.name)} />}
 
         {camera.description && (
           <p className="lede" style={{ marginTop: 'var(--sp-8)' }}>

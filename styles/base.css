@@ -832,6 +832,14 @@ details.faq-item[open] > .faq-a,
   font-weight: var(--fw-medium);
   color: var(--brand);
 }
+/* Fără preț de arătat, în bară stă numărul de telefon. E mai lung decât
+   „300 lei", deci la --fs-xl s-ar rupe pe două rânduri. `.tabular` e pus
+   doar pe preț, deci separă exact cele două cazuri. */
+.mobile-bar b:not(.tabular) {
+  font-size: var(--fs-lg);
+  white-space: nowrap;
+}
+
 /* ---------------------------------------------------------------- form + cookies */
 
 .field { display: grid; gap: 6px; margin-bottom: var(--sp-4); }

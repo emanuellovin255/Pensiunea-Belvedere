@@ -50,7 +50,9 @@ export default async function ListaOferte({ params }: { params: Promise<{ limba:
         <Oferte date={date} />
       </main>
       <Subsol date={date} />
-      <BaraLipita date={date} />
+      {/* Vezi comentariul din oferte/[slug]: prețul camerelor n-are ce căuta
+          sub o listă de excursii fără preț. */}
+      <BaraLipita date={date} faraPret />
     </>
   )
 }

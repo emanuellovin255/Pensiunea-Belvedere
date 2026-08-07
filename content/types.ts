@@ -285,6 +285,13 @@ export interface SiteData {
       submit: string
       from: string
       perNight: string
+      /**
+       * CTA-ul pentru ce se cotează, nu se rezervă: excursii și pachete
+       * al căror tarif variază cu vremea, sezonul și numărul de persoane.
+       * Ia locul prețului pe cardul și pe pagina unei oferte fără `price`.
+       * Cade pe `submit` dacă nu e completat în `date/10-rezervari-si-plati.md`.
+       */
+      quote: string
     }
     guestOptions: string[]
     /**

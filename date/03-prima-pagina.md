@@ -8,7 +8,7 @@ Textele din prima pagină, în ordinea în care apar.
 
 Titlu: Camere cu vedere la Lacul Murighiol, piscină încălzită și pește gătit pe loc
 
-Subtitlu: Pensiune în zona protejată a Deltei Dunării, la aproximativ patru ore cu mașina din București. Restaurant pescăresc propriu și opt trasee de excursie cu barca, cu transfer până la ponton.
+Subtitlu: Pensiune în zona protejată a Deltei Dunării, la aproximativ patru ore cu mașina din București. Restaurant pescăresc propriu și șase trasee de excursie cu barca, cu transfer până la ponton.
 
 Poza: exterior-pensiune-piscina.webp
 
@@ -24,7 +24,7 @@ Buton secundar: Vezi camerele
 ## Bandă de încredere
 
 Elemente:
-8 trasee — de excursie cu barca în Deltă
+6 trasee — de excursie cu barca în Deltă
 6 tipuri — de camere și suite
 4 ore — cu mașina din București
 Piscină — cu apă încălzită, pentru adulți și copii
@@ -73,8 +73,8 @@ Buton: Vezi meniul | #meniu
 
 Eticheta: Împrejurimile
 Poza: plimbare-cu-barca-in-delta.webp
-Text: Din portul Murighiol pleacă opt trasee cu ambarcațiuni mari și acoperite: de la o tură scurtă de 2,5 ore pe șase lacuri până la o zi întreagă spre Sulina, Sfântu Gheorghe sau Pădurea Letea. Transferul de la pensiune până la ponton îl facem noi.
-Buline: Opt trasee, de la 2,5 ore până la o zi întreagă
+Text: Din portul Murighiol pleacă șase trasee cu ambarcațiuni mari și acoperite: de la o tură scurtă de 2,5 ore pe șapte lacuri până la o zi întreagă spre Sulina, Sfântu Gheorghe sau Pădurea Letea. Transferul de la pensiune până la ponton îl facem noi.
+Buline: Șase trasee, de la 2,5 ore până la o zi întreagă
         Ambarcațiuni mari și acoperite, cu ghid
         Transfer de la pensiune la ponton
 Buton: Vezi excursiile | /oferte
@@ -83,8 +83,8 @@ Buton: Vezi excursiile | /oferte
 
 Eticheta: Locul
 Poza: pensiunea-vazuta-din-delta.webp
-Text: Clădirea stă chiar pe malul Lacului Murighiol, într-o zonă protejată a Deltei Dunării, cu pontonul propriu în față. Accesul în cameră se face cu cardul, iar mașina rămâne în curtea pensiunii.
-Buline: Ponton de pescuit propriu, în fața pensiunii
+Text: Clădirea stă chiar pe malul Lacului Murighiol, într-o zonă protejată a Deltei Dunării, cu pontoanele proprii în față. Accesul în cameră se face cu cardul, iar mașina rămâne în curtea pensiunii.
+Buline: Două pontoane de pescuit proprii, în fața pensiunii
         Acces în cameră cu cardul și supraveghere video
         Parcare în curte și stație de încărcare pentru mașini electrice
 Buton: Verifică disponibilitatea

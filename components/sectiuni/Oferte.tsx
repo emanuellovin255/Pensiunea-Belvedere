@@ -13,6 +13,12 @@ import type { Offer, SiteData } from '@/content/types'
  * tăiat se afișează doar dacă există unul real — nu inventăm o reducere
  * (REGULI.md 3).
  *
+ * Piciorul cardului se randează și fără preț: o excursie al cărei tarif
+ * variază cu vremea și cu numărul de persoane rămâne fără sumă, dar
+ * trebuie să-și păstreze CTA-ul — altfel cardul n-are nicio cale de
+ * intrare în afară de titlu. Locul prețului îl ia `labels.quote`,
+ * același tipar ca la `CardCamera`.
+ *
  * Pe mobil, secțiunea devine caruselul 3D din depth.css (clasa
  * `.oferte` / `.oferta`). Nu se randează fără oferte.
  */
@@ -26,7 +32,7 @@ export function Oferte({ date }: { date: SiteData }) {
         <AntetSectiune eyebrow={offers.section.eyebrow} title={offers.section.title} lede={offers.section.lede} />
         <div className="grid g3">
           {offers.items.map((o) => (
-            <CardOferta key={o.slug} oferta={o} />
+            <CardOferta key={o.slug} oferta={o} labels={date.booking.labels} />
           ))}
         </div>
       </div>
@@ -34,7 +40,13 @@ export function Oferte({ date }: { date: SiteData }) {
   )
 }
 
-function CardOferta({ oferta }: { oferta: Offer }) {
+function CardOferta({
+  oferta,
+  labels,
+}: {
+  oferta: Offer
+  labels: SiteData['booking']['labels']
+}) {
   const url = oferta.href ?? `/oferte/${oferta.slug}`
   return (
     <article className="card oferta">
@@ -56,20 +68,24 @@ function CardOferta({ oferta }: { oferta: Offer }) {
           <Link href={url}>{oferta.title}</Link>
         </h3>
         {oferta.text && <p className="lede">{oferta.text}</p>}
-        {oferta.price && (
-          <div className="card-foot">
-            <div className="price">
-              <b className="tabular">
-                {oferta.price}
-                {oferta.priceUnit && <em> {oferta.priceUnit}</em>}
-              </b>
-              {oferta.priceWas && <span className="was tabular">{oferta.priceWas}</span>}
-            </div>
-            <Link className="btn btn-ghost btn-sm" href={url} aria-label={oferta.title}>
-              <Icon name="arrow" marime="sm" className="ic-nudge" />
-            </Link>
+        <div className="card-foot">
+          <div className="price">
+            {oferta.price ? (
+              <>
+                <b className="tabular">
+                  {oferta.price}
+                  {oferta.priceUnit && <em> {oferta.priceUnit}</em>}
+                </b>
+                {oferta.priceWas && <span className="was tabular">{oferta.priceWas}</span>}
+              </>
+            ) : (
+              <span className="price-ask">{labels.quote}</span>
+            )}
           </div>
-        )}
+          <Link className="btn btn-ghost btn-sm" href={url} aria-label={oferta.title}>
+            <Icon name="arrow" marime="sm" className="ic-nudge" />
+          </Link>
+        </div>
       </div>
     </article>
   )

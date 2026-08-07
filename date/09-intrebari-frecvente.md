@@ -39,7 +39,7 @@ aceea durează. Ciorba de pește se face doar la precomandă, pentru minimum 4 p
 ## De unde pleacă excursiile în Deltă?
 
 Din portul Murighiol, cu ambarcațiuni mari și acoperite. Transferul de la pensiune până la ponton
-îl asigurăm noi. Traseele durează între 2,5 ore și o zi întreagă, iar la Mila 23, Pădurea Letea și
+îl asigurăm noi. Sunt șase trasee, între 2,5 ore și o zi întreagă, iar la Mila 23, Pădurea Letea și
 Pădurea Caraorman masa se poate servi la un punct gastronomic local, contra cost.
 
 ## Cum se ajunge la pensiune și unde se parchează?
