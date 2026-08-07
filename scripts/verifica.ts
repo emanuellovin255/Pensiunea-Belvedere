@@ -618,7 +618,7 @@ function legal(v: Verificare, date: SiteData) {
   } else {
     v.nota({
       fisier: '(legal)',
-      mesaj: 'Înainte de accept-cookies, Analytics și harta nu se încarcă (verificat structural pe motor). Confirmarea reală se face în browser, cu tab-ul de rețea gol la primul paint.',
+      mesaj: 'Înainte de accept-cookies, Analytics nu se încarcă (verificat structural pe motor). Harta Google e încărcată odată cu pagina, la cererea clientului (T62) — e declarată ca atare în politica de cookies.',
     })
   }
 }

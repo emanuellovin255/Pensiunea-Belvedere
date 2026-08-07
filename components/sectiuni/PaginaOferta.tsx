@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+import { BtnRezervare } from './BtnRezervare'
 import type { Offer, SiteData } from '@/content/types'
 
 /**
@@ -14,7 +15,6 @@ import type { Offer, SiteData } from '@/content/types'
  * program descriptiv — destul de diferite ca să rămână separate.
  */
 export function PaginaOferta({ oferta, date }: { oferta: Offer; date: SiteData }) {
-  const { booking } = date
 
   return (
     <main id="continut">
@@ -57,9 +57,7 @@ export function PaginaOferta({ oferta, date }: { oferta: Offer; date: SiteData }
               {oferta.priceWas && <span className="was tabular">{oferta.priceWas}</span>}
             </div>
           )}
-          <a className="btn btn-primary" href="/#rezervare">
-            {booking.labels.submit}
-          </a>
+          <BtnRezervare date={date} subiect={oferta.title} />
         </div>
       </article>
     </main>

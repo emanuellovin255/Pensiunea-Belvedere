@@ -5,6 +5,7 @@ import {
   Antet,
   BlocRezervare,
   BaraLipita,
+  BtnRezervare,
   FeatureAlternant,
   Inchidere,
   Subsol,
@@ -56,9 +57,7 @@ function HeroPoveste({ date }: { date: SiteData }) {
             </div>
           )}
           <p className="stack" style={{ marginTop: 'var(--sp-6)' }}>
-            <a className="btn btn-primary" href="#rezervare">
-              {date.booking.labels.submit}
-            </a>
+            <BtnRezervare date={date} />
           </p>
         </div>
 

@@ -3,7 +3,9 @@ import type { Metadata } from 'next'
 /**
  * Politica de cookies (T11). Descrie exact ce se stochează, cine îl pune și cât
  * trăiește — pe fluxul REAL al motorului: consimțământ ținut local, Analytics
- * doar după accept, harta Google încărcată abia la click (facade, T06/T12).
+ * doar după accept, harta Google încărcată odată cu pagina (T62). Textul de
+ * mai jos trebuie să descrie fluxul REAL — dacă harta se schimbă, se schimbă
+ * și paragraful, altfel politica devine o declarație falsă.
  */
 export const metadata: Metadata = {
   title: 'Politica de cookies',
@@ -45,9 +47,10 @@ export default function PoliticaCookies() {
 
       <h2>Harta</h2>
       <p>
-        Harta Google se afișează întâi ca imagine statică. Harta reală, cu cookie-urile Google, se
-        încarcă doar dacă apeși pe ea — deci nu se transmite nimic către Google fără o acțiune
-        explicită a ta.
+        Pagina de contact conține o hartă Google încorporată, care se încarcă odată cu pagina.
+        Google poate seta cookie-uri și poate primi adresa ta IP în acest proces. Dacă nu vrei
+        asta, adresa exactă e scrisă și ca text deasupra hărții — o poți folosi în orice altă
+        aplicație de navigație.
       </p>
 
       <h2>Cum îți schimbi alegerea</h2>

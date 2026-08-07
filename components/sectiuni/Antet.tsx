@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import { Icon } from '@/components/Icon'
 import { ComutatorLimba } from '@/components/ComutatorLimba'
+import { BtnRezervare } from './BtnRezervare'
 import type { SiteData } from '@/content/types'
 
 /**
@@ -17,9 +18,12 @@ import type { SiteData } from '@/content/types'
  *
  * Zero text în română scris aici (REGULI.md, T06): eticheta butonului
  * vine din `booking.labels.submit`, linkurile din `nav`.
+ *
+ * `subiect` — numele camerei sau al ofertei, pe paginile lor: butonul
+ * deschide WhatsApp cu mesajul deja scris despre exact acel produs.
  */
-export function Antet({ date }: { date: SiteData }) {
-  const { brand, nav, booking, locales } = date
+export function Antet({ date, subiect }: { date: SiteData; subiect?: string }) {
+  const { brand, nav, locales } = date
 
   return (
     <>
@@ -54,9 +58,7 @@ export function Antet({ date }: { date: SiteData }) {
 
           <div className="nav-cta">
             {locales.length > 1 && <ComutatorLimba locales={locales} />}
-            <a className="btn btn-primary" href="#rezervare">
-              {booking.labels.submit}
-            </a>
+            <BtnRezervare date={date} subiect={subiect} />
             <button className="burger" type="button" aria-label="Meniu" aria-expanded="false">
               <span />
               <span />

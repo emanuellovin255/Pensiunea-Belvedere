@@ -1,4 +1,5 @@
 import { AmenitatiChips } from './AmenitatiChips'
+import { BtnRezervare } from './BtnRezervare'
 import { Galerie } from './Galerie'
 import { VideoVertical } from './VideoVertical'
 import { pret } from '@/lib/format'
@@ -76,9 +77,7 @@ export function PaginaCamera({ camera, date }: { camera: Room; date: SiteData })
               <span className="price-ask">{booking.labels.submit}</span>
             )}
           </div>
-          <a className="btn btn-primary" href="/#rezervare">
-            {booking.labels.submit}
-          </a>
+          <BtnRezervare date={date} subiect={camera.name} />
         </div>
 
         {/* Clipul camerei — ULTIMUL bloc din pagină, sub preț și buton.

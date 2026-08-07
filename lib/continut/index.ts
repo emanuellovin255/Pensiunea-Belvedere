@@ -23,8 +23,9 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
 import type { Cta, Faq, Feature, IconName, Offer, Review, Room, SiteData } from '@/content/types'
+import { linkRezervare } from '@/lib/whatsapp'
 
-import { analizeaza, boolean, lista, numar, slug, sugereaza, text, type Bloc, type Document } from './md'
+import { analizeaza, boolean, lista, numar, numarZecimal, slug, sugereaza, text, type Bloc, type Document } from './md'
 import { radacinaClientDir } from './radacina'
 import { Raport } from './raport'
 import { citesteSetari, type Setari } from './setari'
@@ -851,8 +852,9 @@ export function incarcaClient(nume: string, limba = 'ro'): ContinutClient {
       postalCode: camp(bAdr, 'cod postal'),
       country: camp(bAdr, 'tara') ?? 'România',
       countryCode: 'RO',
-      lat: numar(camp(bGps, 'latitudine')),
-      lng: numar(camp(bGps, 'longitudine')),
+      // Coordonate: parser zecimal, nu `numar()` — vezi md.ts.
+      lat: numarZecimal(camp(bGps, 'latitudine')),
+      lng: numarZecimal(camp(bGps, 'longitudine')),
       mapsUrl: camp(bGps, 'link google maps'),
       hours: camp(bProgram, 'receptie'),
       social,
@@ -922,6 +924,25 @@ export function incarcaClient(nume: string, limba = 'ro'): ContinutClient {
   // separat, nu în `social`.
   if (whatsapp && setari.butonWhatsApp) {
     date.contact.social.unshift({ label: 'WhatsApp', icon: 'phone', url: `https://wa.me/${whatsapp.replace(/[^\d]/g, '')}` })
+  }
+
+  /* Butoanele scrise în date ca „Verifică disponibilitatea" primesc de la
+     `cta()` ancora `#rezervare`. La o locație fără motor de rezervări
+     (`mod === 'formular'`), ancora aia coboară la un bloc care oricum spune
+     „scrie-ne pe WhatsApp" — un pas în plus degeaba. Aici le rescriem o
+     singură dată, în date, ca toate componentele care randează un `Cta`
+     (închiderea, feature-urile, evenimentele) să ducă direct în conversație.
+
+     Se aplică DOAR fără motor și DOAR cu număr de WhatsApp: cu motor,
+     `#rezervare` e calendarul real și trebuie să rămână. */
+  if (date.booking.mod === 'formular' && date.contact.whatsapp) {
+    const spre = linkRezervare(date)
+    const rescrie = (c: Cta | undefined) => {
+      if (c && (c.href === '#rezervare' || c.href === '/#rezervare')) c.href = spre
+    }
+    rescrie(date.closing.cta)
+    for (const f of date.features) f.ctas.forEach(rescrie)
+    for (const e of date.events.items) rescrie(e.cta)
   }
 
   return { date, setari, raport, poze }

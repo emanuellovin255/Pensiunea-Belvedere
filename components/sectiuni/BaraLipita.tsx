@@ -1,3 +1,4 @@
+import { BtnRezervare } from './BtnRezervare'
 import { pret } from '@/lib/format'
 import type { SiteData } from '@/content/types'
 
@@ -15,7 +16,7 @@ import type { SiteData } from '@/content/types'
  * Prețul minim se calculează din camere, nu se scrie — și nu apare
  * deloc dacă nicio cameră n-are preț confirmat (REGULI.md 3).
  */
-export function BaraLipita({ date }: { date: SiteData }) {
+export function BaraLipita({ date, subiect }: { date: SiteData; subiect?: string }) {
   const { contact, rooms, booking, meta } = date
 
   const preturi = rooms.items.map((c) => c.priceFrom).filter((p): p is number => typeof p === 'number')
@@ -43,9 +44,7 @@ export function BaraLipita({ date }: { date: SiteData }) {
           </span>
         )
       )}
-      <a className="btn btn-primary" href="#rezervare">
-        {booking.labels.submit}
-      </a>
+      <BtnRezervare date={date} subiect={subiect} />
     </div>
   )
 }

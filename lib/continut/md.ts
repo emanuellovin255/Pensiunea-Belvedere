@@ -94,6 +94,24 @@ export function numar(s: string | undefined): number | undefined {
 }
 
 /**
+ * Un număr zecimal scris cu PUNCT, așa cum îl dă orice hartă:
+ * `45.053429868667216`, `-29.14` (și cu virgulă, dacă cineva l-a copiat
+ * dintr-un Excel românesc).
+ *
+ * NU folosi `numar()` pentru coordonate. Acolo punctul e separator de mii
+ * („1.250 lei"), deci `45.053429...` se citește ca `45` — pinul cade la
+ * sute de kilometri de locație, tăcut, fără nicio eroare. Convențiile sunt
+ * incompatibile, așa că sunt două funcții, nu un parametru.
+ */
+export function numarZecimal(s: string | undefined): number | undefined {
+  if (!s) return undefined
+  const m = s.trim().match(/-?\d+(?:[.,]\d+)?/)
+  if (!m) return undefined
+  const n = Number(m[0].replace(',', '.'))
+  return Number.isFinite(n) ? n : undefined
+}
+
+/**
  * Listă. Un câmp pe mai multe rânduri dă un element per rând; unul pe
  * un singur rând se taie la virgulă.
  *

@@ -80,10 +80,10 @@ export default async function Camera({
           base,
         )}
       />
-      <Antet date={date} />
+      <Antet date={date} subiect={cam.name} />
       <PaginaCamera camera={cam} date={date} />
       <Subsol date={date} />
-      <BaraLipita date={date} />
+      <BaraLipita date={date} subiect={cam.name} />
     </>
   )
 }

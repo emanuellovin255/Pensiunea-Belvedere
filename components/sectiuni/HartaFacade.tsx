@@ -1,42 +1,32 @@
-'use client'
-
-import { useState } from 'react'
-
 import { AntetSectiune } from './AntetSectiune'
 import { Icon } from '@/components/Icon'
 import type { SiteData } from '@/content/types'
 
 /**
- * Facade de hartă: imagine statică, harta reală DOAR la click.
+ * Harta locației: adresă în text + harta Google încărcată direct.
  *
- * `"use client"` doar pentru comutarea la click. Economia e tipică
- * 300–500 KB (standarde/02) și, mai important, harta reală face un
- * request către Google — care înainte de accept ar încălca GDPR-ul
- * (T11). Facade rezolvă amândouă: nimic nu pleacă spre Google până
- * când omul nu cere explicit harta.
+ * Era un facade cu click („Încarcă harta"), ca să nu plece niciun request
+ * spre Google înainte de accept. Clientul a cerut explicit harta vizibilă
+ * din prima (T62), deci iframe-ul se randează odată cu pagina. E o decizie
+ * de business asumată, nu o scăpare: harta e un `<iframe>` de la Google, iar
+ * `loading="lazy"` + `referrerPolicy` țin costul cât se poate de mic.
+ *
+ * Fără stare, deci Server Component — nu mai are nevoie de `"use client"`.
  *
  * Lângă hartă: adresă, „cum ajungi", distanțe — text, care e și bun de
- * SEO (T07). Textul ăsta se randează server-side, deci un crawler îl
- * vede chiar dacă nu apasă pe hartă.
- *
- * `imagineStatica` e un fișier local (o captură a hărții cu marker),
- * nu un request live. Fără el, se afișează doar cardul de text.
+ * SEO (T07) și se vede de crawlere fără JavaScript.
  */
 export function HartaFacade({
   contact,
-  imagineStatica,
   distante,
   indicatii,
   titlu = 'Pe hartă',
 }: {
   contact: SiteData['contact']
-  imagineStatica?: string
   distante?: string[]
   indicatii?: string
   titlu?: string
 }) {
-  const [incarcata, setIncarcata] = useState(false)
-
   const adresa = [contact.street, contact.postalCode, contact.city, contact.region]
     .filter(Boolean)
     .join(', ')
@@ -79,29 +69,13 @@ export function HartaFacade({
 
         {embed && (
           <div className="map-facade">
-            {incarcata ? (
-              <iframe
-                src={embed}
-                title={`Hartă către ${contact.city || 'locație'}`}
-                loading="lazy"
-                style={{ width: '100%', height: '360px', border: 0 }}
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            ) : (
-              <>
-                {imagineStatica ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={imagineStatica} alt={`Hartă către ${contact.city || 'locație'}`} width={720} height={360} />
-                ) : (
-                  <div style={{ aspectRatio: '2 / 1', background: 'var(--surface-alt)' }} />
-                )}
-                <button type="button" onClick={() => setIncarcata(true)}>
-                  <span>
-                    <Icon name="pin" marime="sm" /> Încarcă harta
-                  </span>
-                </button>
-              </>
-            )}
+            <iframe
+              src={embed}
+              title={`Hartă către ${contact.city || 'locație'}`}
+              loading="lazy"
+              style={{ width: '100%', height: '360px', border: 0 }}
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         )}
       </div>

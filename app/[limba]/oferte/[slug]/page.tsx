@@ -76,10 +76,10 @@ export default async function Oferta({
           base,
         )}
       />
-      <Antet date={date} />
+      <Antet date={date} subiect={of.title} />
       <PaginaOferta oferta={of} date={date} />
       <Subsol date={date} />
-      <BaraLipita date={date} />
+      <BaraLipita date={date} subiect={of.title} />
     </>
   )
 }
