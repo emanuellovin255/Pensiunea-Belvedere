@@ -238,7 +238,7 @@ section[id], footer[id] { scroll-margin-top: calc(var(--header-h) + var(--sp-6))
   gap: 28px;
   height: var(--header-h);
 }
-.logo { display: flex; align-items: center; gap: 11px; }
+.logo { display: flex; align-items: center; gap: 11px; flex: 0 0 auto; }
 .logo-mark {
   width: 36px;
   height: 36px;
@@ -260,7 +260,9 @@ section[id], footer[id] { scroll-margin-top: calc(var(--header-h) + var(--sp-6))
   color: var(--muted);
   font-weight: var(--fw-semibold);
 }
-.logo-img { height: 38px; width: auto; }
+/* Logo-ul e stema completă cu wordmark („BELVEDERE MURIGHIOL"), nu doar
+   scutul: sub ~50px literele devin o pată, de asta 56px în antet. */
+.logo-img { height: 56px; width: auto; }
 
 .nav-links { display: flex; gap: 26px; list-style: none; }
 .nav-links a {
@@ -749,6 +751,7 @@ details.faq-item[open] > .faq-a,
 .site-footer a:hover { color: var(--on-brand); }
 .f-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.3fr; gap: var(--sp-10); padding-bottom: 46px; }
 .f-grid ul { list-style: none; display: grid; gap: 10px; font-size: var(--fs-sm); }
+.f-logo { height: 100px; width: auto; display: block; }
 .f-brand p { font-size: var(--fs-sm); margin: var(--sp-4) 0 var(--sp-5); max-width: 38ch; }
 .f-social { display: flex; gap: 10px; }
 .f-social a {
@@ -1071,6 +1074,10 @@ body[data-audit='true'] [data-finding] {
   .trust .wrap { grid-template-columns: repeat(2, 1fr); gap: 18px; }
   .trust-item { border-inline-end: 0; }
   .nav-cta .btn-ghost { display: none; }
+  /* Butonul de rezervare din antet îl duce `.mobile-bar`, lipită jos. Lăsat
+     și sus, storcea logo-ul până rămânea o dungă (are wordmark, nu doar un
+     scut pătrat) și dubla același buton pe același ecran. */
+  .nav-cta > .btn { display: none; }
   .mobile-bar { display: flex; }
   /* Loc pentru bara lipită, ca să nu acopere subsolul. */
   body { padding-bottom: 74px; }

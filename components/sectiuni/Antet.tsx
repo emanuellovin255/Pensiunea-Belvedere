@@ -35,13 +35,18 @@ export function Antet({ date, subiect }: { date: SiteData; subiect?: string }) {
         <div className="wrap nav">
           <Link className="logo" href="/" aria-label={`${brand.shortName || brand.name} — acasă`}>
             {brand.logo ? (
-              <Image className="logo-img" src={brand.logo} alt={brand.name} width={140} height={38} priority />
+              /* Logo-ul are numele scris în el („BELVEDERE MURIGHIOL"), deci
+                 nu mai punem `.logo-name` alături — ar fi numele de două ori.
+                 `alt` îl duce mai departe la cititoarele de ecran și la Google. */
+              <Image className="logo-img" src={brand.logo} alt={brand.name} width={72} height={56} priority />
             ) : (
-              <span className="logo-mark" aria-hidden="true">
-                {brand.monogram}
-              </span>
+              <>
+                <span className="logo-mark" aria-hidden="true">
+                  {brand.monogram}
+                </span>
+                <span className="logo-name">{brand.shortName || brand.name}</span>
+              </>
             )}
-            <span className="logo-name">{brand.shortName || brand.name}</span>
           </Link>
 
           {nav.length > 0 && (

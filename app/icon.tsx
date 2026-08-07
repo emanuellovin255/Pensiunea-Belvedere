@@ -86,7 +86,7 @@ export default function Icon() {
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={src} alt="" width={62} height={62} style={{ objectFit: 'contain' }} />
+          <img src={src} alt="" width={62} height={48} style={{ objectFit: 'contain' }} />
         </div>
       ),
       size,

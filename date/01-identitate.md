@@ -16,14 +16,15 @@ Tip: pensiune
 ## Logo
 Logo: logo-belvedere.png
 <!--
-  Stema cu pelican, decupată din fișierul trimis de client (T63): scut auriu, pelican închis,
-  fundal transparent. Apare în antet lângă numele scris cu text și e sursa favicon-ului.
+  Logo-ul complet trimis de client: stema cu pelican, ornamentele și numele scris
+  („BELVEDERE MURIGHIOL"). Grafica e neatinsă — singurele operații au fost tăierea marginii
+  transparente din jur și redimensionarea la 600 px lățime. Fundal transparent.
 
-  Din originalul trimis am păstrat DOAR stema. Restul imaginii („BELVEDERE MURIGHIOL" cu
-  ornamente) e auriu pe un halou auriu — literele n-au contrast nici la mărime întreagă, iar la
-  38 px înălțime, cât are logo-ul în antet, ar fi fost o pată. Numele îl scrie oricum antetul,
-  cu fontul site-ului. Dacă vor și grafica completă a numelui, cere-le fișierul VECTORIAL
-  (SVG/AI/PDF) al stemei și al wordmark-ului.
+  Apare în antet (56 px înălțime), în subsol (100 px) și e sursa favicon-ului. Fiindcă numele
+  e deja scris în imagine, antetul și subsolul NU mai pun textul alături — ar fi fost numele
+  de două ori.
+
+  Pentru print sau afișare mare, cere-le fișierul VECTORIAL (SVG/AI/PDF).
 -->
 
 ## Descriere scurtă

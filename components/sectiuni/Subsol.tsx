@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { Icon } from '@/components/Icon'
@@ -28,7 +29,13 @@ export function Subsol({ date }: { date: SiteData }) {
       <div className="wrap">
         <div className="f-grid">
           <div className="f-brand">
-            <span className="logo-name">{brand.name}</span>
+            {/* Același logo ca în antet, mai mare (are loc aici). Numele scris
+                e în imagine, deci textul apare doar când nu există logo. */}
+            {brand.logo ? (
+              <Image className="f-logo" src={brand.logo} alt={brand.name} width={128} height={100} />
+            ) : (
+              <span className="logo-name">{brand.name}</span>
+            )}
             {brand.tagline && <p>{brand.tagline}</p>}
             {contact.social.length > 0 && (
               <div className="f-social">
