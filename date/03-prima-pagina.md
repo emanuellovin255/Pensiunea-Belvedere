@@ -53,10 +53,10 @@ Text introductiv: De la camera dublă până la suita de familie pentru cinci pe
 
 Eticheta: Locul
 Poza: piscina-si-loc-de-joaca.webp
-Text: Piscina are apă încălzită și zonă pentru copii, cu șezlonguri și umbrele în jur. Alături e complexul de joacă, iar în spate terenul de fotbal. Accesul e gratuit pentru toți oaspeții cazați.
+Text: Piscina are apă încălzită și zonă pentru copii, cu șezlonguri și umbrele în jur. Alături e complexul de joacă, iar în spate terenul de fotbal. Accesul e rezervat exclusiv oaspeților cazați și e inclus în preț — nu primim vizitatori din afară.
 Buline: Piscină cu apă încălzită, pentru adulți și copii, cu șezlonguri
         Complex de joacă: 3 tobogane, trambulină, 3 leagăne, balansoar, cățărătoare
-        Teren de fotbal și bărcuțe de agrement, în incintă
+        Teren de fotbal și bărcuțe de agrement, doar pentru oaspeții cazați
 Buton: Vezi camerele
 
 ### Restaurantul pescăresc
@@ -76,7 +76,6 @@ Poza: plimbare-cu-barca-in-delta.webp
 Text: Din portul Murighiol pleacă șase trasee cu ambarcațiuni mari și acoperite: de la o tură scurtă de 2,5 ore pe șapte lacuri până la o zi întreagă spre Sulina, Sfântu Gheorghe sau Pădurea Letea. Transferul de la pensiune până la ponton îl facem noi.
 Buline: Șase trasee, de la 2,5 ore până la o zi întreagă
         Ambarcațiuni mari și acoperite, cu ghid
-        Transfer de la pensiune la ponton
 Buton: Vezi excursiile | /oferte
 
 ### Pensiunea, văzută dinspre lac

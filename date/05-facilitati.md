@@ -16,12 +16,12 @@ de 3 stele.
 ## Piscină cu apă încălzită
 
 Icon: pool
-Text: Piscină cu apă încălzită, cu zonă separată pentru copii, șezlonguri și umbrele. Accesul e gratuit pentru toți oaspeții cazați.
+Text: Piscină cu apă încălzită, cu zonă separată pentru copii, șezlonguri și umbrele. Accesul e rezervat exclusiv oaspeților cazați și e inclus în preț — nu primim vizitatori din afară.
 
 ## Complex de joacă pentru copii
 
 Icon: foc-de-tabara
-Text: Trei tobogane, trambulină, două leagăne pentru copii și unul pentru bebeluși, balansoar, cățărătoare și două figurine de arc. Alături, teren de fotbal și bărcuțe de agrement.
+Text: Trei tobogane, trambulină, două leagăne pentru copii și unul pentru bebeluși, balansoar, cățărătoare și două figurine de arc. Alături, teren de fotbal și bărcuțe de agrement. Zona de agrement e doar pentru copiii oaspeților cazați.
 
 ## Restaurant cu bucătărie pescărească
 
@@ -31,7 +31,7 @@ Text: Preparatele se gătesc pe loc și la comandă, așa că timpul de aștepta
 ## Pontoane de pescuit și bărcuțe
 
 Icon: pescuit
-Text: Două pontoane proprii în fața pensiunii, pe Lacul Murighiol, și bărcuțe la rame oferite gratuit oaspeților cazați. De aici se pleacă și în excursiile cu barca, cu transfer asigurat de noi până la ambarcațiune.
+Text: Două pontoane proprii în fața pensiunii, pe Lacul Murighiol, și bărcuțe la rame, folosite exclusiv de oaspeții cazați, fără cost suplimentar. De aici se pleacă și în excursiile cu barca, cu transfer asigurat de noi până la ambarcațiune.
 
 ## Terasă
 

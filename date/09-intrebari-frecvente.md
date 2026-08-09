@@ -55,8 +55,9 @@ seif propriu și senzori de fum.
 
 ## Piscina și locul de joacă se plătesc separat?
 
-Nu. Accesul la piscina cu apă încălzită, la complexul de joacă, la terenul de fotbal și la
-pontonul de pescuit e gratuit pentru toți oaspeții cazați.
+Nu. Piscina cu apă încălzită, complexul de joacă, terenul de fotbal și pontonul de pescuit sunt
+incluse în preț, dar accesul e rezervat exclusiv oaspeților cazați. Persoanele care nu sunt cazate
+la pensiune nu au acces în aceste zone, nici contra cost.
 
 ## Se poate închiria toată pensiunea?
 

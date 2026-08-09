@@ -10,12 +10,12 @@
 ## Heated swimming pool
 
 Icon: pool
-Text: A heated outdoor pool with a separate children's area, sun loungers and parasols. Free for every guest staying with us.
+Text: A heated outdoor pool with a separate children's area, sun loungers and parasols. Access is reserved for guests staying with us and included in the price — we do not admit outside visitors.
 
 ## Children's play complex
 
 Icon: foc-de-tabara
-Text: Three slides, a trampoline, two children's swings and one for babies, a see-saw, a climbing frame and two spring riders. Next to it, a football pitch and small rowing boats.
+Text: Three slides, a trampoline, two children's swings and one for babies, a see-saw, a climbing frame and two spring riders. Next to it, a football pitch and small rowing boats. The leisure area is for the children of guests staying with us only.
 
 ## Restaurant with Delta fish cooking
 
@@ -25,7 +25,7 @@ Text: Everything is cooked on the spot and to order, so the wait can be 30–35 
 ## Fishing pontoons and rowing boats
 
 Icon: pescuit
-Text: Two private pontoons in front of the guesthouse, on Lake Murighiol, and rowing boats offered free of charge to our guests. Boat trips start from here, and we take care of the transfer to the vessel.
+Text: Two private pontoons in front of the guesthouse, on Lake Murighiol, and rowing boats used by guests staying with us only, at no extra cost. Boat trips start from here, and we take care of the transfer to the vessel.
 
 ## Terrace
 

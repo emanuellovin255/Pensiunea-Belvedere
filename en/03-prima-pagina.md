@@ -57,10 +57,10 @@ Text introductiv: From the double room to the family suite for five. All of them
 
 Eticheta: The place
 Poza: piscina-si-loc-de-joaca.webp
-Text: The pool is heated and has a children's area, with sun loungers and parasols around it. Next to it is the play complex, and behind that the football pitch. Access is free for every guest staying with us.
+Text: The pool is heated and has a children's area, with sun loungers and parasols around it. Next to it is the play complex, and behind that the football pitch. Access is reserved for guests staying with us and included in the price — we do not admit outside visitors.
 Buline: A heated pool for adults and children, with sun loungers
         Play complex: 3 slides, a trampoline, 3 swings, a see-saw, a climbing frame
-        Football pitch and small rowing boats, on the grounds
+        Football pitch and small rowing boats, for staying guests only
 Buton: See the rooms
 
 ### The fish restaurant
@@ -80,7 +80,6 @@ Poza: plimbare-cu-barca-in-delta.webp
 Text: Six routes leave from the port of Murighiol on large covered boats: from a short 2.5-hour run across seven lakes to a full day towards Sulina, Sfântu Gheorghe or the Letea Forest. We handle the transfer from the guesthouse to the pontoon.
 Buline: Six routes, from 2.5 hours to a full day
         Large covered boats, with a guide
-        Transfer from the guesthouse to the pontoon
 Buton: See the trips | /oferte
 
 ### The guesthouse, seen from the lake

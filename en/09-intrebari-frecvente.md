@@ -51,8 +51,9 @@ has its own safe and smoke detectors.
 
 ## Are the pool and the playground charged separately?
 
-No. Access to the heated pool, the play complex, the football pitch and the fishing pontoon is
-free for every guest staying with us.
+No. The heated pool, the play complex, the football pitch and the fishing pontoon are included in
+the price, but access is reserved for guests staying with us. People who are not booked into the
+guesthouse cannot use these areas, not even for a fee.
 
 ## Can the whole guesthouse be booked?
 
