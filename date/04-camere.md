@@ -12,14 +12,16 @@ Ghid detaliat: [`ghiduri/04-cum-adaug-sau-scot-o-camera.md`](../../../ghiduri/04
   Dotările vin din bannerul de facilități de pe prima pagină: seif, uscător de păr, prosoape
   curate, papuci, produse de îngrijire, aer condiționat, senzori de fum, Wi-Fi, TV LCD.
 
-  PREȚUL DE 300 LEI E PLACEHOLDER, pus la cererea ta. Nu apare nicăieri la ei — nici pe site,
-  nici pe Facebook. Blocant de publicare până confirmi tarifele reale pe tip de cameră.
+  PREȚURILE sunt cele date de client: dublă de la 450, triplă de la 600, cvadruplă și suitele de
+  familie de la 800. Se aplică pe TIP de cameră, deci varianta cu balcon și cea fără au același
+  „de la" — dacă cea cu balcon costă mai mult, spune cât și le separăm.
 
-  PAGINA CAMEREI N-ARE GALERIE FOTO. Clientul a cerut ca acolo camera să se vadă doar în clip.
-  De asta „Poze:" are un singur fișier: poza de card, care e și imaginea din datele structurate.
-  Restul fotografiilor au fost scoase din poze/ — rămân în istoricul git. Ca să readuci galeria
-  nu e de ajuns să pui mai multe fișiere aici: trebuie readus și <Galerie> în
-  components/sectiuni/PaginaCamera.tsx.
+  GALERIA FOTO APARE DOAR LA CAMERELE CU MAI MULT DE O POZĂ. Clientul a cerut inițial ca pagina
+  camerei să arate camera doar în clip; camera dublă cu balcon a primit între timp fotografii,
+  așa că pagina ei are și galerie. Celelalte au un singur fișier la „Poze:" — poza de card, care
+  e și imaginea din datele structurate — deci rămân doar cu clipul. Ca să dai galerie altei
+  camere, adaugă-i pozele la „Poze:"; <Galerie> din components/sectiuni/PaginaCamera.tsx se
+  aprinde singură de la a doua poză.
 
   Clipul camerei se randează ULTIMUL în pagină, sub preț și buton.
 
@@ -31,11 +33,11 @@ Ghid detaliat: [`ghiduri/04-cum-adaug-sau-scot-o-camera.md`](../../../ghiduri/04
 
 ## Cameră dublă cu balcon
 
-Preț de la: 300
+Preț de la: 450
 Persoane: 2 persoane
 Pat: pat matrimonial 160 × 200
 Suprafață: 
-Poze: camera-balcon-vedere-lac.webp
+Poze: camera-balcon-vedere-lac.webp, camera-dubla-balcon-pat.webp, camera-dubla-balcon-dulap-seif.webp, camera-dubla-balcon-vedere-piscina.webp, camera-dubla-balcon-baie-dus.webp
 Facilități: wifi, tv, climate, shower, safe, terrace
 Etichetă: Vedere la lac
 Video: camera-dubla-cu-balcon.mp4
@@ -48,7 +50,7 @@ baie proprie cu duș, seif, TV LCD și mobilier pe balcon. Accesul se face cu ca
 
 ## Suită de familie cu balcon, 5 persoane
 
-Preț de la: 300
+Preț de la: 800
 Persoane: 5 persoane
 Pat: pat matrimonial 160 × 200, canapea extensibilă pentru 2 persoane și pat single 90 × 200
 Suprafață: 
@@ -66,7 +68,7 @@ proprie. Potrivită pentru familii numeroase sau două cupluri cu un copil.
 
 ## Cameră cvadruplă cu balcon
 
-Preț de la: 300
+Preț de la: 800
 Persoane: 4 persoane
 Pat: pat matrimonial 160 × 200 și pat 140 × 200
 Suprafață: 
@@ -83,7 +85,7 @@ aer condiționat, seif și baie proprie cu cadă. Pentru o familie care vrea și
 
 ## Suită de familie, 4 persoane
 
-Preț de la: 300
+Preț de la: 800
 Persoane: 4 persoane
 Pat: pat matrimonial 160 × 200 și două paturi single 90 × 200
 Suprafață: 
@@ -101,7 +103,7 @@ nevoie de două rezervări.
 
 ## Cameră triplă fără balcon
 
-Preț de la: 300
+Preț de la: 600
 Persoane: 3 persoane
 Pat: pat matrimonial 160 × 200 și pat single 90 × 200
 Suprafață: 
@@ -118,7 +120,7 @@ Cameră pentru trei persoane, cu pat matrimonial și un pat single. Aer condiți
 
 ## Cameră dublă fără balcon
 
-Preț de la: 300
+Preț de la: 450
 Persoane: 2 persoane
 Pat: pat matrimonial 160 × 200
 Suprafață: 

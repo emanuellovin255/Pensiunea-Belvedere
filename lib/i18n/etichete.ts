@@ -50,6 +50,25 @@ export interface Etichete {
   descriereCamere: string
   descriereOferte: string
 
+  /* Pagina camerei. */
+  camereCeInclude: string
+  camereFotografii: string
+
+  /* Pagina de contact. */
+  contactTitlu: string
+  contactLede: string
+  contactDate: string
+  contactTelefon: string
+  contactWhatsapp: string
+  contactEmail: string
+  contactAdresa: string
+  contactProgram: string
+  contactCheckIn: string
+  contactCheckOut: string
+  contactSocial: string
+  contactFormular: string
+  contactFormularLede: string
+
   /* Interfață. */
   actiuniRapide: string
 }
@@ -78,6 +97,23 @@ const RO: Etichete = {
   descriereCamere: 'Camerele și apartamentele de la',
   descriereOferte: 'Pachete și oferte la',
 
+  camereCeInclude: 'Ce include',
+  camereFotografii: 'Fotografii',
+
+  contactTitlu: 'Contact',
+  contactLede: 'Ne găsești la telefon, pe WhatsApp sau pe e-mail. Poți trimite o cerere și din formularul de mai jos.',
+  contactDate: 'Date de contact',
+  contactTelefon: 'Telefon',
+  contactWhatsapp: 'Scrie-ne pe WhatsApp',
+  contactEmail: 'E-mail',
+  contactAdresa: 'Adresă',
+  contactProgram: 'Program',
+  contactCheckIn: 'Check-in',
+  contactCheckOut: 'Check-out',
+  contactSocial: 'Pe rețele',
+  contactFormular: 'Trimite o cerere',
+  contactFormularLede: 'Completează perioada și numărul de persoane, iar noi revenim cu disponibilitatea și tariful.',
+
   actiuniRapide: 'Acțiuni rapide',
 }
 
@@ -104,6 +140,23 @@ const EN: Etichete = {
 
   descriereCamere: 'Rooms and apartments at',
   descriereOferte: 'Packages and offers at',
+
+  camereCeInclude: "What's included",
+  camereFotografii: 'Photos',
+
+  contactTitlu: 'Contact',
+  contactLede: 'Reach us by phone, on WhatsApp or by email. You can also send a request using the form below.',
+  contactDate: 'Contact details',
+  contactTelefon: 'Phone',
+  contactWhatsapp: 'Message us on WhatsApp',
+  contactEmail: 'Email',
+  contactAdresa: 'Address',
+  contactProgram: 'Hours',
+  contactCheckIn: 'Check-in',
+  contactCheckOut: 'Check-out',
+  contactSocial: 'Social',
+  contactFormular: 'Send a request',
+  contactFormularLede: 'Tell us your dates and how many of you there are, and we will come back with availability and the rate.',
 
   actiuniRapide: 'Quick actions',
 }

@@ -31,10 +31,14 @@ Link Google Maps: https://www.google.com/maps/search/?api=1&query=45.05342986866
 -->
 
 ## Program
-Check-in: de la 15:00
-Check-out: până la 12:00
+Check-in: 15:00
+Check-out: 12:00
 Recepție: 
 <!--
+  Orele se scriu ca simple ore („15:00"), fără „de la" / „până la": fișierul ăsta n-are pereche
+  în en/, deci aceleași valori se afișează și pe site-ul englezesc, sub etichetele Check-in /
+  Check-out. Un „de la 15:00" ar ieși în română pe /en.
+
   Orele vin din programul pachetelor turistice de pe /pagina-5 („Ziua 1: Ora 15.00 Check-in",
   „Ora 12.00 - Check out"). La Pachetul de Paște check-in-ul e de la ora 12:00 — e o excepție de
   pachet, nu regula casei. Programul recepției nu e publicat nicăieri; întreabă-i.

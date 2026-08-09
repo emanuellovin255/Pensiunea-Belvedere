@@ -1,8 +1,11 @@
 import { AmenitatiChips } from './AmenitatiChips'
 import { BtnRezervare } from './BtnRezervare'
+import { Galerie } from './Galerie'
 import { VideoVertical } from './VideoVertical'
 import { pret } from '@/lib/format'
 import { Icon } from '@/components/Icon'
+import { etichete } from '@/lib/i18n/etichete'
+import type { Limba } from '@/lib/i18n/limbi'
 import type { Room, SiteData } from '@/content/types'
 
 /**
@@ -14,12 +17,24 @@ import type { Room, SiteData } from '@/content/types'
  * (REGULI.md 12): un crawler care nu execută JavaScript trebuie să
  * vadă prețul.
  *
- * Pagina n-are galerie foto: clientul a cerut ca aici camera să se vadă
- * doar în clip. Fotografia rămâne pe cardul din listă și în JSON-LD.
+ * Galeria apare doar dacă acea cameră are mai mult de o poză — `images`
+ * e populat de loader abia de la a doua (lib/continut/index.ts). Clientul
+ * ceruse ca aici camera să se vadă doar în clip, și așa rămâne pentru
+ * camerele cu o singură fotografie; cele care primesc între timp poze
+ * (prima e camera dublă cu balcon) le arată, fără altă comutare.
  * Nu inventăm un preț dacă nu există (REGULI.md 3).
  */
-export function PaginaCamera({ camera, date }: { camera: Room; date: SiteData }) {
+export function PaginaCamera({
+  camera,
+  date,
+  limba = 'ro',
+}: {
+  camera: Room
+  date: SiteData
+  limba?: Limba
+}) {
   const { meta, booking } = date
+  const t = etichete(limba)
 
   return (
     <main id="continut">
@@ -53,7 +68,7 @@ export function PaginaCamera({ camera, date }: { camera: Room; date: SiteData })
 
         {camera.amenities.length > 0 && (
           <div style={{ marginTop: 'var(--sp-6)' }}>
-            <h2 style={{ marginBottom: 'var(--sp-4)' }}>Ce include</h2>
+            <h2 style={{ marginBottom: 'var(--sp-4)' }}>{t.camereCeInclude}</h2>
             <AmenitatiChips amenitati={camera.amenities} />
           </div>
         )}
@@ -76,6 +91,19 @@ export function PaginaCamera({ camera, date }: { camera: Room; date: SiteData })
           </div>
           <BtnRezervare date={date} subiect={camera.name} />
         </div>
+
+        {/* Fotografiile camerei, dacă are mai mult de una. Stau după preț
+            și buton, ca să nu împingă în jos motivul pentru care omul a
+            deschis pagina, și înaintea clipului, care rămâne ultimul. */}
+        {camera.images && camera.images.length > 1 && (
+          <div style={{ marginTop: 'var(--sp-10)' }}>
+            <h2 style={{ marginBottom: 'var(--sp-4)' }}>{t.camereFotografii}</h2>
+            <Galerie
+              imagini={camera.images}
+              titluri={camera.images.map(() => camera.name)}
+            />
+          </div>
+        )}
 
         {/* Clipul camerei — ULTIMUL bloc din pagină, sub preț și buton.
             Poziția e cerință explicită de la client (T60), nu preferință. */}

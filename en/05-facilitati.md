@@ -25,7 +25,7 @@ Text: Everything is cooked on the spot and to order, so the wait can be 30–35 
 ## Fishing pontoons and rowing boats
 
 Icon: pescuit
-Text: Two private pontoons in front of the guesthouse, on Lake Murighiol, and rowing boats used by guests staying with us only, at no extra cost. Boat trips start from here, and we take care of the transfer to the vessel.
+Text: Two private pontoons in front of the guesthouse, on Lake Murighiol, and rowing boats used by guests staying with us only, at no extra cost. The Delta boat trips start from here.
 
 ## Terrace
 

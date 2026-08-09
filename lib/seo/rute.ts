@@ -46,11 +46,13 @@ export function ruteleSitului(date: SiteData, setari: Setari, areMeniu = false):
   // pagină nu e o opțiune. Condiția e aceeași ca în `app/[limba]/meniu`:
   // modul pornit ȘI preparate scrise. Altfel sitemap-ul ar promite o
   // pagină care întoarce 404.
-  //
-  // Contactul rămâne pe dinafară: e footerul (`id="contact"`), nu o rută.
   if (setari.module.meniuRestaurant && areMeniu) {
     rute.push({ cale: '/meniu', prioritate: 0.7, frecventa: 'monthly' })
   }
+
+  // Contactul are pagină de acum (T68), nu mai e doar ancora către subsol.
+  // Există necondiționat: datele de contact sunt obligatorii oricum.
+  rute.push({ cale: '/contact', prioritate: 0.5, frecventa: 'yearly' })
 
   if (setari.module.evenimente) rute.push({ cale: '/evenimente', prioritate: 0.6, frecventa: 'monthly' })
   if (setari.module.galerieExtinsa) rute.push({ cale: '/galerie', prioritate: 0.5, frecventa: 'monthly' })

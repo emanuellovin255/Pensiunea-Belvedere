@@ -42,7 +42,8 @@ Reducere pentru copii — 2–4 ani 75%, 4–8 ani 50%, 8–12 ani 25%
 Prețul e pe persoană și diferă de la lună la lună: mai 1.500 lei, iunie 1.600 lei, iulie 1.700 lei,
 august 1.800 lei, septembrie 1.600 lei. Băuturile nu sunt incluse. Prânzul din excursia de o zi
 se plătește separat, la punctul gastronomic. Pachetul nu se aplică pentru cazare în regim single.
-Pentru cine nu mănâncă pește, preparatele se înlocuiesc cu carne, la cerere prealabilă.
+Pentru cine nu mănâncă pește, preparatele se înlocuiesc cu carne, la cerere prealabilă. Prânzul și
+safari-ul sunt opționale și nu sunt incluse în preț.
 
 ## Pachet Paște 2026
 

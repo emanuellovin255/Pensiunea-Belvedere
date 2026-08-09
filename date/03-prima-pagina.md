@@ -8,7 +8,7 @@ Textele din prima pagină, în ordinea în care apar.
 
 Titlu: Camere cu vedere la Lacul Murighiol, piscină încălzită și pește gătit pe loc
 
-Subtitlu: Pensiune în zona protejată a Deltei Dunării, la aproximativ patru ore cu mașina din București. Restaurant pescăresc propriu și șase trasee de excursie cu barca, cu transfer până la ponton.
+Subtitlu: Pensiune în zona protejată a Deltei Dunării, la aproximativ patru ore cu mașina din București. Restaurant pescăresc propriu și șase trasee de excursie cu barca, din portul Murighiol.
 
 Poza: exterior-pensiune-piscina.webp
 
@@ -73,7 +73,7 @@ Buton: Vezi meniul | #meniu
 
 Eticheta: Împrejurimile
 Poza: plimbare-cu-barca-in-delta.webp
-Text: Din portul Murighiol pleacă șase trasee cu ambarcațiuni mari și acoperite: de la o tură scurtă de 2,5 ore pe șapte lacuri până la o zi întreagă spre Sulina, Sfântu Gheorghe sau Pădurea Letea. Transferul de la pensiune până la ponton îl facem noi.
+Text: Din portul Murighiol pleacă șase trasee cu ambarcațiuni mari și acoperite: de la o tură scurtă de 2,5 ore pe șapte lacuri până la o zi întreagă spre Sulina, Sfântu Gheorghe sau Pădurea Letea.
 Buline: Șase trasee, de la 2,5 ore până la o zi întreagă
         Ambarcațiuni mari și acoperite, cu ghid
 Buton: Vezi excursiile | /oferte

@@ -34,9 +34,9 @@ that is why it takes time. Fish soup is made by pre-order only, for a minimum of
 
 ## Where do the Delta trips leave from?
 
-From the port of Murighiol, on large covered boats. We arrange the transfer from the guesthouse to
-the pontoon. There are six routes, between 2.5 hours and a full day, and at Mila 23, the Letea
-Forest and the Caraorman Forest you can have a meal at a local food stop, for an extra charge.
+From the port of Murighiol, on large covered boats. There are six routes, between 2.5 hours and a
+full day, and at Mila 23, the Letea Forest and the Caraorman Forest you can have a meal at a local
+food stop, for an extra charge.
 
 ## How do I get to the guesthouse, and where do I park?
 

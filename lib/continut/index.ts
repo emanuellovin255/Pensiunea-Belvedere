@@ -24,7 +24,8 @@ import path from 'node:path'
 
 import type { Cta, Faq, Feature, IconName, Offer, Review, Room, SiteData } from '@/content/types'
 import { etichete } from '@/lib/i18n/etichete'
-import type { Limba } from '@/lib/i18n/limbi'
+import { caleaPublica, type Limba } from '@/lib/i18n/limbi'
+import { traduSegment } from '@/lib/i18n/rute'
 import { linkRezervare } from '@/lib/whatsapp'
 
 import { analizeaza, boolean, lista, numar, numarZecimal, slug, sugereaza, text, type Bloc, type Document } from './md'
@@ -219,7 +220,7 @@ const DESTINATII: [RegExp, string][] = [
   [/camer/i, '/camere'],
   [/ofert|pachet/i, '/oferte'],
   [/galeri|poz|foto/i, '/galerie'],
-  [/contact|scrie|mesaj/i, '/#contact'],
+  [/contact|scrie|mesaj/i, '/contact'],
   [/meniu|restaurant|mânc|manc/i, '/#meniu'],
   [/eveniment|nunt|conferint/i, '/evenimente'],
   [/zon|împrejur|imprejur|atracți|atracti/i, '/zona'],
@@ -765,12 +766,11 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   /* Navigația — se generează din ce EXISTĂ, nu dintr-o listă fixă    */
   /* ---------------------------------------------------------------- */
 
-  // Meniul restaurantului și contactul sunt SECȚIUNI ale primei pagini, nu
-  // rute proprii — `dispecer.tsx` randează `menu`, iar `Subsol.tsx` poartă
-  // `id="contact"`. Legăturile trebuie deci să fie ancore. Până aici erau
-  // `/facilitati/restaurant` și `/contact`, adrese care nu există în `app/`:
-  // fiecare client livrat avea două 404-uri, unul dintre ele în antetul
-  // fiecărei pagini.
+  // Meniul restaurantului e și secțiune pe prima pagină, dar linkul din
+  // antet duce la pagina lui (T65). Contactul are și el pagină de acum
+  // (T68) — a fost ancoră către subsol, `/#contact`, până când s-a văzut
+  // că de pe o pagină de cameră asta însemna o săritură înapoi pe acasă
+  // ca să citești un număr de telefon.
   const meniuVizibil = setari.module.meniuRestaurant && setari.sectiuni.includes('menu')
   if (setari.module.meniuRestaurant && !meniuVizibil) {
     raport.avertisment({
@@ -785,18 +785,19 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   // nu vin din `date/` — dar trebuie totuși traduse, altfel antetul lui
   // `/en` iese în română (T08). Stau în `lib/i18n/etichete.ts`.
   //
-  // Meniul restaurantului are pagină proprie de când are 100 de preparate
-  // (T65): linkul nu mai e ancora `/#meniu`, ci ruta `/meniu`. Contactul
-  // rămâne ancoră — e footerul (`Subsol.tsx`, `id="contact"`), nu o pagină.
+  // Adresele sunt PUBLICE, nu interne: `/camere` în română, `/en/rooms`
+  // în engleză. Erau scrise ca `/camere` pentru amândouă, deci pe `/en`
+  // orice link din antet arunca vizitatorul înapoi în română, tăcut.
   const t = etichete(limba)
+  const link = (cale: string) => caleaPublica(limba, traduSegment(cale, limba))
   const nav = [
-    camere.length ? { label: t.navCamere, href: '/camere' } : null,
-    oferte.length ? { label: t.navOferte, href: '/oferte' } : null,
-    meniuVizibil ? { label: t.navMeniu, href: '/meniu' } : null,
-    setari.module.evenimente ? { label: t.navEvenimente, href: '/evenimente' } : null,
-    setari.module.galerieExtinsa ? { label: t.navGalerie, href: '/galerie' } : null,
-    setari.module.zona ? { label: t.navZona, href: '/zona' } : null,
-    { label: t.navContact, href: '/#contact' },
+    camere.length ? { label: t.navCamere, href: link('/camere') } : null,
+    oferte.length ? { label: t.navOferte, href: link('/oferte') } : null,
+    meniuVizibil ? { label: t.navMeniu, href: link('/meniu') } : null,
+    setari.module.evenimente ? { label: t.navEvenimente, href: link('/evenimente') } : null,
+    setari.module.galerieExtinsa ? { label: t.navGalerie, href: link('/galerie') } : null,
+    setari.module.zona ? { label: t.navZona, href: link('/zona') } : null,
+    { label: t.navContact, href: link('/contact') },
   ].filter((x): x is { label: string; href: string } => x !== null)
 
   const date: SiteData = {
@@ -878,6 +879,11 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
       lng: numarZecimal(camp(bGps, 'longitudine')),
       mapsUrl: camp(bGps, 'link google maps'),
       hours: camp(bProgram, 'receptie'),
+      // Orele de check-in/check-out: le arată pagina de contact. Textul e
+      // cel scris de client („de la 15:00"), nu o oră parsată — la Paște
+      // check-in-ul e altul, deci forma liberă e singura care nu minte.
+      checkIn: camp(bProgram, 'check-in'),
+      checkOut: camp(bProgram, 'check-out'),
       social,
     },
     nav,

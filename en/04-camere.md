@@ -11,18 +11,18 @@
   Câmpurile structurale (`Preț de la`, `Poze`, `Facilități`, `Video`, `Poster video`) sunt
   IDENTICE cu româna, nu traduse: sunt fișiere și numere, nu text.
 
-  Prețul de 300 lei rămâne placeholder, ca în română (T66).
+  Prețurile sunt cele confirmate de client, identice cu româna: 450 / 600 / 800 lei.
 -->
 
 ---
 
 ## Double room with balcony
 
-Preț de la: 300
+Preț de la: 450
 Persoane: 2 people
 Pat: double bed 160 × 200
 Suprafață: 
-Poze: camera-balcon-vedere-lac.webp
+Poze: camera-balcon-vedere-lac.webp, camera-dubla-balcon-pat.webp, camera-dubla-balcon-dulap-seif.webp, camera-dubla-balcon-vedere-piscina.webp, camera-dubla-balcon-baie-dus.webp
 Facilități: wifi, tv, climate, shower, safe, terrace
 Etichetă: Lake view
 Video: camera-dubla-cu-balcon.mp4
@@ -35,7 +35,7 @@ bathroom with shower, safe, LCD TV and furniture on the balcony. Opened with a k
 
 ## Family suite with balcony, 5 people
 
-Preț de la: 300
+Preț de la: 800
 Persoane: 5 people
 Pat: double bed 160 × 200, sofa bed for 2 and single bed 90 × 200
 Suprafață: 
@@ -53,7 +53,7 @@ large families or two couples with a child.
 
 ## Quadruple room with balcony
 
-Preț de la: 300
+Preț de la: 800
 Persoane: 4 people
 Pat: double bed 160 × 200 and bed 140 × 200
 Suprafață: 
@@ -71,7 +71,7 @@ a view.
 
 ## Family suite, 4 people
 
-Preț de la: 300
+Preț de la: 800
 Persoane: 4 people
 Pat: double bed 160 × 200 and two single beds 90 × 200
 Suprafață: 
@@ -89,7 +89,7 @@ needing two bookings.
 
 ## Triple room without balcony
 
-Preț de la: 300
+Preț de la: 600
 Persoane: 3 people
 Pat: double bed 160 × 200 and single bed 90 × 200
 Suprafață: 
@@ -106,7 +106,7 @@ bathroom with shower. Suited to a small family or three friends.
 
 ## Double room without balcony
 
-Preț de la: 300
+Preț de la: 450
 Persoane: 2 people
 Pat: double bed 160 × 200
 Suprafață: 

@@ -378,10 +378,10 @@ function continutDate(v: Verificare, date: SiteData, poze: string[], limba: Limb
 /* ------------------------------------------------------------------ */
 
 function ruteInterne(date: SiteData, setari: Setari, areMeniu: boolean): Set<string> {
-  // `/contact` și `/facilitati/restaurant` NU sunt rute — sunt ancore pe
-  // prima pagină. Un link către ele se validează prin `/`, fiindcă
+  // `/contact` are pagină de acum (T68). `/facilitati/restaurant` a rămas
+  // ancoră pe prima pagină: un link către ea se validează prin `/`, fiindcă
   // `linkuriMoarte` taie fragmentul înainte de comparație.
-  const r = new Set<string>(['/', '/multumim'])
+  const r = new Set<string>(['/', '/multumim', '/contact'])
   if (date.rooms.items.length) {
     r.add('/camere')
     for (const c of date.rooms.items) r.add(`/camere/${c.slug}`)

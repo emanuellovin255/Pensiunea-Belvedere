@@ -31,7 +31,7 @@ Text: Preparatele se gătesc pe loc și la comandă, așa că timpul de aștepta
 ## Pontoane de pescuit și bărcuțe
 
 Icon: pescuit
-Text: Două pontoane proprii în fața pensiunii, pe Lacul Murighiol, și bărcuțe la rame, folosite exclusiv de oaspeții cazați, fără cost suplimentar. De aici se pleacă și în excursiile cu barca, cu transfer asigurat de noi până la ambarcațiune.
+Text: Două pontoane proprii în fața pensiunii, pe Lacul Murighiol, și bărcuțe la rame, folosite exclusiv de oaspeții cazați, fără cost suplimentar. De aici se pleacă și în excursiile cu barca pe traseele din Deltă.
 
 ## Terasă
 
@@ -59,7 +59,7 @@ Icon: bed
 Text: Seif, uscător de păr, prosoape curate, papuci, produse de îngrijire personală, aer condiționat, senzori de fum și mobilier pe balcon la camerele cu balcon.
 
 <!--
-  Era aici și un card „Transfer la ponton". Scos la cererea clientului: spunea același lucru ca
-  ultima frază a cardului de pontoane. Serviciul rămâne — e menționat în hero, în feature-ul
-  despre Deltă și în întrebările frecvente.
+  Era aici și un card „Transfer la ponton". Scos la cererea clientului, ca și mențiunile despre
+  transfer din hero, din feature-ul despre Deltă și din întrebările frecvente: transferul de la
+  pensiune la ponton nu se mai promite nicăieri pe site.
 -->

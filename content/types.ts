@@ -205,6 +205,10 @@ export interface SiteData {
     lng?: number
     mapsUrl?: string
     hours?: string
+    /** Ora de check-in, ca text („de la 15:00"). Din `## Program`. */
+    checkIn?: string
+    /** Ora de check-out, ca text („până la 12:00"). Din `## Program`. */
+    checkOut?: string
     social: { label: string; icon: IconName; url: string }[]
   }
   nav: NavItem[]

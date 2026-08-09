@@ -43,6 +43,7 @@ The price is per person and differs from month to month: May 1,500 lei, June 1,6
 1,700 lei, August 1,800 lei, September 1,600 lei. Drinks are not included. Lunch during the
 full-day trip is paid separately, at the local food stop. The package does not apply to single
 occupancy. For guests who don't eat fish, the dishes are replaced with meat, on prior request.
+Lunch and the safari are optional and are not included in the price.
 
 ## Easter package 2026
 

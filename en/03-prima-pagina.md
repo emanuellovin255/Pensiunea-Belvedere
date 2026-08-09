@@ -14,7 +14,7 @@
 
 Titlu: Rooms overlooking Lake Murighiol, a heated pool and fish cooked to order
 
-Subtitlu: A guesthouse inside the protected area of the Danube Delta, about four hours by car from Bucharest. Our own fish restaurant and six boat trip routes, with transfer to the pontoon included.
+Subtitlu: A guesthouse inside the protected area of the Danube Delta, about four hours by car from Bucharest. Our own fish restaurant and six boat trip routes, leaving from the port of Murighiol.
 
 Poza: exterior-pensiune-piscina.webp
 
@@ -77,7 +77,7 @@ Buton: See the menu | /meniu
 
 Eticheta: The surroundings
 Poza: plimbare-cu-barca-in-delta.webp
-Text: Six routes leave from the port of Murighiol on large covered boats: from a short 2.5-hour run across seven lakes to a full day towards Sulina, Sfântu Gheorghe or the Letea Forest. We handle the transfer from the guesthouse to the pontoon.
+Text: Six routes leave from the port of Murighiol on large covered boats: from a short 2.5-hour run across seven lakes to a full day towards Sulina, Sfântu Gheorghe or the Letea Forest.
 Buline: Six routes, from 2.5 hours to a full day
         Large covered boats, with a guide
 Buton: See the trips | /oferte
