@@ -126,6 +126,14 @@ export interface Feature {
   image: string
   bullets: string[]
   ctas: Cta[]
+  /**
+   * Clip vertical în locul pozei, cu aceleași reguli ca la cameră (T60):
+   * click-to-play, cu sunet, zero bytes până la click. `image` rămâne
+   * completată — e ce se afișează dacă cineva scoate clipul.
+   */
+  video?: string
+  /** Posterul clipului. Fără el, clipul nu se randează deloc. */
+  videoPoster?: string
   /** Mirrors the split so consecutive features alternate. */
   reverse?: boolean
 }

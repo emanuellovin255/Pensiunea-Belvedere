@@ -648,6 +648,20 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
     if (!sb.titlu) return []
     const ctx = { fisier: '03-prima-pagina.md', linie: sb.linie, unde: sb.titlu }
     const buton = cta(sb.campuri.get('buton'), 'ghost')
+
+    // Un feature poate arăta un clip în locul pozei (T60), cu aceleași
+    // reguli ca la cameră: fără poster nu se randează, deci semnalăm aici.
+    const video = fisierMedia(sb.campuri.get('video'), EXT_VIDEO, ctx, poze, raport)
+    const videoPoster = poza(sb.campuri.get('poster video'), ctx, poze, raport)
+    if (video && !videoPoster) {
+      raport.eroare({
+        ...ctx,
+        mesaj: 'Feature-ul are „Video:", dar n-are „Poster video:".',
+        solutie:
+          'Scrie la „Poster video:" numele unei imagini din poze/. Fără poster, clipul e o zonă goală până la click, așa că rămâne poza obișnuită.',
+      })
+    }
+
     return [
       {
         id: slug(sb.titlu),
@@ -657,6 +671,8 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
         image: poza(camp(sb, 'poza'), ctx, poze, raport) ?? '',
         bullets: lista(sb.campuri.get('buline')),
         ctas: buton ? [buton] : [],
+        video: videoPoster ? video : undefined,
+        videoPoster: videoPoster && video ? videoPoster : undefined,
         // Alternanța e calculată, nu scrisă de mână: cine adaugă un
         // feature la mijloc nu trebuie să reordoneze restul.
         reverse: i % 2 === 1,

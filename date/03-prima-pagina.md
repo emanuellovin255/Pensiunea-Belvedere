@@ -73,6 +73,8 @@ Buton: Vezi meniul | #meniu
 
 Eticheta: Împrejurimile
 Poza: plimbare-cu-barca-in-delta.webp
+Video: plimbare-cu-barca-in-delta.mp4
+Poster video: plimbare-cu-barca-in-delta.webp
 Text: Din portul Murighiol pleacă șase trasee cu ambarcațiuni mari și acoperite: de la o tură scurtă de 2,5 ore pe șapte lacuri până la o zi întreagă spre Sulina, Sfântu Gheorghe sau Pădurea Letea.
 Buline: Șase trasee, de la 2,5 ore până la o zi întreagă
         Ambarcațiuni mari și acoperite, cu ghid

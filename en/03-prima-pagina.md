@@ -77,6 +77,8 @@ Buton: See the menu | /meniu
 
 Eticheta: The surroundings
 Poza: plimbare-cu-barca-in-delta.webp
+Video: plimbare-cu-barca-in-delta.mp4
+Poster video: plimbare-cu-barca-in-delta.webp
 Text: Six routes leave from the port of Murighiol on large covered boats: from a short 2.5-hour run across seven lakes to a full day towards Sulina, Sfântu Gheorghe or the Letea Forest.
 Buline: Six routes, from 2.5 hours to a full day
         Large covered boats, with a guide

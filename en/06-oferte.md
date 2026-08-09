@@ -38,6 +38,7 @@ Day 3 — a 2.5-hour trip across seven lakes; lunch with storceag; in the evenin
 Day 4 — check-out by 12:00
 Free access to the heated pool, the playground, the football pitch and the fishing pontoon
 Discounts for children — 75% for ages 2–4, 50% for 4–8, 25% for 8–12
+Meals during the trips and the safari are not included in the price — they are optional
 
 The price is per person and differs from month to month: May 1,500 lei, June 1,600 lei, July
 1,700 lei, August 1,800 lei, September 1,600 lei. Drinks are not included. Lunch during the

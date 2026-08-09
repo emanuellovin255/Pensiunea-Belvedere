@@ -357,7 +357,11 @@ function continutDate(v: Verificare, date: SiteData, poze: string[], limba: Limb
     adauga(c.videoPoster)
   }
   for (const o of date.offers.items) adauga(o.image)
-  for (const feat of date.features) adauga(feat.image)
+  for (const feat of date.features) {
+    adauga(feat.image)
+    adauga(feat.video)
+    adauga(feat.videoPoster)
+  }
   adauga(date.prezentare?.video)
   adauga(date.prezentare?.poster)
   // Pozele preparatelor: `07-meniu-restaurant.md` nu trece prin `SiteData`.
@@ -667,6 +671,9 @@ function performanta(v: Verificare, date: SiteData, clientDir: string, setari: S
   }
   for (const r of date.rooms.items) {
     if (r.video) clipuri.push({ src: r.video, poster: r.videoPoster, tip: 'clip', unde: `camera „${r.name}"` })
+  }
+  for (const f of date.features) {
+    if (f.video) clipuri.push({ src: f.video, poster: f.videoPoster, tip: 'clip', unde: `feature-ul „${f.title}"` })
   }
 
   const fisierVideo = (src: string): string | null => {

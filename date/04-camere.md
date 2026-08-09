@@ -17,11 +17,15 @@ Ghid detaliat: [`ghiduri/04-cum-adaug-sau-scot-o-camera.md`](../../../ghiduri/04
   „de la" — dacă cea cu balcon costă mai mult, spune cât și le separăm.
 
   GALERIA FOTO APARE DOAR LA CAMERELE CU MAI MULT DE O POZĂ. Clientul a cerut inițial ca pagina
-  camerei să arate camera doar în clip; camera dublă cu balcon a primit între timp fotografii,
-  așa că pagina ei are și galerie. Celelalte au un singur fișier la „Poze:" — poza de card, care
-  e și imaginea din datele structurate — deci rămân doar cu clipul. Ca să dai galerie altei
-  camere, adaugă-i pozele la „Poze:"; <Galerie> din components/sectiuni/PaginaCamera.tsx se
-  aprinde singură de la a doua poză.
+  camerei să arate camera doar în clip; camera dublă cu balcon, camera cvadruplă și suita de
+  familie de 4 persoane au primit între timp fotografii, așa că paginile lor au și galerie. Celelalte au un singur
+  fișier la „Poze:" — poza de card, care e și imaginea din datele structurate — deci rămân doar
+  cu clipul. Ca să dai galerie altei camere, adaugă-i pozele la „Poze:"; <Galerie> din
+  components/sectiuni/PaginaCamera.tsx se aprinde singură de la a doua poză.
+
+  „camera-balcon-vedere-lac.webp" a stat până acum prima la camera dublă cu balcon. Clientul a
+  semnalat (9 aug) că poza e de fapt din suita de familie de 4 persoane, deci a fost mutată
+  acolo. E pusă a DOUA: cardul suitei rămâne cu mansarda, care se potrivește cu descrierea.
 
   Clipul camerei se randează ULTIMUL în pagină, sub preț și buton.
 
@@ -37,8 +41,8 @@ Preț de la: 450
 Persoane: 2 persoane
 Pat: pat matrimonial 160 × 200
 Suprafață: 
-Poze: camera-balcon-vedere-lac.webp, camera-dubla-balcon-pat.webp, camera-dubla-balcon-dulap-seif.webp, camera-dubla-balcon-vedere-piscina.webp, camera-dubla-balcon-baie-dus.webp
-Facilități: wifi, tv, climate, shower, safe, terrace
+Poze: camera-dubla-balcon-pat.webp, camera-dubla-balcon-dulap-seif.webp, camera-dubla-balcon-vedere-piscina.webp, camera-dubla-balcon-baie-dus.webp
+Facilități: mic-dejun, wifi, tv, climate, shower, safe, terrace
 Etichetă: Vedere la lac
 Video: camera-dubla-cu-balcon.mp4
 Poster video: camera-dubla-cu-balcon.webp
@@ -55,7 +59,7 @@ Persoane: 5 persoane
 Pat: pat matrimonial 160 × 200, canapea extensibilă pentru 2 persoane și pat single 90 × 200
 Suprafață: 
 Poze: camera-vedere-lac-tv.webp
-Facilități: wifi, tv, climate, shower, fridge, safe, terrace
+Facilități: mic-dejun, wifi, tv, climate, shower, fridge, safe, terrace
 Etichetă: Cea mai spațioasă
 Video: suita-familie-balcon-5-persoane.mp4
 Poster video: suita-familie-balcon-5-persoane.webp
@@ -72,8 +76,8 @@ Preț de la: 800
 Persoane: 4 persoane
 Pat: pat matrimonial 160 × 200 și pat 140 × 200
 Suprafață: 
-Poze: camera-balcon-iesire-lac.webp
-Facilități: wifi, tv, climate, shower, safe, terrace
+Poze: camera-balcon-iesire-lac.webp, camera-cvadrupla-balcon-paturi.webp, camera-cvadrupla-balcon-tv-si-balcon.webp, camera-cvadrupla-balcon-baie-dus.webp
+Facilități: mic-dejun, wifi, tv, climate, shower, safe, terrace
 Etichetă: Vedere la lac
 Video: camera-cvadrupla-cu-balcon.mp4
 Poster video: camera-cvadrupla-cu-balcon.webp
@@ -89,8 +93,8 @@ Preț de la: 800
 Persoane: 4 persoane
 Pat: pat matrimonial 160 × 200 și două paturi single 90 × 200
 Suprafață: 
-Poze: camera-mansarda-doua-paturi.webp
-Facilități: wifi, tv, climate, shower, fridge, safe
+Poze: camera-mansarda-doua-paturi.webp, camera-balcon-vedere-lac.webp
+Facilități: mic-dejun, wifi, tv, climate, shower, fridge, safe
 Etichetă: Pentru familii
 Video: suita-familie-4-persoane.mp4
 Poster video: suita-familie-4-persoane.webp
@@ -108,7 +112,7 @@ Persoane: 3 persoane
 Pat: pat matrimonial 160 × 200 și pat single 90 × 200
 Suprafață: 
 Poze: camera-pat-dulap.webp
-Facilități: wifi, tv, climate, shower, safe
+Facilități: mic-dejun, wifi, tv, climate, shower, safe
 Etichetă: 
 Video: camera-tripla-fara-balcon.mp4
 Poster video: camera-tripla-fara-balcon.webp
@@ -125,7 +129,7 @@ Persoane: 2 persoane
 Pat: pat matrimonial 160 × 200
 Suprafață: 
 Poze: camera-dubla-pat.webp
-Facilități: wifi, tv, climate, shower, safe
+Facilități: mic-dejun, wifi, tv, climate, shower, safe
 Etichetă: 
 Video: camera-dubla-fara-balcon.mp4
 Poster video: camera-dubla-fara-balcon.webp

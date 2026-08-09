@@ -31,7 +31,7 @@ Text: Preparatele se gătesc pe loc și la comandă, așa că timpul de aștepta
 ## Pontoane de pescuit și bărcuțe
 
 Icon: pescuit
-Text: Două pontoane proprii în fața pensiunii, pe Lacul Murighiol, și bărcuțe la rame, folosite exclusiv de oaspeții cazați, fără cost suplimentar. De aici se pleacă și în excursiile cu barca pe traseele din Deltă.
+Text: Două pontoane proprii în fața pensiunii, pe Lacul Murighiol, și bărcuțe la rame, folosite exclusiv de oaspeții cazați, fără cost suplimentar.
 
 ## Terasă
 

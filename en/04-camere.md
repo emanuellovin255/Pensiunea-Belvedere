@@ -22,8 +22,8 @@ Preț de la: 450
 Persoane: 2 people
 Pat: double bed 160 × 200
 Suprafață: 
-Poze: camera-balcon-vedere-lac.webp, camera-dubla-balcon-pat.webp, camera-dubla-balcon-dulap-seif.webp, camera-dubla-balcon-vedere-piscina.webp, camera-dubla-balcon-baie-dus.webp
-Facilități: wifi, tv, climate, shower, safe, terrace
+Poze: camera-dubla-balcon-pat.webp, camera-dubla-balcon-dulap-seif.webp, camera-dubla-balcon-vedere-piscina.webp, camera-dubla-balcon-baie-dus.webp
+Facilități: mic-dejun, wifi, tv, climate, shower, safe, terrace
 Etichetă: Lake view
 Video: camera-dubla-cu-balcon.mp4
 Poster video: camera-dubla-cu-balcon.webp
@@ -40,7 +40,7 @@ Persoane: 5 people
 Pat: double bed 160 × 200, sofa bed for 2 and single bed 90 × 200
 Suprafață: 
 Poze: camera-vedere-lac-tv.webp
-Facilități: wifi, tv, climate, shower, fridge, safe, terrace
+Facilități: mic-dejun, wifi, tv, climate, shower, fridge, safe, terrace
 Etichetă: The most spacious
 Video: suita-familie-balcon-5-persoane.mp4
 Poster video: suita-familie-balcon-5-persoane.webp
@@ -57,8 +57,8 @@ Preț de la: 800
 Persoane: 4 people
 Pat: double bed 160 × 200 and bed 140 × 200
 Suprafață: 
-Poze: camera-balcon-iesire-lac.webp
-Facilități: wifi, tv, climate, shower, safe, terrace
+Poze: camera-balcon-iesire-lac.webp, camera-cvadrupla-balcon-paturi.webp, camera-cvadrupla-balcon-tv-si-balcon.webp, camera-cvadrupla-balcon-baie-dus.webp
+Facilități: mic-dejun, wifi, tv, climate, shower, safe, terrace
 Etichetă: Lake view
 Video: camera-cvadrupla-cu-balcon.mp4
 Poster video: camera-cvadrupla-cu-balcon.webp
@@ -75,8 +75,8 @@ Preț de la: 800
 Persoane: 4 people
 Pat: double bed 160 × 200 and two single beds 90 × 200
 Suprafață: 
-Poze: camera-mansarda-doua-paturi.webp
-Facilități: wifi, tv, climate, shower, fridge, safe
+Poze: camera-mansarda-doua-paturi.webp, camera-balcon-vedere-lac.webp
+Facilități: mic-dejun, wifi, tv, climate, shower, fridge, safe
 Etichetă: For families
 Video: suita-familie-4-persoane.mp4
 Poster video: suita-familie-4-persoane.webp
@@ -94,7 +94,7 @@ Persoane: 3 people
 Pat: double bed 160 × 200 and single bed 90 × 200
 Suprafață: 
 Poze: camera-pat-dulap.webp
-Facilități: wifi, tv, climate, shower, safe
+Facilități: mic-dejun, wifi, tv, climate, shower, safe
 Etichetă: 
 Video: camera-tripla-fara-balcon.mp4
 Poster video: camera-tripla-fara-balcon.webp
@@ -111,7 +111,7 @@ Persoane: 2 people
 Pat: double bed 160 × 200
 Suprafață: 
 Poze: camera-dubla-pat.webp
-Facilități: wifi, tv, climate, shower, safe
+Facilități: mic-dejun, wifi, tv, climate, shower, safe
 Etichetă: 
 Video: camera-dubla-fara-balcon.mp4
 Poster video: camera-dubla-fara-balcon.webp

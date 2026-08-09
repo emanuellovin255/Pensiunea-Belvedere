@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import { BtnRezervare } from './BtnRezervare'
+import { VideoVertical } from './VideoVertical'
 import { Icon } from '@/components/Icon'
 import type { Cta, Feature, SiteData } from '@/content/types'
 import { esteExtern } from '@/lib/whatsapp'
@@ -28,17 +29,28 @@ export function FeatureAlternant({ feature, date }: { feature: Feature; date: Si
     <section className="feature" id={feature.id}>
       <div className="wrap">
         <div className="split" data-reverse={feature.reverse ? 'true' : undefined}>
-          {feature.image && (
-            <div className="split-media">
-              <Image
-                src={feature.image}
-                alt={feature.title}
-                width={720}
-                height={560}
-                sizes="(max-width: 820px) 100vw, 50vw"
-                loading="lazy"
-              />
+          {/*
+            Clipul ține locul pozei când feature-ul are și video, și poster
+            (T60): tot click-to-play, deci până la apăsare în pagină e doar
+            posterul. Fără clip rămâne poza, exact ca înainte.
+          */}
+          {feature.video && feature.videoPoster ? (
+            <div className="split-media split-media-video">
+              <VideoVertical src={feature.video} poster={feature.videoPoster} eticheta={feature.title} />
             </div>
+          ) : (
+            feature.image && (
+              <div className="split-media">
+                <Image
+                  src={feature.image}
+                  alt={feature.title}
+                  width={720}
+                  height={560}
+                  sizes="(max-width: 820px) 100vw, 50vw"
+                  loading="lazy"
+                />
+              </div>
+            )
           )}
           <div className="split-body">
             {feature.eyebrow && <p className="eyebrow">{feature.eyebrow}</p>}

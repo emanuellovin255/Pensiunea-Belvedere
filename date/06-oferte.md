@@ -38,6 +38,7 @@ Ziua 3 — excursie de 2,5 h pe șapte lacuri; prânz cu storceag; seara, chifte
 Ziua 4 — check-out până la ora 12.00
 Acces gratuit la piscina cu apă încălzită, locul de joacă, terenul de fotbal și pontonul de pescuit
 Reducere pentru copii — 2–4 ani 75%, 4–8 ani 50%, 8–12 ani 25%
+Masa din timpul excursiilor și safari-ul nu sunt incluse în preț — sunt opționale
 
 Prețul e pe persoană și diferă de la lună la lună: mai 1.500 lei, iunie 1.600 lei, iulie 1.700 lei,
 august 1.800 lei, septembrie 1.600 lei. Băuturile nu sunt incluse. Prânzul din excursia de o zi

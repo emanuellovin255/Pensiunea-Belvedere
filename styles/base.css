@@ -627,6 +627,12 @@ section[id], footer[id] { scroll-margin-top: calc(var(--header-h) + var(--sp-6))
 .split[data-reverse='true'] .split-media { order: 2; }
 .split-media { background: var(--surface-alt); min-height: 440px; }
 .split-media img { width: 100%; height: 100%; object-fit: cover; }
+/*
+ * Varianta cu clip (T60). Poza umple coloana, clipul nu poate: e 9/16, iar
+ * coloana e landscape. Centrat, cu aer în jur — `.video-vertical` are deja
+ * `max-width: 380px` și `aspect-ratio`, deci nu se întinde peste bandă.
+ */
+.split-media-video { display: grid; place-items: center; padding: clamp(24px, 3vw, 48px); }
 .split-body {
   background: var(--surface-alt);
   padding: clamp(32px, 4.5vw, 58px);
