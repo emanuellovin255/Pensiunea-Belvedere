@@ -28,7 +28,7 @@ Text introductiv: Două pachete cu masă și program zi cu zi, plus șase trasee
 ## Pachet promoțional, 3 nopți și 4 zile
 
 Poza: exterior-pensiune-piscina.webp
-Badge: Cel mai cerut
+Badge: MAI - 1500 lei pers  IUNIE - 1600 lei pers  IULIE 1700lei pers AUGUST 1800 lei pers SEPTEMBRIE 1600 lei pers
 Valabil: mai – septembrie
 Include:
 Cazare 3 nopți, mic dejun în fiecare dimineață
