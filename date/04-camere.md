@@ -139,12 +139,12 @@ Spațioasă și liniștită, pentru un sejur scurt în Murighiol.
 
 ## camera test
 
-Preț de la: 
-Persoane: 
+Preț de la: 10
+Persoane: 1
 Pat: 
 Suprafață: 
 Poze: 
-Facilități: 
+Facilități: pin
 Etichetă: 
 Video: 
 Poster video: 
