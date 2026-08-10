@@ -23,8 +23,18 @@ nu pot fi decontate.
 
 ## Există reduceri pentru copii?
 
-Da, la pachetele turistice: 75% pentru copiii de 2–4 ani, 50% pentru 4–8 ani și 25% pentru
+Da, la pachetele turistice — 75% pentru copiii de 2–4 ani, 50% pentru 4–8 ani și 25% pentru
 8–12 ani.
+
+<!--
+  ATENȚIE la două puncte în capul unui răspuns. „Da, la pachetele turistice: 75%…" era citit ca
+  un câmp („Cheie: valoare"), fiindcă are patru cuvinte și nicio punctuație de frază înainte de
+  `:`. Răspunsul rămânea gol, iar o întrebare fără răspuns nu se afișează deloc — întrebarea asta
+  lipsea complet de pe site. De aici linia lungă în loc de două puncte.
+
+  Regula, dacă rescrii răspunsul: nu începe un rând cu mai puțin de șase cuvinte urmate de `:`.
+-->
+
 
 ## Ce fac dacă nu mănânc pește?
 

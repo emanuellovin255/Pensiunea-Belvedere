@@ -57,6 +57,24 @@ function originRezervari(): string {
   }
 }
 
+/**
+ * `'unsafe-eval'`, DOAR în dezvoltare.
+ *
+ * Reîncărcarea la cald a lui Next (HMR) evaluează module ca șiruri. Fără
+ * `unsafe-eval`, `main-app.js` moare cu `EvalError` la prima cerere și
+ * NICIUN component client nu se hidratează în `npm run dev`: butoane care
+ * nu răspund, bannerul de cookies inert, formularul mort, panoul de la
+ * `/admin` complet nefolosibil. Eroarea apare doar în consolă, deci a putut
+ * trece neobservată mult timp — în producție hidratarea e în regulă.
+ *
+ * În producție nu există HMR, deci nu există nici excepția: build-ul
+ * păstrează politica strictă, cu nonce și `strict-dynamic`.
+ *
+ * `NODE_ENV` e ștampilat la build de Next, deci merge și pe edge, unde
+ * `process.env` nu e citit din mediu la runtime.
+ */
+const DEV = process.env.NODE_ENV === 'development'
+
 /** Generează un nonce criptografic pe cerere. `crypto` e global pe edge. */
 export function genereazaNonce(): string {
   const bytes = new Uint8Array(16)
@@ -80,7 +98,8 @@ export function construiesteCsp(nonce: string): string {
   const directive = [
     "default-src 'self'",
     // nonce = poarta reală; strict-dynamic propagă încrederea; 'self' = fallback vechi.
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+    // `unsafe-eval` doar în dev, pentru HMR — vezi comentariul de la `DEV`.
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${DEV ? " 'unsafe-eval'" : ''}`,
     "style-src 'self' 'unsafe-inline'",
     `img-src ${img}`,
     "font-src 'self'",
