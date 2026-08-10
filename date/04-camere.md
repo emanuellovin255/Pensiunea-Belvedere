@@ -136,15 +136,3 @@ Poster video: camera-dubla-fara-balcon.webp
 
 Cameră matrimonială pentru două persoane, cu aer condiționat, seif și baie proprie cu cadă.
 Spațioasă și liniștită, pentru un sejur scurt în Murighiol.
-
-## camera test
-
-Preț de la: 10
-Persoane: 1
-Pat: 
-Suprafață: 
-Poze: 
-Facilități: pin
-Etichetă: 
-Video: 
-Poster video: 
