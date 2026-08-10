@@ -48,17 +48,31 @@ export function middleware(request: NextRequest) {
   // 2 · Rewrite de limbă. `/en/...` și `/ro/...` merg neatinse; `/ro/...`
   // rămâne accesibil intenționat (canonical din T07 îl trimite la varianta
   // fără prefix, deci nu se duplică în index).
-  const prefix = LIMBI.find((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`))
-
-  const response = prefix
-    ? rewriteSegmentTradus(request, requestHeaders, prefix)
-    : rewriteFaraPrefix(request, requestHeaders)
+  //
+  // Panoul de administrare NU are limbă: stă la `app/admin/`, în afara lui
+  // `app/[limba]/`. Fără excepția asta, `/admin` s-ar rescrie în `/ro/admin`,
+  // care nu există — panoul ar da 404. Rămâne totuși în matcher, ca să
+  // primească nonce-ul, CSP-ul și HSTS ca orice altă pagină.
+  const response = ESTE_ADMIN.test(pathname)
+    ? NextResponse.next({ request: { headers: requestHeaders } })
+    : rewriteCuLimba(request, requestHeaders, pathname)
 
   // CSP + restul politicii pe răspuns.
   response.headers.set('Content-Security-Policy', csp)
   for (const [cheie, valoare] of HEADERE_SECURITATE) response.headers.set(cheie, valoare)
 
   return response
+}
+
+/** `/admin` și tot ce e sub el. */
+const ESTE_ADMIN = /^\/admin(\/|$)/
+
+/** Rewrite-ul de limbă: cu prefix explicit (`/en/...`) sau fără (româna). */
+function rewriteCuLimba(request: NextRequest, requestHeaders: Headers, pathname: string) {
+  const prefix = LIMBI.find((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`))
+  return prefix
+    ? rewriteSegmentTradus(request, requestHeaders, prefix)
+    : rewriteFaraPrefix(request, requestHeaders)
 }
 
 function rewriteFaraPrefix(request: NextRequest, requestHeaders: Headers) {

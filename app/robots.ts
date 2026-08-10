@@ -6,14 +6,18 @@ import { baseUrl } from '@/lib/seo/meta'
  * robots.txt.
  *
  * Permite tot, cu excepția paginilor de probă ale motorului (nu ajung
- * la un client, dar dacă ajung, nu vrem să fie indexate). Trimite spre
- * sitemap. Crawlerele AI (GPTBot, PerplexityBot, ClaudeBot) sunt permise
- * explicit — vizibilitatea acolo e exact ce urmărim (T07).
+ * la un client, dar dacă ajung, nu vrem să fie indexate) și a panoului
+ * de administrare. Trimite spre sitemap. Crawlerele AI (GPTBot,
+ * PerplexityBot, ClaudeBot) sunt permise explicit — vizibilitatea acolo
+ * e exact ce urmărim (T07).
+ *
+ * `/admin` e apărat de parolă, nu de `robots.txt` — dar n-are ce căuta
+ * într-un index, iar `app/admin/layout.tsx` pune și `noindex` pe pagină.
  */
 export default function robots(): MetadataRoute.Robots {
   const base = baseUrl()
   return {
-    rules: [{ userAgent: '*', allow: '/', disallow: ['/probe/', '/api/'] }],
+    rules: [{ userAgent: '*', allow: '/', disallow: ['/probe/', '/api/', '/admin'] }],
     sitemap: `${base}/sitemap.xml`,
     host: base,
   }
