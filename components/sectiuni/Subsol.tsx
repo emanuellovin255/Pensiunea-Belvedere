@@ -113,7 +113,7 @@ export function Subsol({ date }: { date: SiteData }) {
         </div>
 
         {/* Datele de identificare a firmei — obligatorii (REGULI.md 14).
-            Vin din date/12-legal-firma.md, niciodată scrise în cod. */}
+            Vin din date/12-firma-si-documente-legale.md, niciodată scrise în cod. */}
         {(legal.company || legal.registration) && (
           <div className="f-firma">
             {legal.company && <span>{legal.company}</span>}

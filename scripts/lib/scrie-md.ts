@@ -14,6 +14,7 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import type { Faq, Offer, Palette, Review, Room, Typography } from '../../content/types'
+import { FISIERE } from '../../lib/continut/fisiere'
 
 /** Tot ce a putut extrage analiza dintr-un site. Câmpurile absente rămân goluri. */
 export interface Extras {
@@ -335,19 +336,23 @@ Caracter: ${e.caracter}
 
 /**
  * Scrie toate fișierele `date/*.md` din datele extrase. Nu atinge
- * 03-prima-pagina (texte de campanie — nu se extrag), 05-facilități,
- * 07-meniu, 12-legal: acelea rămân scheletul copiat, de completat de om.
+ * 03 (texte de campanie — nu se extrag), 05-facilități, 07-meniu și 12:
+ * acelea rămân scheletul copiat, de completat de om.
+ *
+ * Numele vin din `FISIERE` (lib/continut/fisiere.ts), nu scrise aici:
+ * altfel un `npm run analiza` rulat a doua oară, după o redenumire,
+ * scrie fișiere noi LÂNGĂ cele existente în loc să le suprascrie.
  */
 export async function scrieDate(dir: string, e: Extras): Promise<string[]> {
   const fisiere: [string, string][] = [
-    ['01-identitate.md', identitate(e)],
-    ['02-contact.md', contact(e)],
-    ['04-camere.md', camere(e)],
-    ['06-oferte.md', oferte(e)],
-    ['08-recenzii.md', recenzii(e)],
-    ['09-intrebari-frecvente.md', faq(e)],
-    ['10-rezervari-si-plati.md', rezervari(e)],
-    ['11-culori-si-fonturi.md', culori(e)],
+    [FISIERE.identitate, identitate(e)],
+    [FISIERE.contact, contact(e)],
+    [FISIERE.camere, camere(e)],
+    [FISIERE.oferte, oferte(e)],
+    [FISIERE.recenzii, recenzii(e)],
+    [FISIERE.faq, faq(e)],
+    [FISIERE.rezervari, rezervari(e)],
+    [FISIERE.stil, culori(e)],
   ]
   for (const [nume, continut] of fisiere) await scrie(dir, nume, continut)
   return fisiere.map(([n]) => n)

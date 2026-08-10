@@ -35,6 +35,8 @@ mkdirSync(media, { recursive: true })
 const nume_poze: string[] = []
 for (const f of readdirSync(poze)) {
   if (f.startsWith('.')) continue
+  // `poze/README.md` e ghidul folderului, nu o imagine de servit.
+  if (f.endsWith('.md')) continue
   copyFileSync(path.join(poze, f), path.join(media, f))
   nume_poze.push(f)
 }

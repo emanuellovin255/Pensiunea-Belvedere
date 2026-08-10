@@ -29,7 +29,7 @@ export function PaginaContact({ date, limba = 'ro' }: { date: SiteData; limba?: 
   const t = etichete(limba)
   const { contact } = date
 
-  // Fără țară: în `date/02-contact.md` e scrisă ca „RO", cod de care are
+  // Fără țară: în `date/02-telefon-email-si-adresa.md` e scrisă ca „RO", cod de care are
   // nevoie JSON-LD-ul, nu omul care caută adresa.
   const adresa = [contact.street, contact.postalCode, contact.city, contact.region]
     .filter(Boolean)

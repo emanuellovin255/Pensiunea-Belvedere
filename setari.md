@@ -57,7 +57,7 @@ Secțiune de închidere: da
 
 <!--
   Clip de prezentare  → apare doar dacă e „da" AICI și dacă blocul
-  „## Clip de prezentare" din date/03-prima-pagina.md are video și poster.
+  „## Clip de prezentare" din date/03-pagina-principala.md are video și poster.
 
   Meniu restaurant    → modulul de mai sus îl PORNEȘTE, dar secțiunea apare pe prima pagină doar
   dacă e trecută și aici. Fără rândul ăsta, meniul nu se randează nicăieri, iar motorul

@@ -3,6 +3,7 @@ import path from 'node:path'
 
 import type { Meniu, MeniuCategorie } from '@/content/meniu'
 
+import { FISIERE, rezolva } from './fisiere'
 import { analizeaza, lista, normalizeaza, text } from './md'
 
 /**
@@ -23,8 +24,8 @@ import { analizeaza, lista, normalizeaza, text } from './md'
  */
 export function incarcaMeniu(radacinaDate: string, radacinaClient?: string): Meniu {
   const gol: Meniu = { sectiune: {}, categorii: [] }
-  const cale = path.join(radacinaDate, '07-meniu-restaurant.md')
-  if (!existsSync(cale)) return gol
+  const cale = rezolva(radacinaDate, FISIERE.meniu)
+  if (!cale) return gol
 
   /**
    * `Poza:` → `/media/<fisier>`, dar numai dacă fișierul chiar există în
@@ -46,7 +47,7 @@ export function incarcaMeniu(radacinaDate: string, radacinaClient?: string): Men
   for (const bloc of doc.blocuri) {
     if (!bloc.titlu.trim()) continue
 
-    // Antetul secțiunii: același tipar ca `## Secțiune` din 06-oferte.md.
+    // Antetul secțiunii: același tipar ca `## Secțiune` din 06-oferte-si-excursii.md.
     if (normalizeaza(bloc.titlu) === 'sectiune') {
       sectiune.eyebrow = text(bloc.campuri.get('eticheta'))
       sectiune.title = text(bloc.campuri.get('titlu'))

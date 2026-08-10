@@ -157,7 +157,7 @@ function reguliContact(v: Verificare) {
           fisier: v.rel(f),
           linie: i + 1,
           mesaj: `Număr de telefon scris direct în cod („${tel[0].trim()}") — regula 5.`,
-          repara: 'Mută-l în clienti/<nume>/date/02-contact.md și citește-l din date, niciodată dintr-o componentă.',
+          repara: 'Mută-l în clienti/<nume>/date/02-telefon-email-si-adresa.md și citește-l din date, niciodată dintr-o componentă.',
         })
       }
       const em = l.match(EMAIL)
@@ -166,7 +166,7 @@ function reguliContact(v: Verificare) {
           fisier: v.rel(f),
           linie: i + 1,
           mesaj: `Adresă de email scrisă direct în cod („${em[0]}") — regula 5.`,
-          repara: 'Mută-o în date/02-contact.md. Datele de contact nu se scriu niciodată într-o componentă.',
+          repara: 'Mută-o în date/02-telefon-email-si-adresa.md. Datele de contact nu se scriu niciodată într-o componentă.',
         })
       }
     })
@@ -420,8 +420,8 @@ function linkuriMoarte(v: Verificare, clientDir: string, date: SiteData, rute: S
 
   // Din butoanele rezolvate de loader.
   for (const c of date.nav) verifica(c.href, { fisier: '(navigație)', unde: c.label })
-  if (date.closing.cta?.href) verifica(date.closing.cta.href, { fisier: 'date/03-prima-pagina.md', unde: 'Secțiune de închidere' })
-  for (const feat of date.features) for (const cta of feat.ctas) verifica(cta.href, { fisier: 'date/03-prima-pagina.md', unde: feat.title })
+  if (date.closing.cta?.href) verifica(date.closing.cta.href, { fisier: 'date/03-pagina-principala.md', unde: 'Secțiune de închidere' })
+  for (const feat of date.features) for (const cta of feat.ctas) verifica(cta.href, { fisier: 'date/03-pagina-principala.md', unde: feat.title })
 
   // Din linkuri Markdown scrise în text.
   for (const f of fisiereClient(clientDir)) {
@@ -471,16 +471,16 @@ function seo(v: Verificare, date: SiteData, setari: Setari, rute: Set<string>) {
 
   if (!date.seo.title) {
     v.avertisment({
-      fisier: 'date/01-identitate.md',
+      fisier: 'date/01-nume-logo-si-descriere.md',
       mesaj: 'Titlul paginii principale e gol.',
-      repara: 'Completează „Nume:" în date/01-identitate.md — din el se face titlul.',
+      repara: 'Completează „Nume:" în date/01-nume-logo-si-descriere.md — din el se face titlul.',
     })
   }
 
   // og:image pentru partajarea pe rețele.
   if (!date.seo.ogImage && !date.hero.image) {
     v.avertisment({
-      fisier: 'date/03-prima-pagina.md',
+      fisier: 'date/03-pagina-principala.md',
       mesaj: 'Nu există og:image — când cineva dă link pe Facebook/WhatsApp, apare un card gol.',
       repara: 'Pune o poză de hero (ideal 1200×630) în poze/ și scrie-o la „Poza:" în prima secțiune.',
     })
@@ -610,9 +610,9 @@ function legal(v: Verificare, date: SiteData) {
   for (const [nume, re] of necesare) {
     if (!date.legal.links.some((l) => re.test(l.label) || re.test(l.href))) {
       v.avertisment({
-        fisier: 'date/12-legal-firma.md',
+        fisier: 'date/12-firma-si-documente-legale.md',
         mesaj: `Nu găsesc un link către „${nume}" în footer.`,
-        repara: 'Completează linkul în blocul „Documente legale" din date/12-legal-firma.md. Motorul are paginile gata scrise.',
+        repara: 'Completează linkul în blocul „Documente legale" din date/12-firma-si-documente-legale.md. Motorul are paginile gata scrise.',
       })
     }
   }

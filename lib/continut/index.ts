@@ -28,6 +28,7 @@ import { caleaPublica, type Limba } from '@/lib/i18n/limbi'
 import { traduSegment } from '@/lib/i18n/rute'
 import { linkRezervare } from '@/lib/whatsapp'
 
+import { FISIERE, rezolva } from './fisiere'
 import { analizeaza, boolean, lista, numar, numarZecimal, slug, sugereaza, text, type Bloc, type Document } from './md'
 import { radacinaClientDir } from './radacina'
 import { Raport } from './raport'
@@ -62,8 +63,10 @@ function citeste(
   raport: Raport,
   optiuni: { optional?: boolean } = {},
 ): Sursa | null {
-  const cale = path.join(radacina, fisier)
-  if (!existsSync(cale)) {
+  // `rezolva()` iartă o redenumire care păstrează prefixul numeric
+  // (`04-camere.md` → `04-camerele-noastre.md`). Vezi `fisiere.ts`.
+  const cale = rezolva(radacina, fisier)
+  if (!cale) {
     // `optional` = pe /en un fișier lipsă înseamnă doar că secțiunea aceea
     // nu apare (T08), nu o problemă de raportat.
     if (!optiuni.optional) {
@@ -135,7 +138,11 @@ function verificaChei(b: Bloc, cunoscute: readonly string[], fisier: string, rap
  */
 function citestePoze(radacina: string): string[] {
   const dir = path.join(radacina, 'poze')
-  if (existsSync(dir)) return readdirSync(dir).filter((f) => !f.startsWith('.'))
+  // `.md` nu e imagine: `poze/README.md` e ghidul folderului. Fără filtrul
+  // ăsta ar fi numărat ca poză nefolosită la fiecare `npm run verifica`.
+  if (existsSync(dir)) {
+    return readdirSync(dir).filter((f) => !f.startsWith('.') && !f.endsWith('.md'))
+  }
 
   const lista = path.resolve(process.cwd(), 'content', 'poze.json')
   if (!existsSync(lista)) return []
@@ -287,27 +294,27 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   const poze = citestePoze(radacinaClient)
 
   // Fișiere STRUCTURALE — nu se traduc, mereu din română.
-  const contact = citeste(radacinaRo, '02-contact.md', raport)
-  const rezervari = citeste(radacinaRo, '10-rezervari-si-plati.md', raport)
-  const stil = citeste(radacinaRo, '11-culori-si-fonturi.md', raport)
-  const legalSursa = citeste(radacinaRo, '12-legal-firma.md', raport)
+  const contact = citeste(radacinaRo, FISIERE.contact, raport)
+  const rezervari = citeste(radacinaRo, FISIERE.rezervari, raport)
+  const stil = citeste(radacinaRo, FISIERE.stil, raport)
+  const legalSursa = citeste(radacinaRo, FISIERE.legal, raport)
 
   // Fișiere de CONȚINUT — din folderul limbii. Pe /en, un fișier lipsă
   // înseamnă doar că secțiunea aceea nu apare (T08), deci nu e o
   // problemă de raportat: `optional` taie avertismentul de „lipsește".
   const optional = limba !== 'ro'
-  const identitate = citeste(radacinaLimba, '01-identitate.md', raport, { optional })
-  const prima = citeste(radacinaLimba, '03-prima-pagina.md', raport, { optional })
-  const camereSursa = citeste(radacinaLimba, '04-camere.md', raport, { optional })
-  const facilitatiSursa = citeste(radacinaLimba, '05-facilitati.md', raport, { optional })
-  const oferteSursa = citeste(radacinaLimba, '06-oferte.md', raport, { optional })
-  const recenziiSursa = citeste(radacinaLimba, '08-recenzii.md', raport, { optional })
-  const faqSursa = citeste(radacinaLimba, '09-intrebari-frecvente.md', raport, { optional })
+  const identitate = citeste(radacinaLimba, FISIERE.identitate, raport, { optional })
+  const prima = citeste(radacinaLimba, FISIERE.primaPagina, raport, { optional })
+  const camereSursa = citeste(radacinaLimba, FISIERE.camere, raport, { optional })
+  const facilitatiSursa = citeste(radacinaLimba, FISIERE.facilitati, raport, { optional })
+  const oferteSursa = citeste(radacinaLimba, FISIERE.oferte, raport, { optional })
+  const recenziiSursa = citeste(radacinaLimba, FISIERE.recenzii, raport, { optional })
+  const faqSursa = citeste(radacinaLimba, FISIERE.faq, raport, { optional })
   // Din 10 se traduce DOAR blocul `## Etichete` (vezi mai jos, secțiunea 10).
   // Fișierul e opțional în `en/`: cine nu-l pune, moștenește etichetele
   // românești, nu rămâne cu butoane goale.
   const rezervariLimba = optional
-    ? citeste(radacinaLimba, '10-rezervari-si-plati.md', raport, { optional })
+    ? citeste(radacinaLimba, FISIERE.rezervari, raport, { optional })
     : rezervari
   // Meniul (07) se citește separat, prin lib/continut/meniu.ts.
 
@@ -321,13 +328,13 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   /* ---------------------------------------------------------------- */
 
   // Numele locației NU se traduce (T08): pe /en se ia din română dacă
-  // en/01-identitate.md nu-l repetă. Slogan și descriere SE traduc.
-  const identitateRo = optional ? citeste(radacinaRo, '01-identitate.md', raport) : identitate
+  // en/01-nume-logo-si-descriere.md nu-l repetă. Slogan și descriere SE traduc.
+  const identitateRo = optional ? citeste(radacinaRo, FISIERE.identitate, raport) : identitate
   const bNume = bloc(identitate, 'nume') ?? bloc(identitateRo, 'nume')
   const numeLocatie = camp(bloc(identitate, 'nume'), 'nume') ?? camp(bloc(identitateRo, 'nume'), 'nume')
   if (!numeLocatie) {
     raport.eroare({
-      fisier: '01-identitate.md',
+      fisier: FISIERE.identitate,
       unde: 'Nume',
       mesaj: 'Numele locației lipsește.',
       solutie: 'Completează „Nume:" — apare în titlul paginii, în antet și în footer.',
@@ -339,14 +346,14 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   const descriere = camp(bloc(identitate, 'descriere'), 'descriere') ?? ''
   const logo = poza(
     camp(bloc(identitate, 'logo'), 'logo'),
-    { fisier: '01-identitate.md', unde: 'Logo' },
+    { fisier: FISIERE.identitate, unde: 'Logo' },
     poze,
     raport,
   )
 
   if (!descriere) {
     raport.avertisment({
-      fisier: '01-identitate.md',
+      fisier: FISIERE.identitate,
       unde: 'Descriere scurtă',
       mesaj: 'Descrierea lipsește, deci Google va inventa singur un fragment sub titlu.',
       solutie: 'Scrie 2-3 propoziții pentru cineva care nu știe nimic despre locație.',
@@ -361,7 +368,7 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   const telefon = camp(bTel, 'telefon')
   if (!telefon) {
     raport.eroare({
-      fisier: '02-contact.md',
+      fisier: FISIERE.contact,
       unde: 'Telefon',
       mesaj: 'Telefonul lipsește.',
       solutie:
@@ -376,7 +383,7 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   const oras = camp(bAdr, 'oras') ?? ''
   if (!oras) {
     raport.avertisment({
-      fisier: '02-contact.md',
+      fisier: FISIERE.contact,
       unde: 'Adresă',
       mesaj: 'Orașul lipsește, deci locația nu poate apărea corect în căutările locale.',
       solutie: 'Completează cel puțin „Oraș:" și „Județ:". Trebuie să fie identice cu Google Business Profile.',
@@ -405,13 +412,13 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   const bHero = bloc(prima, 'prima secțiune', 'prima sectiune')
   const heroImagine = poza(
     camp(bHero, 'poza'),
-    { fisier: '03-prima-pagina.md', unde: 'Prima secțiune', linie: bHero?.linie },
+    { fisier: FISIERE.primaPagina, unde: 'Prima secțiune', linie: bHero?.linie },
     poze,
     raport,
   )
   if (!heroImagine) {
     raport.avertisment({
-      fisier: '03-prima-pagina.md',
+      fisier: FISIERE.primaPagina,
       unde: 'Prima secțiune',
       mesaj: 'Prima secțiune n-are poză, deci se va randa pe culoarea de brand, fără imagine.',
       solutie: 'Pune cea mai bună poză a locației în poze/ și scrie numele ei la „Poza:".',
@@ -447,8 +454,8 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   const sluguriVazute = new Set<string>()
 
   for (const b of blocuriCompletate(camereSursa)) {
-    const ctx = { fisier: '04-camere.md', linie: b.linie, unde: b.titlu || '(cameră fără nume)' }
-    verificaChei(b, CHEI_CAMERA, '04-camere.md', raport)
+    const ctx = { fisier: FISIERE.camere, linie: b.linie, unde: b.titlu || '(cameră fără nume)' }
+    verificaChei(b, CHEI_CAMERA, FISIERE.camere, raport)
 
     if (!b.titlu) {
       raport.eroare({
@@ -525,7 +532,7 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
 
   if (!camere.length) {
     raport.avertisment({
-      fisier: '04-camere.md',
+      fisier: FISIERE.camere,
       mesaj: 'Nicio cameră completată, deci secțiunea de camere nu se va afișa.',
       solutie: 'Completează cel puțin o cameră. E secțiunea care aduce cele mai multe rezervări.',
     })
@@ -551,8 +558,8 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   const bSectiuneOferte = bloc(oferteSursa, 'secțiune', 'sectiune')
   const oferte: Offer[] = blocuriCompletate(oferteSursa).flatMap((b) => {
     if (!b.titlu || b === bSectiuneOferte) return []
-    const ctx = { fisier: '06-oferte.md', linie: b.linie, unde: b.titlu }
-    verificaChei(b, CHEI_OFERTA, '06-oferte.md', raport)
+    const ctx = { fisier: FISIERE.oferte, linie: b.linie, unde: b.titlu }
+    verificaChei(b, CHEI_OFERTA, FISIERE.oferte, raport)
     return [
       {
         slug: slug(b.titlu),
@@ -588,7 +595,7 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
 
   if (rating && !rating.source) {
     raport.eroare({
-      fisier: '08-recenzii.md',
+      fisier: FISIERE.recenzii,
       unde: 'Nota medie',
       mesaj: 'Nota medie e completată, dar nu spune de unde vine.',
       solutie:
@@ -601,7 +608,7 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
     // Blocurile „Nota medie" și „Secțiune" nu sunt recenzii; sar peste ele.
     if (b === bNota || b === bSectiuneRecenzii) continue
     if (!b.text.trim() && !b.titlu) continue
-    verificaChei(b, CHEI_RECENZIE, '08-recenzii.md', raport)
+    verificaChei(b, CHEI_RECENZIE, FISIERE.recenzii, raport)
 
     const sursa = camp(b, 'sursa')
     const autor = camp(b, 'autor')
@@ -610,7 +617,7 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
     if (!sursa) {
       // Nu e eroare de build: e o secțiune care pur și simplu nu apare.
       raport.avertisment({
-        fisier: '08-recenzii.md',
+        fisier: FISIERE.recenzii,
         linie: b.linie,
         unde: autor ?? citat.slice(0, 40),
         mesaj: 'Recenzia n-are sursă, deci NU se afișează pe site.',
@@ -646,7 +653,7 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   const bFeatures = bloc(prima, 'feature')
   const features: Feature[] = (bFeatures?.subblocuri ?? []).flatMap((sb, i) => {
     if (!sb.titlu) return []
-    const ctx = { fisier: '03-prima-pagina.md', linie: sb.linie, unde: sb.titlu }
+    const ctx = { fisier: FISIERE.primaPagina, linie: sb.linie, unde: sb.titlu }
     const buton = cta(sb.campuri.get('buton'), 'ghost')
 
     // Un feature poate arăta un clip în locul pozei (T60), cu aceleași
@@ -688,13 +695,13 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   const prezentareVideo = fisierMedia(
     bPrezentare?.campuri.get('video'),
     EXT_VIDEO,
-    { fisier: '03-prima-pagina.md', unde: 'Clip de prezentare', linie: bPrezentare?.linie },
+    { fisier: FISIERE.primaPagina, unde: 'Clip de prezentare', linie: bPrezentare?.linie },
     poze,
     raport,
   )
   const prezentarePoster = poza(
     bPrezentare?.campuri.get('poster'),
-    { fisier: '03-prima-pagina.md', unde: 'Clip de prezentare', linie: bPrezentare?.linie },
+    { fisier: FISIERE.primaPagina, unde: 'Clip de prezentare', linie: bPrezentare?.linie },
     poze,
     raport,
   )
@@ -702,7 +709,7 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   // goală până la click (REGULI.md 3 — mai bine lipsă decât pe jumătate).
   if (prezentareVideo && !prezentarePoster) {
     raport.eroare({
-      fisier: '03-prima-pagina.md',
+      fisier: FISIERE.primaPagina,
       unde: 'Clip de prezentare',
       linie: bPrezentare?.linie,
       mesaj: 'Clipul de prezentare are „Video:", dar n-are „Poster:".',
@@ -737,7 +744,7 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
 
   if (tipRezervare !== 'formular' && !adresaMotor) {
     raport.eroare({
-      fisier: '10-rezervari-si-plati.md',
+      fisier: FISIERE.rezervari,
       unde: 'Rezervări',
       mesaj: `Tipul e „${tipRezervare}", dar „Adresă:" e goală.`,
       solutie:
@@ -762,7 +769,7 @@ export function incarcaClient(nume: string, limba: Limba = 'ro'): ContinutClient
   const cui = camp(bFirma, 'cui')
   if (!denumire || !cui) {
     raport.avertisment({
-      fisier: '12-legal-firma.md',
+      fisier: FISIERE.legal,
       unde: 'Firmă',
       mesaj: 'Denumirea firmei sau CUI-ul lipsesc din footer.',
       solutie:

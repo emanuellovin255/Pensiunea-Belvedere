@@ -46,7 +46,7 @@ export interface MeniuCategorie {
  * Antetul secțiunii de meniu — eyebrow, titlu, text introductiv.
  *
  * Vine din blocul `## Secțiune` al fișierului, exact ca la oferte
- * (`06-oferte.md`). Stă în datele CLIENTULUI, nu în motor: fraza care
+ * (`06-oferte-si-excursii.md`). Stă în datele CLIENTULUI, nu în motor: fraza care
  * descrie bucătăria unei pensiuni n-are ce căuta într-o componentă pe
  * care o moștenesc toți clienții.
  */

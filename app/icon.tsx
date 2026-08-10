@@ -12,7 +12,7 @@ import { siteCurent } from '@/lib/site'
  *
  * Două variante, în ordinea asta:
  *
- *  1. LOGO-UL CLIENTULUI, dacă `date/01-identitate.md` are unul. E marca
+ *  1. LOGO-UL CLIENTULUI, dacă `date/01-nume-logo-si-descriere.md` are unul. E marca
  *     pe care o recunoaște omul în bara de tab-uri, deci are prioritate.
  *     Fără fundal colorat: logo-ul are deja forma și culoarea lui, iar
  *     `theme.colors.brand` din date nu e neapărat culoarea pe care o

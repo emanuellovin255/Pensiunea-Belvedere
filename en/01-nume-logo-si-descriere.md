@@ -1,7 +1,7 @@
 # Identity
 
 <!--
-  Traducerea lui date/01-identitate.md.
+  Traducerea lui date/01-nume-logo-si-descriere.md.
 
   TITLURILE DE BLOC (`## Nume`, `## Slogan`, …) ȘI NUMELE CÂMPURILOR RĂMÂN ÎN ROMÂNĂ, ca în toate
   fișierele din `en/`. Sunt chei de parsare, nu text pentru vizitator: loader-ul le caută exact

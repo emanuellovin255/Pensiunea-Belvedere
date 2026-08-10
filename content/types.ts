@@ -258,7 +258,7 @@ export interface SiteData {
   /**
    * Clip de prezentare al locației (T60), pe prima pagină. Vertical, cu
    * comentariu audio, click-to-play — la fel ca video-ul de cameră. Apare
-   * doar dacă blocul `## Clip de prezentare` din `03-prima-pagina.md` e
+   * doar dacă blocul `## Clip de prezentare` din `03-pagina-principala.md` e
    * completat ȘI `Clip de prezentare` e în `## Secțiuni` din `setari.md`.
    */
   prezentare?: { eyebrow: string; title: string; text: string; video: string; poster: string }

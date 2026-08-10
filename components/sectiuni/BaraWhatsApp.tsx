@@ -17,7 +17,7 @@ import type { SiteData } from '@/content/types'
  * `#rezervare` rămâne aici: butonul din antet, cel din hero și bara
  * lipită de pe mobil trimit toate spre ancora asta.
  *
- * Fără număr de WhatsApp în `date/02-contact.md`, secțiunea cade elegant
+ * Fără număr de WhatsApp în `date/02-telefon-email-si-adresa.md`, secțiunea cade elegant
  * pe telefon; fără niciunul, nu se randează deloc (REGULI.md 3).
  */
 export function BaraWhatsApp({ date }: { date: SiteData }) {

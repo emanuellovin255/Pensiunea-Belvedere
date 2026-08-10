@@ -108,12 +108,12 @@ async function main() {
     homePage.$('meta[property="og:site_name"]').attr('content') ??
     (homePage.$('title').text().split(/[|–—-]/)[0].trim() || 'Locație')
   const numeScurt = nume.split(/\s+/).slice(0, 2).join(' ')
-  if (numeDedus) gol('Numele a fost dedus din titlul paginii — confirmă-l în `date/01-identitate.md`.')
+  if (numeDedus) gol('Numele a fost dedus din titlul paginii — confirmă-l în `date/01-nume-logo-si-descriere.md`.')
 
   const contact = extractContact(pages, ld)
-  if (!contact.phone) gol('Nu am găsit un telefon — completează `date/02-contact.md`.')
-  if (!contact.email) gol('Nu am găsit un email — completează `date/02-contact.md`.')
-  if (!contact.street) gol('Adresa nu era în datele structurate — completează `date/02-contact.md`.')
+  if (!contact.phone) gol('Nu am găsit un telefon — completează `date/02-telefon-email-si-adresa.md`.')
+  if (!contact.email) gol('Nu am găsit un email — completează `date/02-telefon-email-si-adresa.md`.')
+  if (!contact.street) gol('Adresa nu era în datele structurate — completează `date/02-telefon-email-si-adresa.md`.')
 
   /* ------------------------------------------------------------------ temă */
 
@@ -145,7 +145,7 @@ async function main() {
   let logoStored: string | undefined
   const heroSource = extractHeroImage(pages, url)
   if (heroSource) await store.store(heroSource, 'hero', `${slug(numeScurt)}-hero`)
-  else gol('Nu am putut prelua o imagine de hero — pune una în `poze/` și în `date/03-prima-pagina.md`.')
+  else gol('Nu am putut prelua o imagine de hero — pune una în `poze/` și în `date/03-pagina-principala.md`.')
 
   if (logoUrl) {
     const l = await store.store(logoUrl, 'logo', `${slug(numeScurt)}-logo`)
@@ -183,7 +183,7 @@ async function main() {
   if (recenzii.length) gol('Recenziile preluate NU au autor și sursă — completează-le sau șterge-le, altfel nu se afișează (REGULI.md 3).')
   else gol('Nu am găsit recenzii cu sursă — nu inventez. Adaugă citate reale în `date/08-recenzii.md`.')
 
-  gol('Textele de campanie (`date/03-prima-pagina.md`: titlu hero, subtitlu, secțiune de închidere) sunt goale intenționat — sunt singurele care nu se extrag și trebuie scrise.')
+  gol('Textele de campanie (`date/03-pagina-principala.md`: titlu hero, subtitlu, secțiune de închidere) sunt goale intenționat — sunt singurele care nu se extrag și trebuie scrise.')
 
   const rezervari = detecteazaMotor(pages)
 

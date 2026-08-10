@@ -1,9 +1,9 @@
 # Offers and packages
 
 <!--
-  Traducerea lui date/06-oferte.md.
+  Traducerea lui date/06-oferte-si-excursii.md.
 
-  ORDINEA OFERTELOR TREBUIE SĂ RĂMÂNĂ IDENTICĂ CU CEA DIN date/06-oferte.md — `perechi.ts`
+  ORDINEA OFERTELOR TREBUIE SĂ RĂMÂNĂ IDENTICĂ CU CEA DIN date/06-oferte-si-excursii.md — `perechi.ts`
   le leagă după poziție (vezi comentariul din en/04-camere.md).
 
   Ca și în română, NICIUN bloc n-are „Preț:": cardurile arată „Request a quote". Sumele din

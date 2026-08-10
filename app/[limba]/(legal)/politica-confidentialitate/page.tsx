@@ -8,7 +8,7 @@ import { siteCurent } from '@/lib/site'
  * nu un text generic: formularul trimite EMAIL prin Resend, nu stochează în
  * bază de date, nu scrie în Google Sheets. Dacă se activează plăți (T13),
  * pagina se actualizează (apare procesatorul și stocarea). Datele firmei vin
- * din `date/12-legal-firma.md`, nu sunt scrise în cod.
+ * din `date/12-firma-si-documente-legale.md`, nu sunt scrise în cod.
  *
  * BILINGV (T69): vezi comentariul din `politica-cookies/page.tsx`. Trimiterile
  * la GDPR și la ANSPDCP rămân aceleași în ambele limbi — e aceeași lege.

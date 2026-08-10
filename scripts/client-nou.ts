@@ -158,7 +158,7 @@ function scrieCiteste(dest: string, slugClient: string, sablon: number) {
     if (m.platiOnline) modulePornite.push('plăți online')
   } catch (e) {
     raport = new Raport()
-    raport.eroare({ fisier: 'date/01-identitate.md', mesaj: e instanceof Error ? e.message.trim() : String(e), solutie: 'Completează câmpul „Nume:".' })
+    raport.eroare({ fisier: 'date/01-nume-logo-si-descriere.md', mesaj: e instanceof Error ? e.message.trim() : String(e), solutie: 'Completează câmpul „Nume:".' })
   }
 
   const deCompletat = [...raport.erori, ...raport.avertismente, ...raport.note]
@@ -175,7 +175,7 @@ function scrieCiteste(dest: string, slugClient: string, sablon: number) {
   L.push('')
   const completat = rezumatCompletat(dest, slugClient)
   for (const c of completat) L.push(`- ${c}`)
-  if (!completat.length) L.push('_(încă nimic — pornește de la `date/01-identitate.md`)_')
+  if (!completat.length) L.push('_(încă nimic — pornește de la `date/01-nume-logo-si-descriere.md`)_')
   L.push('')
   L.push('## De completat')
   L.push('')

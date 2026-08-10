@@ -1,7 +1,7 @@
 # Home page
 
 <!--
-  Traducerea lui date/03-prima-pagina.md. Ordinea blocurilor, `Poza:`, `Video:` și `Poster:`
+  Traducerea lui date/03-pagina-principala.md. Ordinea blocurilor, `Poza:`, `Video:` și `Poster:`
   rămân identice — sunt structurale, nu text.
 
   La „Buline:" indentarea liniilor de continuare contează: parserul le adaugă la același câmp

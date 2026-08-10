@@ -24,7 +24,7 @@ import { siteCurent } from '@/lib/site'
  *
  * Acum are: adresă, telefon, WhatsApp, e-mail, orele de check-in și
  * check-out, formularul de cerere și harta — toate în HTML, din
- * `date/02-contact.md`. Subsolul rămâne cum era, cu `id="contact"`:
+ * `date/02-telefon-email-si-adresa.md`. Subsolul rămâne cum era, cu `id="contact"`:
  * n-are rost să dispară un NAP care e oricum pe fiecare pagină.
  */
 
