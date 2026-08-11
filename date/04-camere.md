@@ -93,7 +93,7 @@ Preț de la: 800
 Persoane: 4 persoane
 Pat: pat matrimonial 160 × 200 și două paturi single 90 × 200
 Suprafață: 
-Poze: suita-familie-4-pat-matrimonial-balcon.webp, suita-familie-4-doua-paturi-single.webp, suita-familie-baie-cu-dus.webp, camera-dubla-balcon-dulap-seif.webp
+Poze: suita-familie-4-pat-matrimonial-balcon.webp, camera-dubla-balcon-dulap-seif.webp, suita-familie-4-doua-paturi-single.webp, suita-familie-baie-cu-dus.webp
 Facilități: mic-dejun, wifi, tv, climate, shower, fridge, safe
 Etichetă: Pentru familii
 Video: suita-familie-4-persoane.mp4
