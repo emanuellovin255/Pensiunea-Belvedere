@@ -28,7 +28,7 @@ Text introductiv: Două pachete cu masă și program zi cu zi, plus șase trasee
 ## Pachet promoțional, 3 nopți și 4 zile
 
 Poza: exterior-pensiune-piscina.webp
-Badge: MAI - 1500 lei pers  IUNIE - 1600 lei pers  IULIE 1700lei pers AUGUST 1800 lei pers SEPTEMBRIE 1600 lei pers
+Badge: MAI - 1500 lei pers  IUNIE - 1600 lei pers  IULIE 1700lei pers AUGUST 1800 lei pers SEPTEMBRIE 1800 lei pers
 Valabil: mai – septembrie
 Include:
 Cazare 3 nopți, mic dejun în fiecare dimineață
@@ -40,11 +40,11 @@ Acces gratuit la piscina cu apă încălzită, locul de joacă, terenul de fotba
 Reducere pentru copii — 2–4 ani 75%, 4–8 ani 50%, 8–12 ani 25%
 Masa din timpul excursiilor și safari-ul nu sunt incluse în preț — sunt opționale
 
-Prețul e pe persoană și diferă de la lună la lună: mai 1.500 lei, iunie 1.600 lei, iulie 1.700 lei,
-august 1.800 lei, septembrie 1.600 lei. Băuturile nu sunt incluse. Prânzul din excursia de o zi
-se plătește separat, la punctul gastronomic. Pachetul nu se aplică pentru cazare în regim single.
-Pentru cine nu mănâncă pește, preparatele se înlocuiesc cu carne, la cerere prealabilă. Prânzul și
-safari-ul sunt opționale și nu sunt incluse în preț.
+Prețul e pe persoană și diferă de la lună la lună: mai 1.500 lei, iunie 1.600 lei, iulie 1.700
+lei, august 1.800 lei, septembrie 1.800 lei. Băuturile nu sunt incluse. Prânzul din excursia de
+o zi se plătește separat, la punctul gastronomic. Pachetul nu se aplică pentru cazare în regim
+single. Pentru cine nu mănâncă pește, preparatele se înlocuiesc cu carne, la cerere prealabilă.
+Prânzul și safari-ul sunt opționale și nu sunt incluse în preț.
 
 ## Pachet Paște 2026
 
