@@ -76,7 +76,7 @@ Preț de la: 800
 Persoane: 4 persoane
 Pat: pat matrimonial 160 × 200 și pat 140 × 200
 Suprafață: 
-Poze: camera-balcon-iesire-lac.webp, camera-cvadrupla-balcon-paturi.webp, camera-cvadrupla-balcon-tv-si-balcon.webp, camera-cvadrupla-balcon-baie-dus.webp
+Poze: camera-cvadrupla-balcon-tv-si-balcon.webp, camera-cvadrupla-balcon-paturi.webp, camera-cvadrupla-balcon-baie-dus.webp, db7f745c-fc1c-4fe2-8361-c0c1d33b7eba.webp
 Facilități: mic-dejun, wifi, tv, climate, shower, safe, terrace
 Etichetă: Vedere la lac
 Video: camera-cvadrupla-cu-balcon.mp4
