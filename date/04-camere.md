@@ -17,8 +17,8 @@ Ghid detaliat: [`ghiduri/04-cum-adaug-sau-scot-o-camera.md`](../../../ghiduri/04
   „de la" — dacă cea cu balcon costă mai mult, spune cât și le separăm.
 
   GALERIA FOTO APARE DOAR LA CAMERELE CU MAI MULT DE O POZĂ. Clientul a cerut inițial ca pagina
-  camerei să arate camera doar în clip; camera dublă cu balcon, camera cvadruplă și suita de
-  familie de 4 persoane au primit între timp fotografii, așa că paginile lor au și galerie. Celelalte au un singur
+  camerei să arate camera doar în clip; camera dublă cu balcon, camera cvadruplă și cele două
+  suite de familie au primit între timp fotografii, așa că paginile lor au și galerie. Celelalte au un singur
   fișier la „Poze:" — poza de card, care e și imaginea din datele structurate — deci rămân doar
   cu clipul. Ca să dai galerie altei camere, adaugă-i pozele la „Poze:"; <Galerie> din
   components/sectiuni/PaginaCamera.tsx se aprinde singură de la a doua poză.
@@ -58,7 +58,7 @@ Preț de la: 800
 Persoane: 5 persoane
 Pat: pat matrimonial 160 × 200, canapea extensibilă pentru 2 persoane și pat single 90 × 200
 Suprafață: 
-Poze: camera-vedere-lac-tv.webp
+Poze: camera-vedere-lac-tv.webp, suita-familie-5-pat-matrimonial.webp, suita-familie-5-canapea-extensibila-si-pat.webp, suita-familie-5-pat-single.webp, suita-familie-5-tv-si-iesire-balcon.webp, suita-familie-5-balcon-vedere-lac-si-piscina.webp, suita-familie-baie-cu-dus.webp
 Facilități: mic-dejun, wifi, tv, climate, shower, fridge, safe, terrace
 Etichetă: Cea mai spațioasă
 Video: suita-familie-balcon-5-persoane.mp4
@@ -93,7 +93,7 @@ Preț de la: 800
 Persoane: 4 persoane
 Pat: pat matrimonial 160 × 200 și două paturi single 90 × 200
 Suprafață: 
-Poze: camera-mansarda-doua-paturi.webp, camera-balcon-vedere-lac.webp
+Poze: camera-mansarda-doua-paturi.webp, camera-balcon-vedere-lac.webp, suita-familie-4-pat-matrimonial-balcon.webp, suita-familie-4-doua-paturi-single.webp, suita-familie-baie-cu-dus.webp
 Facilități: mic-dejun, wifi, tv, climate, shower, fridge, safe
 Etichetă: Pentru familii
 Video: suita-familie-4-persoane.mp4
