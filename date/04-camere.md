@@ -58,7 +58,7 @@ Preț de la: 800
 Persoane: 5 persoane
 Pat: pat matrimonial 160 × 200, canapea extensibilă pentru 2 persoane și pat single 90 × 200
 Suprafață: 
-Poze: suita-familie-5-canapea-extensibila-si-pat.webp, suita-familie-5-pat-single.webp, suita-familie-5-pat-matrimonial.webp, camera-vedere-lac-tv.webp, suita-familie-5-tv-si-iesire-balcon.webp, suita-familie-5-balcon-vedere-lac-si-piscina.webp, suita-familie-baie-cu-dus.webp
+Poze: suita-familie-5-canapea-extensibila-si-pat.webp, suita-familie-5-pat-single.webp, suita-familie-5-pat-matrimonial.webp, suita-familie-5-tv-si-iesire-balcon.webp, suita-familie-5-balcon-vedere-lac-si-piscina.webp, suita-familie-baie-cu-dus.webp
 Facilități: mic-dejun, wifi, tv, climate, shower, fridge, safe, terrace
 Etichetă: Cea mai spațioasă
 Video: suita-familie-balcon-5-persoane.mp4
