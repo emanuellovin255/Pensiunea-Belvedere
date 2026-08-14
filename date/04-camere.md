@@ -128,7 +128,7 @@ Preț de la: 450
 Persoane: 2 persoane
 Pat: pat matrimonial 160 × 200
 Suprafață: 
-Poze: camera-dubla-pat.webp
+Poze: 487023df-9b43-4ecb-9775-a059c53aa874.webp, 66eb8bcb-0fda-43b8-adff-b0e503895ac0.webp, 04927a53-f808-47d0-be82-1cf07c195bb7.webp, e2a69c64-4e99-4616-8ff2-5e3adb35294a.webp
 Facilități: mic-dejun, wifi, tv, climate, shower, safe
 Etichetă: 
 Video: camera-dubla-fara-balcon.mp4
